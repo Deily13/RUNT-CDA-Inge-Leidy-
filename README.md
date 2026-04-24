@@ -1,0 +1,1 @@
+Este proyecto debe cumplir la funcion de facilitar a los ingenieros de el CDA la consulta de clientes, mediantes las placas de sus vehiculos y poder determinar y recordarle al propietario del vehiculo si es el momento de que lleve sus vehiculo a hacer la revision tecnicomecanica
