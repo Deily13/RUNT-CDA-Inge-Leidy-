@@ -2,6 +2,10 @@
 
 - Se bebe permitir filtrar por dia, mes y año
 
+- Debe poderse filtrar por persona natural con cedula de ciudadania o empresa con NIT
+
+- Se deben de poder hacer mas de una consulta a la vez, por ejemplo, consultar los registros vencidos en el mes de Abril
+
 - El estado por default de todos los registros de los vehiculos debe de ser inedito
 
 - Cuando se cambie de año todos los registros con estado Aprobado-Actualidazo debe cambiar a estado inedito
@@ -23,9 +27,10 @@ y de acuerdo a este de muestre el precio correspondiente
 
 - En caso que el registro este en estado inedito y su Fin_Vigencia_RTM sea superior a la fecha actual el mensaje debera decir vence
 
-- Debe poderse filtrar por persona natural con cedula de ciudadania o empresa con NIT
-
 - Debe permitirse crear, actualizar los registros 
 
-- Debe permitir generar la lista de vehilos actualizados por mes 
+- Debe permitir generar la lista de vehilos actualizados por mes
+
+
+
 
