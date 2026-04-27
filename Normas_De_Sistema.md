@@ -1,36 +1,27 @@
-# Reglas que debe cumplir el sistema
+## 📜 Reglas que debe cumplir el sistema
 
-- Se bebe permitir filtrar por dia, mes y año
-
-- Debe poderse filtrar por persona natural con cedula de ciudadania o empresa con NIT
-
-- Se deben de poder hacer mas de una consulta a la vez, por ejemplo, consultar los registros vencidos en el mes de Abril
-
-- El estado por default de todos los registros de los vehiculos debe de ser inedito
-
-- Cuando se cambie de año todos los registros con estado Aprobado-Actualidazo debe cambiar a estado inedito
-(se usara cron para las tareas automaticas de acuerdo a mediciones temporales)
-
-- Si los registros de un mes estan en estado inedito y la fecha cambia la siguiente mes y no estan en estado
-llamado u otro estado diferente a inedito, estos registros se modificaran automaticamente al estado vencido
-
-- Si el registro esta en estado reservado y se pasa la fecha de reserva ......?
-
-- Los registros que tengan como Fin_Vigencia_RTM 2027 deben de estar en estado actualizado
-
-- Los mensajes deben de ser dinamicos de manera que muestre Fin_Vigencia_RTM, placa en letras mayusculas y tipo de vehículo en cuestión,
-y de acuerdo a este de muestre el precio correspondiente
-
-- El precio debe de ser modificable de acuerdo al usuario del aplicativo (Inge)
-
-- En caso que el registro este en estado inedito y su Fin_Vigencia_RTM sea inferior a la fecha actual el mensaje debera decir vence
-
-- En caso que el registro este en estado inedito y su Fin_Vigencia_RTM sea superior a la fecha actual el mensaje debera decir vence
-
-- Debe permitirse crear, actualizar los registros 
-
-- Debe permitir generar la lista de vehilos actualizados por mes
-
-
-
+-Solo el ingeniere puede ingresar al sistema
+- Debe permitir **filtrar registros por día, mes y año**.
+- Debe permitir filtrar por **persona natural** (con cédula de ciudadanía) o **empresa** (con NIT).
+- Se deben poder realizar **consultas múltiples** de manera simultánea. Ejemplo: consultar los registros vencidos en el mes de abril.
+- El **estado por defecto** de todos los registros de vehículos debe ser **Inédito**.
+- Al cambiar de año, todos los registros con estado **Aprobado-Actualizado** deben pasar automáticamente a estado **Inédito** 
+(se usará **cron** para las tareas automáticas basadas en mediciones temporales).
+- Si los registros de un mes están en estado **Inédito** y la fecha cambia al mes siguiente, y no se encuentran en estado **En trámite** 
+u otro diferente a Inédito, dichos registros se modificarán automáticamente al estado **Vencido**.
+- Si un registro está en estado **Reservado** y se supera la fecha de reserva, (pendiente de especificación).
+- Los registros cuyo **Fin_Vigencia_RTM** sea **2027** deben permanecer en estado **Actualizado**.
+- Los mensajes generados deben ser **dinámicos**, mostrando:
+  - `Fin_Vigencia_RTM`
+  - `Placa` (en letras mayúsculas)
+  - `Tipo de vehículo`
+  - El **precio correspondiente** según el tipo de vehículo.
+- El **precio** debe ser modificable por el usuario del aplicativo (ingeniere).
+- Si un registro está en estado **Inédito** y su **Fin_Vigencia_RTM** es **inferior** a la fecha actual, el mensaje debe indicar **“Vencio”**.
+- Si un registro está en estado **Inédito** y su **Fin_Vigencia_RTM** es **superior** a la fecha actual, el mensaje también debe indicar **“Vence”**.
+- Debe permitir **crear y actualizar registros**.
+- Debe permitir **generar la lista de vehículos actualizados por mes**.  
+- En caso de que no se cuente con el tiempo suficiente para ingresar el campo de la licencia de conducción, se debe permitir **subir la fotografía de la licencia** como respaldo temporal.
+- Al realizar esta acción, será **obligatorio ingresar también el número de teléfono del propietario**.
+- Si no se proporciona el número de teléfono junto con la fotografía, el registro **no podrá ser guardado**.  
 
