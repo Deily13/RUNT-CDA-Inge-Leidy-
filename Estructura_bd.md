@@ -1,11 +1,15 @@
 # Estructura de la Base de datos
 
 - Las fechas tendrán formato DD/MM/AAAA
-- Estados = Inédito, Tramitado, Reservado, Declinado
-- Tablas = Vehiculo, Propietario, Estado, Vehiculo_RTM
+- Estados:
+  Inédito= Registro que no se modificado y registro aun no vence
+  Tramitado= Registro que ya  empezo  el proceso 
+  Reportado= Resgistro que confirmo interes en servicio
+  Declinado= Registro 
+- Tablas = Vehiculo, Propietario, Estado, **Vehiculo_RTM**
 
 ### Tabla Vehiculo
-Columnas: placa, marca, línea, modelo, clase
+Columnas: placa, marca, línea, modelo, categoria
 
 ### Tabla Propietario
 Columnas: documento, tipo_documento, nombre, telefono1, telefono2
@@ -16,13 +20,15 @@ Columnas: id, vehiculo_placa, estado_id, inicio_rtm, fin_rtm
 ### Tabla Estado
 Columnas: id, nombre, descripción
 
-- Clase debe ser tipo ENUM, con los valores: Motocicleta, Automóvil, Campero, Motocarguero, Camioneta, Camión, Bus, Microbús, Tractocamión, Volqueta.
+- Categoria debe ser tipo ENUM, con los valores: Motocicleta, Automóvil, Campero, Motocarguero, Camioneta, Camión, Bus, Microbús, Tractocamión, Volqueta.
 - Modelo es CHAR(4) porque siempre es un año de 4 dígitos.
 - Placa es CHAR(6) porque siempre tiene exactamente 6 caracteres alfanuméricos.
 - `fin_vigencia_rtm` debe ser siempre mayor que `inicio_vigencia_rtm`.
 - Un propietario puede tener múltiples vehículos.
 - Un vehículo únicamente puede tener un propietario.
 - Los números de teléfono deben tener **exactamente 10 dígitos**.
+
+### Tabla Reporte
 
 ---
 
@@ -61,7 +67,7 @@ CREATE TABLE vehiculo (
     marca               VARCHAR(50)     NOT NULL,
     linea               VARCHAR(100)    NOT NULL,
     modelo              CHAR(4)         NOT NULL,
-    clase               ENUM(
+                   ENUM(
         'Motocicleta',
         'Automóvil',
         'Campero',
