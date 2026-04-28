@@ -15,3 +15,5 @@ El sistema debe de tener una interfaz amigable con el usuario de manera que sea 
 
 Para mayor seguridad y haciendo uso de las buensas practicas se priorizara el uso de variables de entorno 
 para datos que no deberian ser vistos ya que son sencibles como lo son: contraseñas, usuarios, puertos, host, nombre de la base de datos y tokens de acceso. 
+
+Tambien el sistema debe permitir generar un documento de reporte final en formato .xslx que se debe poder descargar para que sea mas accesible
