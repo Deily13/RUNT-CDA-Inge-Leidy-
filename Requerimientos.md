@@ -1,13 +1,13 @@
 # 📜 Reglas del Sistema – Gestor CDA
 
 ## 🔐 Acceso y Autenticación
-- Solo el **ingeniere** puede ingresar al sistema.
+- Solo el **ingeniero** puede ingresar al sistema.
 - Se debe usar **JWT** para la autenticación al entrar al sistema.
 
 ---
 
 ## 📊 Gestión de Registros
-- Debe permitir **crear y actualizar registros**.
+- Debe permitir **crear, actualizar y eliminar registros**.
 - Debe permitir **filtrar registros por día, mes y año**.
 - Debe permitir filtrar por **persona natural** (cédula de ciudadanía) o **empresa** (NIT).
 - Se deben poder realizar **consultas múltiples simultáneas** (ejemplo: registros vencidos en abril).
@@ -20,11 +20,11 @@
 - Al actualizar un registro vencido:
   - `Inicio_Vigencia` = fecha de aprobación de la RTM.
   - `Fin_Vigencia` = exactamente 365 días después de `Inicio_Vigencia`.
-- Si los registros de un mes están en estado **Inédito** y la fecha cambia al mes siguiente, y no se encuentran en estado **En trámite** u otro diferente, deben pasar automáticamente a **Vencido**.
-- Si un registro está en estado **Reportado** se debe de registrar la fecha en el  momento en que se reporto.
+- Si los registros de un mes están en estado **Inédito** y la fecha cambia al mes siguiente, y no se encuentran en otro estado diferente, deben pasar automáticamente a **Vencido**.
+- Si un registro está en estado **Reportado**, se debe registrar la fecha en el momento en que se reportó.
 - Los registros cuyo **Fin_Vigencia_RTM** sea **2027** deben permanecer en estado **Actualizado**.
 
-*(Se usará **cron** para las tareas automáticas basadas en fechas y tiempos.)*
+*(Se usará **cron** para las tareas automáticas basadas en parametros cronologicos.)*
 
 ---
 
@@ -32,8 +32,8 @@
 - Los mensajes deben mostrar:
   - `Fin_Vigencia_RTM`
   - `Placa` (en mayúsculas)
-  - `Tipo de vehículo` 
-  - **Precio correspondiente** según el tipo de vehículo.
+  - `Tipo de vehículo`
+  - **Precio correspondiente** según el tipo de vehículo y su proveniencia.
 - El **precio** debe ser modificable por el ingeniero.
 - Si un registro está en estado **Inédito** y su `Fin_Vigencia_RTM` es **inferior** a la fecha actual → mensaje: **“Venció”**.
 - Si un registro está en estado **Inédito** y su `Fin_Vigencia_RTM` es **superior** a la fecha actual → mensaje: **“Vence”**.
@@ -53,67 +53,67 @@
   - `Fecha_Reporte`
   - `Fecha_Ingreso`
   - `Placa`
-  - `Categoria`
+  - `Categoría`
   - `Marca`
   - `Tipo_Cliente`
-  - `Nombre` 
+  - `Nombre`
   - `Documento`
   - `Teléfono`
-  - `Descuento`  
+  - `Descuento`
 
+---
 
-- El valor del descuento puede variar de acuerdo a la procedencia del vehiculo, por ejemplo si el vehiculo es remitido de un taller 
-se le da un descuento mas alto que si viene solito 
+## 💰 Precios y Descuentos
+- **Precio normal de la revisión técnico-mecánica:**
+  - Vehículo particular: 320.000
+  - Vehículo público: 317.500
+  - Motocicleta: 220.000
 
-el precio normal de la revision tecnicomecanica es:
+- **Descuento por agendamiento previo:**
+  - Carro: 295.000
+  - Moto: 190.000
+  - Equivale al **7.81 % de descuento**.
 
-Vehículo particular:  320.000
-Vehículo público:  317.500
-Moto:  220.000
+- **Descuento por vehículo remitido desde taller:**
+  - Carro: 295.000
+  - Moto: 190.000
 
-los precios de los vehiculos con  descuento si agendan antes de ir son:
-Carro: 295.000                  
-Moto: 190.000
-lo que equivale al 7.81% de descuento
+---
 
-los precios de descuento cuando el vehiculo es remitido de un taller son:
-Carro: 295.000                  
-Moto: 190.000
- 
-Antes de ingresar una nueva placa se debe de hacer la validacion si la placa ya se encuentra en la base de datos
+## 🔍 Validación de Placas
+- Antes de ingresar una nueva placa, se debe validar si ya existe en la base de datos.
+  - Si **no existe**, se mostrará un mensaje y la vista para ingresar un nuevo registro.
+  - Si **ya existe**, se mostrará un mensaje indicando que el registro existe y se preguntará si desea actualizarlo.
 
-en caso tal de que no exista mostrara un mensaje y la vista para ingresar un nuevo registro
+---
 
-en caso tal de que si se mostrara un mensaje que dice que ya existe y pregunta si desea que sea actualizado
+## 🧾 Nomenclatura y Campos
+- Al ingresar el campo **Línea**, se debe guardar en la base de datos con la siguiente nomenclatura: `[CATEGORIA]linea`.
 
+---
 
-Al ingresar el campo linea se debe guardar en base de datos con la siguiente nomenclatura: [CATEGORIA]linea
+## 🧩 Formulario para Ingresar un Nuevo Registro
 
-### formullario para ingresar un nuevo registro:
+| Campo | Tipo                           | Restricciones |
+|--------|--------------------------------|---------------|
+| **Fecha inicio vigencia** | Selector de fecha (calendario) | No puede ser superior a la fecha actual. |
+| **Fecha fin vigencia** | Se calcula automaticamente     | No puede ser inferior a la fecha actual. |
+| **Placa** | Texto                          | Solo 6 caracteres alfanuméricos. Se guarda en mayúsculas. |
+| **Documento** | Numérico                       | Solo valores numéricos. |
+| **Tipo de documento** | Select                         | Opciones: *Cédula de ciudadanía* o *NIT*. |
+| **Categoría** | Select                         | Solo una opción (tipo de vehículo). |
+| **Marca** | Select con búsqueda            | Permite escribir para agilizar la selección. |
+| **Línea** | Texto                          | Valores alfanuméricos, se guarda en mayúsculas. |
+| **Modelo** | Select                         | Solo 4 caracteres numéricos, generado dinámicamente. |
+| **Nombre del propietario** | Texto                          | Solo caracteres alfabéticos, se guarda en mayúsculas. |
+| **Teléfono 1** | Numérico                       | Solo 10 caracteres. |
+| **Teléfono 2** | Numérico                       | Solo 10 caracteres. |
 
-fecha inicio vigencia: debe ser seleccionable en un calendario, la fecha no puede ser superior a la fecha actual
+---
 
-fecha fin vigencia : deber ser seleccionble en un calendario, la fecha no de ser infereior a la fechas actual
-
-Placa: debe de ser un campo que unicamente acepte 6 caracteres alfanumericos, 
-inpendendientemente de lo que escriba el usuario en la base de datos se debe guardar con mayusculas.
-
-Documento: debe de ser un campo que incamente acepte valores numericos, input
-
-Tipo de Documento: debe ser un select con las unicas dos opciones de cedula de ciudadania y Nit
-
-Categoria: debe ser un select para seleccionar el tipo de vehiculo, unicamnete se puede selleccionar una opcion
-
-Marca: debe ser un select de manera que tambien se pueda escribir la marca para agilizar la busqueda
-
-Linea: debe de ser un campo que acepte vallores alfanumericos, independientemente de lo que esciba el usuario 
-en base de datos se debe de guardar en mayusculas
-
-Modelo:  debe ser un select que unicamente acepte 4 caracteres numericos, generado dinamicamente para que siempre este actualizado
-
-Nombre de Propietario: Campo que unicamente debe permitir caracteres alfabeticos, en la base de datos debe de quedar guardado en mayusculas
-
-Telefono 1: campo que unicamente debe aceptar 10 caracteres numericos
-
-Telefono 2: campo que unicamente debe aceptar 10 caracteres numericos
-
+## 📤 Formulario de Reporte Posterior
+- Al finalizar la inserción de un nuevo registro, se debe mostrar un mensaje indicando que el registro se realizó correctamente y preguntar si el usuario desea **reportarlo**.
+- Si el usuario acepta, se mostrará un formulario con el campo **Fecha de reporte**, el cual:
+- Debe ser un **selector de fecha (calendario)**. 
+- No puede ser superior a la fecha actual.
+---
