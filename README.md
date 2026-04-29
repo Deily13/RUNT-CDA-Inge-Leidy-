@@ -16,6 +16,8 @@ la posibilidad de escalarlo en el futuro hacia una **plataforma web**.
 - **Base de datos:** PostgreSQL (relacional)
 - **Arquitectura:** en capas (separación de responsabilidades)
 - **Frontend:** aún en definición
+- **Pruebas unitarias:** Junit5, Mockito
+- **Control de versionamiento:** Git
 
 ---
 - ## Instalación
