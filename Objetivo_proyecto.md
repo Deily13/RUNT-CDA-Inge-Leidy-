@@ -1,8 +1,9 @@
 
 El objetivo es craer un aplicativo web que funcione de manera local.
 De esta manera la Ingeniera pueda gestionar las reviciones tecnicomecanicas del CDA donde este trabajando,
-mediando un crud lo mas completo posible que le permita hacer consultas complejas, gestionar el estado de los diferentes vehiculos que ingresen al CDA
-y generar un informe final.
+mediante un crud lo mas completo posible que le permita hacer consultas complejas, 
+gestionar el estado de los diferentes vehiculos que ingresen al CDA
+y generar un informe al final de mes para automatizar el proceso.
 
 El proyecto se pretende desarrollar haciendo uso de Spring, Springboot, el lenguaje de programación Java 
 y como gestor de base de datos postgres, se desea usar la arquitectura de capas, para tema de seguridad y

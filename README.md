@@ -18,6 +18,7 @@ la posibilidad de escalarlo en el futuro hacia una **plataforma web**.
 - **Frontend:** aún en definición
 - **Pruebas unitarias:** Junit5, Mockito
 - **Control de versionamiento:** Git
+- **Diseño UI/UX:** https://www.figma.com/design/z9NIQPD31HiPT59ucgHeq5/Untitled?node-id=0-1&t=XSn2d8Ii11mWzMWj-1
 
 ---
 - ## Instalación
@@ -32,4 +33,6 @@ la posibilidad de escalarlo en el futuro hacia una **plataforma web**.
 - **Configuración:** variables de entorno necesarias (ej. conexión a la base de datos).
 - **Estado del proyecto:** Etapa inicial.
 
----
+
+
+

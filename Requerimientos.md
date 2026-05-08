@@ -51,16 +51,17 @@ El sistema soporta **consultas múltiples simultáneas** (por ejemplo: registros
 ## 3. Estados de los Registros
 
 Cada registro vehicular atraviesa un ciclo de estados definido. Las transiciones se producen de forma manual por el ingeniero o automáticamente mediante tareas programadas (`cron`).
-
+un registro no puede estar en estado ingresado sin antes haber pasado por el estado reportado,  
 ### 3.1 Catálogo de Estados
 
-| Estado | Origen de la transición | Descripción |
-|---|---|---|
-| **Inédito** | Automático (por defecto) | Estado inicial de todo registro al momento de creación. |
-| **Aprobado-Actualizado** | Manual | El registro fue revisado y aprobado. Al cambio de año regresa a Inédito automáticamente. |
-| **Vencido** | Automático (cron) | Registros en estado Inédito que no avanzaron antes del cambio de mes. |
-| **Actualizado** | Manual | Registros con `Fin_Vigencia_RTM` en 2027; permanecen en este estado. |
-| **Reportado** | Manual | Se registra la fecha exacta en que se efectuó el reporte. |
+| Estado                   | Origen de la transición | Descripción                                                                                       |
+|--------------------------|---|---------------------------------------------------------------------------------------------------|
+| **Inédito**              | Automático (por defecto) | Estado inicial de todo registro al momento de creación.                                           |
+| **Aprobado-Actualizado** | Manual | El registro fue revisado y aprobado. Al cambio de año regresa a Inédito automáticamente.          |
+| **Vencido**              | Automático (cron) | Registros en estado Inédito que no avanzaron antes del cambio de mes.                             |
+| **Actualizado**          | Manual | Registros con `Fin_Vigencia_RTM` en 2027; permanecen en este estado.                              |
+| **Reportado**            | Manual | Se registra la fecha exacta en que se efectuó el reporte.                                         |
+| **Ingresado**            | Manual | Se registra la fecha exacta en el vehiculo fue al CDA. aun en duda por redundancia de informacion |
 
 ### 3.2 Reglas de Transición Automática
 
@@ -115,20 +116,21 @@ Antes de crear cualquier registro nuevo, el sistema obliga a verificar si la pla
 
 Todos los campos son **obligatorios**. El sistema valida en tiempo real que cada campo cumpla con las restricciones definidas antes de permitir el envío.
 
-| Campo | Tipo de control | Restricciones y observaciones                                                                     |
-|---|---|---------------------------------------------------------------------------------------------------|
-| **Fecha inicio vigencia** | Selector de fecha (calendario) | No puede ser superior a la fecha actual.                                                          |
-| **Fecha fin vigencia** | Calculado automáticamente | No puede ser inferior a la fecha actual.                                                          |
-| **Placa** | Texto | Exactamente 6 caracteres alfanuméricos. Se guarda en mayúsculas.                                  |
-| **Documento** | Numérico | Solo valores numéricos.                                                                           |
-| **Tipo de documento** | Select | Opciones: Cédula de ciudadanía · NIT                                                              |
-| **Categoría** | Select (una opción) | Define el tipo de vehículo.                                                                       |
-| **Marca** | Select con búsqueda | Permite escribir para agilizar la selección.                                                      |
-| **Línea** | Texto | Alfanumérico. Se guarda en mayúsculas con nomenclatura `[CATEGORÍA]linea`. indexando la caregoria |
-| **Modelo** | Select (dinámico) | Solo 4 caracteres numéricos. Se genera dinámicamente.                                             |
-| **Nombre del propietario** | Texto | Solo caracteres alfabéticos. Se guarda en mayúsculas.                                             |
-| **Teléfono 1** | Numérico | Exactamente 10 caracteres.                                                                        |
-| **Teléfono 2** | Numérico | Exactamente 10 caracteres.                                                                        |
+| Campo                      | Tipo de control | Restricciones y observaciones                                                           |
+|----------------------------|--|-----------------------------------------------------------------------------------------|
+| **Fecha inicio vigencia**  | Selector de fecha (calendario) | No puede ser superior a la fecha actual.                                                |
+| **Fecha fin vigencia**     | Calculado automáticamente | No puede ser inferior a la fecha actual.                                                |
+| **Placa**                  | Texto | Exactamente 6 caracteres alfanuméricos. Se guarda en mayúsculas.                        |
+| **Estado**                 | Select (una opción) | Estado de tramite en que se encuentra en vehiculo                                       |
+| **Documento**              | Numérico | Solo valores numéricos.                                                                 |
+| **Tipo de documento**      | Select | Opciones: Cédula de ciudadanía · NIT                                                    |
+| **Categoría**              | Select (una opción) | Define el tipo de vehículo.                                                             |
+| **Marca**                  | Select con búsqueda | Permite escribir para agilizar la selección.                                            |
+| **Línea**                  | Texto | Alfanumérico. Se guarda en mayúsculas con nomenclatura `[Marca]linea`. indexando la marca |
+| **Modelo**                 | Select (dinámico) | Solo 4 caracteres numéricos. Se genera dinámicamente.                                   |
+| **Nombre del propietario** | Texto | Solo caracteres alfabéticos. Se guarda en mayúsculas.                                   |
+| **Teléfono 1**             | Numérico | Exactamente 10 caracteres.                                                              |
+| **Teléfono 2**             | Numérico | Exactamente 10 caracteres.                                                              |
 
 > **Nomenclatura del campo Línea:** al guardarse en base de datos, el valor se almacena como `[CATEGORÍA]linea`. Ejemplo: si la categoría es `MOTO` y la línea es `CB190`, se guarda como `MOTOcb190`.
 
@@ -147,7 +149,7 @@ En la vista de actualización se muestran todos los campos del registro, pero ú
 | **Teléfono 1 y Teléfono 2** | Máximo 10 caracteres numéricos cada uno.                    |
 | **Estado** | Seleccionable mediante menú desplegable.                    |
 
-> Antes de enviar la actualización, el sistema valida que todos los campos editables estén correctamente diligenciados.
+> Antes de enviar la actualización, el sistema valida que todos los campos editables estén correctamente diligenciados. 
 
 ---
 
@@ -263,6 +265,8 @@ El sistema utiliza mensajes emergentes (modales) para comunicar acciones, solici
 
 El sistema soporta **consultas múltiples simultáneas**. Los filtros pueden combinarse para obtener resultados precisos.
 
+debe de haber un boton el cual reinice y limpie las busquedas hechas con anterioridad 
+
 | Filtro | Control | Restricciones |
 |---|---|---|
 | **Fecha específica** | Calendario | Selección de un día puntual. |
@@ -276,3 +280,14 @@ El sistema soporta **consultas múltiples simultáneas**. Los filtros pueden com
 ---
 
 
+Posibles comentarios
+realizada
+no es el dueño
+no esta en Villao
+no contesto
+apagado
+desviada
+traspaso
+vendido
+
+un registro que se encuetnre en estado ingresado no puede regresarse a estado reportado 
