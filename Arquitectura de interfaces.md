@@ -1,5 +1,5 @@
 
-#  Arquitectura De Interfaces
+# Arquitectura De Interfaces
 
 ## VISTA 1 — Pantalla de inicio de sesión
 
@@ -9,9 +9,7 @@ Su objetivo principal es garantizar que únicamente usuarios autorizados puedan 
 ### Funciones técnicas
 
 - **Autenticación:** Responsable de iniciar el proceso de validación de identidad mediante los campos de correo electrónico y contraseña.
-
 - **Control de acceso:** Impide el ingreso de usuarios no autorizados, mostrando mensajes de error en caso de credenciales inválidas.
-
 - **Registro de eventos:** Cada intento de acceso puede ser auditado y registrado para fines de seguridad.
 
 ### Interfaz estructurada
@@ -19,133 +17,234 @@ Su objetivo principal es garantizar que únicamente usuarios autorizados puedan 
 La pantalla se divide en dos secciones principales:
 
 - **Panel informativo:**  
-  Incluye mensaje de bienvenida y advertencia de autenticación.
-- Fondo: 0B0E14-100%
-- Texto: Baskervville SC 
-80 puntos 
-FFFFFF-100%
+  Incluye mensaje de bienvenida y advertencia de autenticación.  
+  Fondo: 0B0E14-100%  
+  Texto: Baskervville SC, 80 puntos, FFFFFF-100%
 
 - **Formulario de acceso:**  
-  Campos de correo electrónico y contraseña para la validación de credenciales.
-Fondo: 191C22-10%
--Boton: degradado  39FF14-100%  00DBE9-100%
--Titulo: Space Grotesk 36 puntos FFFFFF-100%
+  Campos de correo electrónico y contraseña para la validación de credenciales.  
+  Fondo: 191C22-10%  
+  Botón: degradado 39FF14-100% / 00DBE9-100%  
+  Título: Space Grotesk, 36 puntos, FFFFFF-100%
 
 ---
 
-### VISTA 2 — Panel principal (Búsqueda y Filtros)
+## VISTA 2 — Panel principal (Búsqueda y Filtros)
 
-Esta vista permitira realizar busquedas y consultar registros especificos existentes y acceder a funciones individuales sobre cada registro.
+Esta vista permitirá realizar búsquedas y consultar registros específicos existentes, además de acceder a funciones individuales sobre cada registro.
 
 ### Funciones técnicas
 
-- **Consulta de registros:** En el formulario llamado filtros de busqueda se pueden seleccionar los parametros con los que se quieres que los datos mostrados cohicidan
+- **Consulta de registros:** En el formulario llamado filtros de búsqueda se pueden seleccionar los parámetros con los que se desea que los datos mostrados coincidan.
+- **Limpiar filtro:** Permite borrar el contenido de varios campos a la vez.
+- **Seleccionar acciones individuales para cada registro:** Cada fila de la tabla de resultados tiene opciones de respuesta individuales (editar, gestionar, eliminar).
+  - **Actualizar registro:** Redirige a la vista para actualizar un registro existente.
+  - **Gestionar registro:** Redirige a la vista para gestionar el registro específico.
+  - **Eliminar registro:** Elimina el registro específico, después de confirmar la acción.
+- **Ingresar un nuevo registro:** Redirige a la vista para crear un nuevo registro.
+- **Ver vista previa del reporte mensual:** Redirige a la vista previa del reporte mensual antes de ser descargado.
 
-- **Limpiar filtro:** En el escenario donde se desee corrar el contenido de varios campos a la vez esta opcion limipiara el contenido de todos los campos
+### Interfaz estructurada
 
-- **Seleccionar acciones individuales para cada registro:** Cada fila de la tabla de ressultado de la consulta tiene opciones de repuesta individuales (editar, gestionar, eliminar)
+La pantalla se divide en tres secciones principales:
 
-- - **Actualizar registro** Nos redireccionara al vista para actualizar registro existente.
-- - **Gestionar registro** Nos redireccionara a la vista para gestionar el registro especifico.
-- - **Eliminar registro** Nos eliminara el registro especifico, despues de haber confirmado la accion.
+- **Botones de acción (esquina superior derecha):**
+  - "Nuevo Registro" → botón 10B981-100%, texto blanco, bordes redondeados 8 puntos
+  - "Vista Previa de Reporte" → botón 2563EB-100%, texto blanco, bordes redondeados 8 puntos
+  - "Cerrar sesión" → botón sin relleno, texto blanco, borde blanco sólido, redondeado 8 puntos
 
-- **Ingresar un nuevo registro** Nos redijira a la vista para crear un nuevo registro
-- **Ver vista previa del reporte mensual** Nos redirijira a la vista previa del reporte mensual antes de ser descargado.
+- **Sección superior panel de criterios de búsqueda:**
 
-- Panel de filtros dentro de una tarjeta blanca con borde izquierdo verde.
-  Controles en cuadrícula responsiva:
-  - Fecha específica → selector de fecha (calendario)
-  - Mes y año → dos menús desplegables independientes
-  - Categoría de vehículo → menú desplegable (selección única)
-  - Número de documento → campo numérico
-  - Placa → campo alfanumérico, máximo 6 caracteres
-  - Tipo de documento → desplegable: "Cédula de ciudadanía" o "NIT"
-  - Estado → menú desplegable
+| Filtro               | Control          | Restricciones                          |
+|----------------------|-----------------|----------------------------------------|
+| **Fecha específica** | Calendario       | Selección de un día puntual.           |
+| **Mes y año**        | Menús desplegables | Selección independiente de mes y año. |
+| **Categoría de vehículo** | Menú desplegable | Una categoría por consulta.          |
+| **Número de documento** | Campo numérico | Solo acepta valores numéricos.        |
+| **Placa**            | Campo alfanumérico | Máximo 6 caracteres.                  |
+| **Tipo de documento** | Menú desplegable | Cédula de ciudadanía o NIT.           |
+| **Estado**           | Menú con checkboxes | Permite seleccionar múltiples estados.|
 
-Botones de acción (esquina superior derecha):
-- "Vista Previa de Reporte" → botón con borde negro, fondo blanco
-- "Nuevo Registro" → botón verde sólido, texto blanco, bordes redondeados
-- "Cerrar sesion" → boton negro solido, texto blanco, bordes redondeado
+- **Sección inferior resultado de búsqueda:**
+  - Tabla vacía sobre tarjeta blanca con encabezado negro.
+  - Columnas: Fecha inicio vigencia, Fecha fin vigencia, Placa, Estado, Documento, Tipo de documento, Categoría, Línea, Nombre del propietario, Teléfono 1, Acciones.
+  - Columna de acciones con íconos:  
+    ✏️ Actualizar → ícono verde  
+    🔄 Gestionar → ícono azul  
+    🗑️ Eliminar → ícono rojo (única excepción en la paleta)
+  - En la esquina inferior derecha de la tabla debe estar el paginador para navegar entre los resultados.
 
-Debajo de los filtros: tabla vacía sobre tarjeta blanca con encabezado negro
-y filas con resaltado verde al pasar el cursor. Columnas:
-Fecha inicio vigencia | Fecha fin vigencia | Placa | Estado | Documento |
-Tipo de documento | Categoría | Línea | Nombre del propietario |
-Teléfono 1 | Teléfono 2 | Acciones
+---
+## VISTA 3 — Formulario de nuevo registro
 
-Columna de acciones con íconos y tooltip al pasar el cursor:
-- ✏️ Actualizar → ícono verde
-- 🔄 Tramitar → ícono Azul
-- 🗑️ Eliminar → ícono rojo (única excepción en la paleta)
+La vista de **nuevo registro** permite ingresar datos completos de un vehículo y su propietario en el sistema.
+
+### Funciones técnicas
+- **Validación de placa:** Evita registros duplicados.
+- **Registro completo:** Captura de todos los campos obligatorios.
+
+### Interfaz estructurada
+La pantalla se divide en tres secciones principales:
+
+- **Botones de acción (esquina superior derecha):**  
+  Igual que en la Vista 2.
+
+- **Sección superior panel de criterios de búsqueda:**  
+  Antes de ingresar cualquier nuevo registro se validará mediante la placa si este ya existe, para evitar duplicados.
+
+- **Sección inferior formulario para nuevo registro:**  
+  Página blanca con formulario centrado en una tarjeta con barra de título negra e indicadores de campo obligatorio (*).  
+  Todos los campos son obligatorios:
+  - Fecha inicio vigencia → selector de fecha (no puede superar la fecha actual).
+  - Fecha fin vigencia → calculada automáticamente (inicio + 365 días).
+  - Placa → 6 caracteres alfanuméricos, se guarda en mayúsculas.
+  - Estado → menú desplegable: Inédito, Actualizado, Vencido, Reportado, Ingresado, Declinado.
+  - Documento → solo numérico.
+  - Tipo de documento → desplegable: "Cédula de ciudadanía" / "NIT".
+  - Categoría → menú desplegable.
+  - Línea → alfanumérico en mayúsculas, formato [Marca]línea.
+  - Nombre del propietario → solo caracteres alfabéticos, en mayúsculas.
+  - Teléfono 1 → exactamente 10 dígitos numéricos.
+  - Teléfono 2 → exactamente 10 dígitos numéricos.
+
+Pie de formulario:
++ Botón verde sólido "Guardar" (alineado a la derecha), degradado 00DBE9 y 39FF14.
++ Botón con borde negro "Cancelar".
++ Botón provisional, borde 00DBE9 sin relleno.
 
 ---
 
-### VISTA 3 — Formulario de nuevo registro
-Página blanca con formulario centrado en una tarjeta con barra de título negra
-e indicadores de campo obligatorio (*) en verde.
-Todos los campos son obligatorios:
-- Fecha inicio vigencia → selector de fecha (no puede superar la fecha actual)
-- Fecha fin vigencia → calculada automáticamente (inicio + 365 días), solo lectura
-- Placa → 6 caracteres alfanuméricos, se guarda en mayúsculas
-- Estado → menú desplegable
-- Documento → solo numérico
-- Tipo de documento → desplegable: "Cédula de ciudadanía" / "NIT"
-- Categoría → menú desplegable
-- Línea → alfanumérico en mayúsculas, formato [Marca]linea
-- Nombre del propietario → solo caracteres alfabéticos, en mayúsculas
-- Teléfono 1 → exactamente 10 dígitos numéricos
-- Teléfono 2 → exactamente 10 dígitos numéricos
+## VISTA 4 — Guardado rápido
 
-Pie de formulario: botón verde sólido "Guardar" (alineado a la derecha)
-+ botón con borde negro "Cancelar".
+La vista de **guardado rápido** permite almacenar registros incompletos de manera provisional para completarlos después.
+
+### Funciones técnicas
+- **Registro mínimo:** Captura de datos esenciales para guardar temporalmente.
+
+### Interfaz estructurada
+Formulario con 4 campos obligatorios:
+- Fotografía de la tarjeta de propiedad.
+- Placa del vehículo.
+- Número de teléfono.
+- Estado.
 
 ---
 
-### VISTA 4 — Formulario de actualización
-Mismo diseño que la Vista 3. Campos editables resaltados con borde izquierdo verde:
-- Fecha inicio vigencia
-- Fecha fin vigencia (recalculada automáticamente)
-- Documento del propietario
-- Nombre del propietario
-- Teléfono 1 y Teléfono 2
-- Estado
+## VISTA 5 — Formulario de actualización
 
-Campos de solo lectura: fondo gris claro (#F3F4F6), texto en tono suave.
-Pie de formulario: botón verde sólido "Guardar" + botón con borde negro "Cancelar".
+La vista de **actualización** permite editar registros existentes con campos modificables.
+
+### Funciones técnicas
+- **Actualización de datos:** Modificación de campos editables.
+- **Recalculo automático:** Fechas ajustadas automáticamente.
+
+### Interfaz estructurada
+  Mismo diseño que la Vista 3.  
+- **Campos editables:** Resaltados con borde verde.
+- **Campos de solo lectura:** Fondo gris claro (#F3F4F6).
+- **Pie de formulario:** Botón Guardar cambios (relleno degradado #00DBE9 y #39FF14.) y Cancelar (borde blanco).
+---
+
+## VISTA 6 — Formulario de actualización de registro incompleto
+
+### Descripción General
+La vista de **actualización incompleta** permite completar información faltante en registros vehiculares.
+
+### Funciones técnicas
+- **Validación de campos obligatorios.**
+- **Integración con persistencia de datos.**
+
+### Interfaz estructurada
+La pantalla se divide en dos columnas principales:
+- **Formulario de datos (izquierda):** Campos de vehículo y propietario.
+- **Sección gráfica (derecha):** Tarjeta de propiedad del vehículo.
+- **Botón principal:** “Actualizar” en degradado 00DBE9 y 39FF14.
 
 ---
 
-### VISTA 5 — Panel de Tramitar
-Tres secciones claramente separadas dentro de una tarjeta blanca:
+## VISTA 7 — Panel de gestionar placas
+La vista de **gestión de placas** permite enviar recordatorios y administrar reportes asociados a vehículos.
 
-1. **Mensaje** — Burbuja estilo WhatsApp (fondo verde claro #DCFCE7,
-   texto negro, esquinas redondeadas). Contenido dinámico según el registro:
-   "Hola 👋, soy la Ing. Leidy del CDA Llano Verde – Tecno-mecánica.
-   Queremos recordarte que la Revisión Técnico-Mecánica de tu vehículo
-   de placa [PLACA] venció el [FECHA].
-   ✅ Vehículo particular: $320.000
-   ✅ Vehículo público: $317.500
-   ✅ Moto: $220.000
-   📅 Lunes a viernes: 7am–7pm | Sábados: 8am–5pm | Domingos y festivos: 8am–1pm
-   📍 Carrera 33 #23–57, Barrio San Benito, Villavicencio, Meta 500004
-   ¡No lo dejes para última hora!"
+### Funciones técnicas
+- **Mensajes informativos:** Recordatorios estilo chat.
+- **Registro de información:** Datos completos del vehículo.
+- **Reportes:** Placa e ingreso con selector de fecha.
+- **Acciones de declinado:** Conservar, comentar o eliminar.  
+
+### Interfaz estructurada
+Tres secciones claramente separadas:
+
+1. **Mensaje** — Burbuja estilo WhatsApp (fondo oscuro #0F172A 60%, texto blanco, esquinas redondeadas).  
+   Contenido dinámico según el registro.  
    Botón "Copiar mensaje" → borde verde, fondo blanco.
 
-2. **Reportar** — Tarjeta compacta:
-  - Selector de fecha con anillo de enfoque verde
-  - Botón verde sólido "Guardar"
+2. **Información de registro** — Tarjeta compacta con listado de datos del vehículo.
 
-3. **Declinado** — Tarjeta de confirmación con dos botones:
-  - "Conservar" → botón con borde verde
-  - "Eliminar" → botón con borde rojo (peligro)
+3. **Acciones de reportar registro e ingreso** — Tarjeta compacta:
+  - Reportar placa: selector de fecha, menú desplegable (Tipo de cliente).
+  - Reportar ingreso: selector de fecha.
+  - Botón "Guardar reporte".
+
+- **Declinado** — Tarjeta de confirmación con 3 botones:
+  - "Conservar" → botón degradado #00DBE9  #39FF14 
+  - "Comentario" → boton amarillo FFCD29 88%
+  - "Eliminar" → botón rojo #FFB4AB 89%
+---
+
+
+### VISTA 8 — Panel de vista previa de reporte mensual antes de descarga
+
+La vista de **reporte mensual** muestra resultados antes de la descarga.
+### Funciones técnicas
+- **Selección de mes y año.**
+- **Visualización de tabla con datos del reporte.**  
+
+### Interfaz estructurad
+2 secciones claramente separadas:
+
+1. **Selector de mes y año**
+2. **Tabla de resultado de la seleccion**
+
+| #  | Columna         | Contenido                                            |
+|----|-----------------|------------------------------------------------------|
+| 1  | `Fecha_Reporte` | Fecha en que se efectuó el reporte del registro.     |
+| 2  | `Fecha_Ingreso` | Fecha en que el registro fue creado en el sistema.   |
+| 3  | `Placa`         | Placa del vehículo (en mayúsculas).                  |
+| 4  | `Categoría`     | Tipo de vehículo (particular, público, motocicleta). |
+| 5  | `Marca`         | Marca del vehículo.                                  |
+| 6  | `Tipo_Cliente`  | Persona natural (cédula) o empresa (NIT).            |
+| 7  | `Nombre`        | Nombre completo del propietario (en mayúsculas).     |
+| 8  | `Proveniencia`  | De taller o directo.                                 |
+| 9  | `Documento`     | Número de documento del propietario.                 |
+| 10 | `Teléfono`      | Teléfono de contacto registrado.                     |
+| 11 | `Descuento`     | Descuento aplicado, si corresponde.                  |
+
+
+
+
+### Requisitos generales de diseño:
+
+## Paleta de colores
+- **Verde (#39FF14, #10B981):** usado en botones principales y acciones positivas.
+- **Azul (#2563EB, #00DBE9):** aplicado en botones secundarios y acciones de gestión.
+- **Rojo (#FFB4AB):** reservado para acciones críticas como eliminar.
+- **Amarillo (#FFCD29):** usado en botones de comentario o advertencia.
+- **Negro y gris (#0B0E14, #191C22, #F3F4F6):** fondos, encabezados y estados de solo lectura.
+- **Blanco (#FFFFFF):** texto y fondos de tarjetas.
 
 ---
 
-### Requisitos generales de diseño:
-- Layout responsivo con enfoque en escritorio.
-- Estado de enfoque en inputs: borde verde.
-- Validación de formularios: borde rojo + mensaje de error debajo del campo.
-- Estado vacío de tabla: ícono verde centrado + mensaje "Sin resultados".
-- Transiciones suaves entre vistas.
-- Todo el texto de la interfaz en español.
-- Usar Tailwind CSS con componentes de shadcn/ui.
+## Elementos comunes
+- **Botones:** con degradados, bordes redondeados y variantes sólidas o con borde.
+- **Formularios:** con validaciones claras (verde para enfoque, rojo para error).
+- **Tablas:** con acciones individuales por fila (editar, gestionar, eliminar).
+- **Mensajes informativos:** estilo burbuja tipo chat.
+- **Tarjetas compactas:** para agrupar información y acciones.
+- **Iconografía:** con colores asociados a la acción (verde, azul, rojo).
+- **Paginadores:** en tablas para navegación.
+
+---
+
+## Idioma
+- Toda la interfaz está en **español**.  
+
