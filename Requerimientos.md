@@ -47,28 +47,40 @@ El sistema soporta **consultas múltiples simultáneas** (por ejemplo: registros
 - Estado — menú con checkboxes para selección múltiple simultánea.
 
 ---
+## 3. Estados de completitud los registros
+
+| Estado          | Origen de la transición  | Descripción                                                                                                                       |
+|-----------------|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| **Incompleto**  | Automatico               | Estado por defecto al generar un registro haciendo uso de la opcion provicional de la vista nuevo registro                        |                                                                                |
+| **Completo**    | Manual                   | Estado que se debe activar despues de que se ayan completado todos los datos fundamentales del registro en la vista de actualizar |
+
+> Una vez el registro este completado no puede volver a estar incompleto
+> Un registro no puede pasar a estado actualizado si su estado de completitud es incompleto 
+---
 
 ## 3. Estados de los Registros
 
 Cada registro vehicular atraviesa un ciclo de estados definido. Las transiciones se producen de forma manual por el ingeniero o automáticamente mediante tareas programadas (`cron`).
-un registro no puede estar en estado ingresado sin antes haber pasado por el estado reportado,  
+un registro no puede estar en estado ingresado sin antes haber pasado por el estado reportado.  
 ### 3.1 Catálogo de Estados
 
-| Estado                   | Origen de la transición | Descripción                                                                                       |
-|--------------------------|---|---------------------------------------------------------------------------------------------------|
-| **Inédito**              | Automático (por defecto) | Estado inicial de todo registro al momento de creación.                                           |
-| **Aprobado-Actualizado** | Manual | El registro fue revisado y aprobado. Al cambio de año regresa a Inédito automáticamente.          |
-| **Vencido**              | Automático (cron) | Registros en estado Inédito que no avanzaron antes del cambio de mes.                             |
-| **Actualizado**          | Manual | Registros con `Fin_Vigencia_RTM` en 2027; permanecen en este estado.                              |
-| **Reportado**            | Manual | Se registra la fecha exacta en que se efectuó el reporte.                                         |
-| **Ingresado**            | Manual | Se registra la fecha exacta en el vehiculo fue al CDA. aun en duda por redundancia de informacion |
+| Estado          | Origen de la transición  | Descripción                                                                                                                                                   |
+|-----------------|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Inédito**     | Automático (por defecto) | Estado inicial de todo registro al momento de creación.                                                                                                       |
+| **Vencido**     | Automático (cron)        | Registros en estado Inédito que no avanzaron antes del cambio de mes.                                                                                         |
+| **Reportado**   | Manual                   | Se registra la fecha exacta en que se efectuó el reporte.                                                                                                     |
+| **Ingresado**   | Manual                   | Se registra la fecha exacta en el vehiculo fue al CDA. aun en duda por redundancia de informacion                                                             |
+| **Actualizado** | Manual                   | El registro fue revisado y aprobado, Registros con `Fin_Vigencia_RTM` en 2027; permanecen en este estado, al cambio de año regresa a Inédito automáticamente. |
+| **Declinado**   | Manual                   | El registro fue gestionado, pero la gestion no fue exitosa y se agrega un comentario                                                                          |
+
 
 ### 3.2 Reglas de Transición Automática
 
 - **Al cambio de año:** todos los registros en estado `Aprobado-Actualizado` pasan automáticamente a `Inédito`.
-- **Al cambio de mes:** si los registros de ese mes permanecen en `Inédito` y su fecha Fin_Vigencia era se supero y no pasaron a otro estado, se marcan automáticamente como `Vencido`.
+- **Al cambio de mes:** si los registros de ese mes permanecen en `Inédito` y su fecha Fin_Vigencia era se supero y no pasaron a otro estado, se marcan automáticamente como `Vencido`. 
 
 > Todas las transiciones automáticas son gestionadas por tareas `cron` configuradas con parámetros cronológicos del sistema.
+ 
 
 ### 3.3 Regla de Actualización de Registro Vencido
 
@@ -107,8 +119,8 @@ Antes de crear cualquier registro nuevo, el sistema obliga a verificar si la pla
 
 | Resultado | Comportamiento del sistema |
 |---|---|
-| ✅ **Placa NO existe** | Se muestra un mensaje informativo y se habilita la vista para ingresar un nuevo registro. |
-| ⚠️ **Placa YA existe** | Se muestra un mensaje indicando que el registro existe y se pregunta al ingeniero si desea actualizarlo. |
+|✅ **Placa NO existe** | Se habilita la vista para ingresar un nuevo registro. |
+| ⚠️ **Placa YA existe** | Se muestra un mensaje indicando que el registro existe. |
 
 ---
 
@@ -279,15 +291,4 @@ debe de haber un boton el cual reinice y limpie las busquedas hechas con anterio
 
 ---
 
-
-Posibles comentarios
-realizada
-no es el dueño
-no esta en Villao
-no contesto
-apagado
-desviada
-traspaso
-vendido
-
-un registro que se encuetnre en estado ingresado no puede regresarse a estado reportado 
+un registro que se encuentre en estado ingresado no puede regresarse a estado reportado 

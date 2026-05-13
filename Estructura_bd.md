@@ -2,10 +2,15 @@
 
 - Las fechas tendrán formato DD/MM/AAAA
 - Estados:
-  Inédito= Registro que no se modificado y registro aun no vence
-  Tramitado= Registro que ya  empezo  el proceso 
-  Reportado= Resgistro que confirmo interes en servicio
-  Declinado= Registro 
+  | Estado          | Origen de la transición  | Descripción                                                                                                                                                   |
+  |-----------------|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+  | **Inédito**     | Automático (por defecto) | Estado inicial de todo registro al momento de creación.                                                                                                       |
+  | **Vencido**     | Automático (cron)        | Registros en estado Inédito que no avanzaron antes del cambio de mes.                                                                                         |
+  | **Reportado**   | Manual                   | Se registra la fecha exacta en que se efectuó el reporte.                                                                                                     |
+  | **Ingresado**   | Manual                   | Se registra la fecha exacta en el vehiculo fue al CDA. aun en duda por redundancia de informacion                                                             |
+  | **Actualizado** | Manual                   | El registro fue revisado y aprobado, Registros con `Fin_Vigencia_RTM` en 2027; permanecen en este estado, al cambio de año regresa a Inédito automáticamente. |
+  | **Declinado**   | Manual                   | El registro fue gestionado, pero la gestion no fue exitosa y se agrega un comentario                                                                          |
+
 - Tablas = Vehiculo, Propietario, Estado, **Vehiculo_RTM**
 
 ### Tabla Vehiculo
@@ -26,9 +31,17 @@ Columnas: id, nombre, descripción
 - `fin_vigencia_rtm` debe ser siempre mayor que `inicio_vigencia_rtm`.
 - Un propietario puede tener múltiples vehículos.
 - Un vehículo únicamente puede tener un propietario.
-- Los números de teléfono deben tener **exactamente 10 dígitos**.
+- Los números de teléfono deben tener **exactamente 10 dígitos**
+- Targeta de propiedad es una imagen
+- Estado de completitud se debe gestionar internamente, solo hay dos estados, completo e incompleto, un regiatro puede pasar a estado completo cuando todos sus campos esten completos
+- 
+
+
+### Tabla Guardado Rapido
+Columnas: targeta_propiedad, placa, telefono, estado_id, nivel_completitud
 
 ### Tabla Reporte
+Columnas: fecha_reporte, fecha_ingreso, tipo_cliente, precio, descuento, comentario
 
 ---
 
@@ -37,95 +50,61 @@ Columnas: id, nombre, descripción
 ```sql
 -- BASE DE DATOS: GESTIÓN DE VEHÍCULOS Y RTM
 
-CREATE DATABASE IF NOT EXISTS gestion_vehiculos
-CHARACTER SET utf8mb4
-COLLATE utf8mb4_spanish_ci;
-
-USE gestion_vehiculos;
-
--- TABLA: PROPIETARIO
-
+-- Propietario
 CREATE TABLE propietario (
-    documento       BIGINT          NOT NULL,
-    tipo_documento  VARCHAR(20)     NOT NULL,
-    nombre          VARCHAR(100)    NOT NULL,
-    telefono1       BIGINT          NOT NULL,
-    telefono2       BIGINT,
-
-    CONSTRAINT pk_propietario PRIMARY KEY (documento),
-    CONSTRAINT chk_tipo_documento CHECK (
-        tipo_documento IN ('CC', 'NIT')
-    ),
-    CONSTRAINT chk_telefono1 CHECK (telefono1 REGEXP '^[0-9]{10}$'),
-    CONSTRAINT chk_telefono2 CHECK (telefono2 IS NULL OR telefono2 REGEXP '^[0-9]{10}$')
+    id               SERIAL PRIMARY KEY,
+    numero_documento VARCHAR(13) UNIQUE NOT NULL CHECK (numero_documento ~ '^\d+$'),
+    tipo_documento   tipo_doc_enum NOT NULL,
+    nombre           VARCHAR(100) NOT NULL CHECK (nombre ~ '^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$'),
+    telefono1        CHAR(10) NOT NULL CHECK (telefono1 ~ '^\d{10}$'),
+    telefono2        CHAR(10) CHECK (telefono2 ~ '^\d{10}$')
 );
 
--- TABLA: VEHICULO
-
+-- Vehículo
 CREATE TABLE vehiculo (
-    placa               CHAR(6)         NOT NULL,
-    marca               VARCHAR(50)     NOT NULL,
-    linea               VARCHAR(100)    NOT NULL,
-    modelo              CHAR(4)         NOT NULL,
-                   ENUM(
-        'Motocicleta',
-        'Automóvil',
-        'Campero',
-        'Motocarguero',
-        'Camioneta',
-        'Camión',
-        'Bus',
-        'Microbús',
-        'Tractocamión',
-        'Volqueta'
-    )               NOT NULL,
-    propietario_doc     BIGINT          NOT NULL,
-
-    CONSTRAINT pk_vehiculo          PRIMARY KEY (placa),
-    CONSTRAINT fk_vehiculo_prop     FOREIGN KEY (propietario_doc)
-        REFERENCES propietario (documento)
-        ON UPDATE CASCADE
-        ON DELETE RESTRICT,
-    CONSTRAINT chk_placa            CHECK (placa REGEXP '^[A-Z0-9]{6}$'),
-    CONSTRAINT chk_modelo           CHECK (modelo REGEXP '^[0-9]{4}$')
+    placa           CHAR(6) UNIQUE NOT NULL PRIMARY KEY,
+    propietario_id  INT NOT NULL REFERENCES propietario(id),
+    categoria       categoria_enum NOT NULL,
+    marca           VARCHAR(15),
+    modelo          CHAR(4),
+    linea           VARCHAR(60),
+    tarjeta_prop    BYTEA
 );
 
--- TABLA: ESTADO
-
-CREATE TABLE estado (
-    id              INT             NOT NULL AUTO_INCREMENT,
-    nombre          VARCHAR(50)     NOT NULL,
-    descripcion     VARCHAR(200),
-
-    CONSTRAINT pk_estado    PRIMARY KEY (id),
-    CONSTRAINT uq_estado    UNIQUE (nombre)
+-- RevisionTecnoMecanica
+CREATE TABLE RevisionTecnoMecanica (
+    id              SERIAL PRIMARY KEY,
+    vehiculo_id     INT NOT NULL REFERENCES vehiculo(id),
+    inicio_vigencia DATE,
+    fin_vigencia    DATE,
+    estado          estado_rtm_enum NOT NULL,
+    procedencia     procedencia_enum NOT NULL,
+    precio          NUMERIC(6,0),
+    descuento       NUMERIC(2,0)
 );
 
--- Estados iniciales
-INSERT INTO estado (nombre, descripcion) VALUES
-('Vigente',     'La RTM está aprobada y dentro del periodo de validez'),
-('Vencida',     'La RTM superó la fecha de vencimiento sin renovación'),
-('En trámite',  'El proceso de RTM fue iniciado pero aún no finaliza'),
-('Rechazada',   'El vehículo no aprobó la revisión técnico-mecánica');
+-- Reporte
+CREATE TABLE reporte (
+    id                  SERIAL PRIMARY KEY,
+    vehiculo_id         INT NOT NULL REFERENCES vehiculo(id),
+    rtm_id              INT REFERENCES rtm(id),
+    fecha_reporte       DATE,
+    fecha_ingreso       DATE,
+    comentario          comentario_enum,
+    estado_completitud  BOOLEAN NOT NULL DEFAULT FALSE
+);
 
--- TABLA: VEHICULO_RTM
 
-CREATE TABLE vehiculo_rtm (
-    id                  INT             NOT NULL AUTO_INCREMENT,
-    vehiculo_placa      CHAR(6)         NOT NULL,
-    estado_id           INT             NOT NULL,
-    inicio_rtm          DATE            NOT NULL,
-    fin_rtm             DATE            NOT NULL,
-    numero_certificado  VARCHAR(50),
+CREATE TYPE estado_proceso_enum AS ENUM ('incompleto', 'completado');
 
-    CONSTRAINT pk_vehiculo_rtm      PRIMARY KEY (id),
-    CONSTRAINT fk_rtm_vehiculo      FOREIGN KEY (vehiculo_placa)
-        REFERENCES vehiculo (placa)
-        ON UPDATE CASCADE
-        ON DELETE RESTRICT,
-    CONSTRAINT fk_rtm_estado        FOREIGN KEY (estado_id)
-        REFERENCES estado (id)
-        ON UPDATE CASCADE
-        ON DELETE RESTRICT,
-    CONSTRAINT chk_fechas_rtm       CHECK (fin_rtm > inicio_rtm)
+CREATE TABLE registro_rapido (
+    id             SERIAL PRIMARY KEY,
+    placa          CHAR(6) NOT NULL,
+    telefono       CHAR(10) CHECK (telefono ~ '^\d{10}$'),
+    tarjeta_prop   BYTEA,           -- imagen de tarjeta de propiedad
+    estado_rtm     estado_rtm_enum NOT NULL,
+    procedencia    procedencia_enum NOT NULL,
+    fecha_reporte  DATE,            -- solo si estado = 'Reportado'
+    estado_completitud estado_completitud_enum NOT NULL DEFAULT 'incompleto',
+    creado_en      TIMESTAMP DEFAULT NOW()
 );

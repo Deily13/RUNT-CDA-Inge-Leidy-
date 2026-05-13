@@ -220,11 +220,11 @@ La vista de **reporte mensual** muestra resultados antes de la descarga.
 | 11 | `Descuento`     | Descuento aplicado, si corresponde.                  |
 
 
+----
 
+## Requisitos generales de diseño:
 
-### Requisitos generales de diseño:
-
-## Paleta de colores
+### Paleta de colores
 - **Verde (#39FF14, #10B981):** usado en botones principales y acciones positivas.
 - **Azul (#2563EB, #00DBE9):** aplicado en botones secundarios y acciones de gestión.
 - **Rojo (#FFB4AB):** reservado para acciones críticas como eliminar.
@@ -234,7 +234,7 @@ La vista de **reporte mensual** muestra resultados antes de la descarga.
 
 ---
 
-## Elementos comunes
+### Elementos comunes
 - **Botones:** con degradados, bordes redondeados y variantes sólidas o con borde.
 - **Formularios:** con validaciones claras (verde para enfoque, rojo para error).
 - **Tablas:** con acciones individuales por fila (editar, gestionar, eliminar).
@@ -245,6 +245,6 @@ La vista de **reporte mensual** muestra resultados antes de la descarga.
 
 ---
 
-## Idioma
+### Idioma
 - Toda la interfaz está en **español**.  
 
