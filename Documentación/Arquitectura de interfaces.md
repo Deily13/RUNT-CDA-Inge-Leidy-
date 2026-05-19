@@ -29,7 +29,45 @@ La pantalla se divide en dos secciones principales:
 
 ---
 
-## VISTA 2 — Panel principal (Búsqueda y Filtros)
+## VISTA 2 — Pantalla principal del sistema
+
+La vista de **inicio** constituye el tablero central del sistema, diseñada para facilitar la navegación hacia las funciones clave de gestión de registros y reportes.  
+Su objetivo principal es ofrecer un acceso rápido y organizado a las operaciones más frecuentes, garantizando eficiencia en la interacción del usuario con el sistema.
+
+### Funciones técnicas
+
+- **Navegación principal:** Proporciona botones destacados para acceder a las funciones críticas: búsqueda, creación de registros, visualización de reportes mensuales y gestión de registros pendientes.
+- **Menú desplegable:** Ofrece un listado completo de opciones adicionales como inicio, guardado rápido y cierre de sesión, asegurando redundancia en la navegación.
+- **Gestión de sesión:** Incluye un botón de cierre de sesión en la esquina superior derecha, reforzando el control de acceso y la seguridad.
+- **Jerarquía visual:** Los elementos están organizados en un esquema que prioriza las acciones más utilizadas mediante botones centrales grandes y accesibles.
+
+### Interfaz estructurada
+
+La pantalla se organiza en tres secciones principales:
+
+- **Barra superior:**
+  - Menú desplegable (ícono de tres líneas) con opciones: Inicio, Buscar, Nuevo Registro, Guardado Rápido, Ver Reporte de Mes, Registros Pendientes y Cerrar Sesión.
+  - Botón de **Cerrar Sesión** con ícono de flecha en la esquina superior derecha.  
+    Fondo: degradado azul oscuro (#0B0E14 → #191C22).  
+    Texto: tipografía clara, FFFFFF-100%.
+
+- **Panel central de acciones:**  
+  Cuatro botones rectangulares con íconos y etiquetas:
+  - **Buscar:** ícono de lupa con documento - Redirecciona a vista de busqueda.
+  - **Nuevo Registro:** ícono de documento con signo “+” - Redirecciona a vista de Nuevo Registro.
+  - **Ver Reporte Mensual:** ícono de carpeta con ojo - Redirecciona a vista de Reportes mensuales.
+  - **Registros Pendientes:** ícono de documento con reloj - Redirecciona a vista de registros pendientes por actualizar.  
+    Fondo de botones: azul intermedio (#1A2A40 aprox.).  
+    Íconos: estilo lineal blanco.  
+    Texto: tipografía Space Grotesk, 24 puntos, FFFFFF-100%.
+
+- **Fondo general:**  
+  Degradado azul oscuro con transición suave, aportando contraste y jerarquía visual.  
+  Paleta: 0B0E14-100% / 191C22-80%.
+---
+
+
+## VISTA 3 — Panel principal (Búsqueda y Filtros)
 
 Esta vista permitirá realizar búsquedas y consultar registros específicos existentes, además de acceder a funciones individuales sobre cada registro.
 
@@ -75,7 +113,7 @@ La pantalla se divide en tres secciones principales:
   - En la esquina inferior derecha de la tabla debe estar el paginador para navegar entre los resultados.
 
 ---
-## VISTA 3 — Formulario de nuevo registro
+## VISTA 4 — Formulario de nuevo registro
 
 La vista de **nuevo registro** permite ingresar datos completos de un vehículo y su propietario en el sistema.
 
@@ -114,7 +152,7 @@ Pie de formulario:
 
 ---
 
-## VISTA 4 — Guardado rápido
+## VISTA 5 — Guardado rápido
 
 La vista de **guardado rápido** permite almacenar registros incompletos de manera provisional para completarlos después.
 
@@ -130,7 +168,7 @@ Formulario con 4 campos obligatorios:
 
 ---
 
-## VISTA 5 — Formulario de actualización
+## VISTA 6 — Formulario de actualización
 
 La vista de **actualización** permite editar registros existentes con campos modificables.
 
@@ -145,7 +183,7 @@ La vista de **actualización** permite editar registros existentes con campos mo
 - **Pie de formulario:** Botón Guardar cambios (relleno degradado #00DBE9 y #39FF14.) y Cancelar (borde blanco).
 ---
 
-## VISTA 6 — Formulario de actualización de registro incompleto
+## VISTA 7 — Formulario de actualización de registro incompleto
 
 ### Descripción General
 La vista de **actualización incompleta** permite completar información faltante en registros vehiculares.
@@ -162,7 +200,7 @@ La pantalla se divide en dos columnas principales:
 
 ---
 
-## VISTA 7 — Panel de gestionar placas
+## VISTA 8 — Panel de gestionar placas
 La vista de **gestión de placas** permite enviar recordatorios y administrar reportes asociados a vehículos.
 
 ### Funciones técnicas
@@ -192,7 +230,7 @@ Tres secciones claramente separadas:
 ---
 
 
-### VISTA 8 — Panel de vista previa de reporte mensual antes de descarga
+### VISTA 9 — Panel de vista previa de reporte mensual antes de descarga
 
 La vista de **reporte mensual** muestra resultados antes de la descarga.
 ### Funciones técnicas

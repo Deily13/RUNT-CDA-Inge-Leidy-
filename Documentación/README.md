@@ -15,7 +15,7 @@ la posibilidad de escalarlo en el futuro hacia una **plataforma web**.
 - **Frameworks:** Spring y Spring Boot
 - **Base de datos:** PostgreSQL (relacional)
 - **Arquitectura:** en capas (separación de responsabilidades)
-- **Frontend:** aún en definición
+- **Frontend:** aún en definición 
 - **Pruebas unitarias:** Junit5, Mockito
 - **Control de versionamiento:** Git
 - **Diseño UI/UX:** https://www.figma.com/design/z9NIQPD31HiPT59ucgHeq5/Untitled?node-id=0-1&t=XSn2d8Ii11mWzMWj-1
