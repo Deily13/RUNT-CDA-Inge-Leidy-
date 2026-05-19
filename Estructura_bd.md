@@ -11,7 +11,7 @@
   | **Actualizado** | Manual                   | El registro fue revisado y aprobado, Registros con `Fin_Vigencia_RTM` en 2027; permanecen en este estado, al cambio de año regresa a Inédito automáticamente. |
   | **Declinado**   | Manual                   | El registro fue gestionado, pero la gestion no fue exitosa y se agrega un comentario                                                                          |
 
-- Tablas = Vehiculo, Propietario, Estado, **Vehiculo_RTM**
+- Tablas = Vehiculo, Propietario, Revision_TecnoMecanica, reporte
 
 ### Tabla Vehiculo
 Columnas: placa, marca, línea, modelo, categoria
@@ -24,18 +24,6 @@ Columnas: id, vehiculo_placa, estado_id, inicio_rtm, fin_rtm
 
 ### Tabla Estado
 Columnas: id, nombre, descripción
-
-- Categoria debe ser tipo ENUM, con los valores: Motocicleta, Automóvil, Campero, Motocarguero, Camioneta, Camión, Bus, Microbús, Tractocamión, Volqueta.
-- Modelo es CHAR(4) porque siempre es un año de 4 dígitos.
-- Placa es CHAR(6) porque siempre tiene exactamente 6 caracteres alfanuméricos.
-- `fin_vigencia_rtm` debe ser siempre mayor que `inicio_vigencia_rtm`.
-- Un propietario puede tener múltiples vehículos.
-- Un vehículo únicamente puede tener un propietario.
-- Los números de teléfono deben tener **exactamente 10 dígitos**
-- Targeta de propiedad es una imagen
-- Estado de completitud se debe gestionar internamente, solo hay dos estados, completo e incompleto, un regiatro puede pasar a estado completo cuando todos sus campos esten completos
-- 
-
 
 ### Tabla Guardado Rapido
 Columnas: targeta_propiedad, placa, telefono, estado_id, nivel_completitud
@@ -50,7 +38,38 @@ Columnas: fecha_reporte, fecha_ingreso, tipo_cliente, precio, descuento, comenta
 ```sql
 -- BASE DE DATOS: GESTIÓN DE VEHÍCULOS Y RTM
 
--- Propietario
+CREATE TYPE tipo_doc_enum AS ENUM ('CC', 'NIT');
+
+CREATE TYPE categoria_enum AS ENUM (
+    'Motocicleta',
+    'Automóvil',
+    'Campero',
+    'Motocarguero',
+    'Camioneta',
+    'Camión',
+    'Bus',
+    'Microbús',
+    'Tractocamión',
+    'Volqueta'
+);
+
+CREATE TYPE estado_rtm_enum AS ENUM (
+    'Inedito',
+    'Vencido',
+    'Reportado',
+    'Ingresado',
+    'Actualizado',
+    'Declinado'
+);
+
+
+CREATE TYPE comentario_enum AS ENUM ('Realizada', 'no en Villao', 'no contesto', 'traspaso', 'desviado', 'fuera de servicio');
+
+
+CREATE TYPE procedencia_enum AS ENUM ('taller', 'cliente');
+
+
+--Propietario
 CREATE TABLE propietario (
     id               SERIAL PRIMARY KEY,
     numero_documento VARCHAR(13) UNIQUE NOT NULL CHECK (numero_documento ~ '^\d+$'),
@@ -66,45 +85,47 @@ CREATE TABLE vehiculo (
     propietario_id  INT NOT NULL REFERENCES propietario(id),
     categoria       categoria_enum NOT NULL,
     marca           VARCHAR(15),
-    modelo          CHAR(4),
-    linea           VARCHAR(60),
-    tarjeta_prop    BYTEA
+    modelo          CHAR(4)  CHECK (modelo ~ '^\d{4}$'),
+    linea           VARCHAR(60)
 );
 
 -- RevisionTecnoMecanica
-CREATE TABLE RevisionTecnoMecanica (
+CREATE TABLE revision_tecnoMecanica (
     id              SERIAL PRIMARY KEY,
-    vehiculo_id     INT NOT NULL REFERENCES vehiculo(id),
+    vehiculo_id     CHAR(6) NOT NULL REFERENCES vehiculo(placa),
     inicio_vigencia DATE,
     fin_vigencia    DATE,
     estado          estado_rtm_enum NOT NULL,
     procedencia     procedencia_enum NOT NULL,
-    precio          NUMERIC(6,0),
-    descuento       NUMERIC(2,0)
+    precio          NUMERIC(6,0) NOT NULL CHECK (precio >= 0),
+    descuento       NUMERIC(2,0) CHECK (descuento BETWEEN 1 AND 50),
+    
+    CONSTRAINT vigencia_coherente CHECK (fin_vigencia > inicio_vigencia)
 );
 
 -- Reporte
 CREATE TABLE reporte (
     id                  SERIAL PRIMARY KEY,
-    vehiculo_id         INT NOT NULL REFERENCES vehiculo(id),
-    rtm_id              INT REFERENCES rtm(id),
+    vehiculo_id         CHAR(6) NOT NULL REFERENCES vehiculo(placa),
+    rtm_id              INT REFERENCES revision_tecnomecanica(id),
     fecha_reporte       DATE,
     fecha_ingreso       DATE,
     comentario          comentario_enum,
     estado_completitud  BOOLEAN NOT NULL DEFAULT FALSE
+            
+    CONSTRAINT ingreso_posterior_o_igual CHECK (fecha_ingreso >= fecha_reporte)
+
 );
 
 
-CREATE TYPE estado_proceso_enum AS ENUM ('incompleto', 'completado');
-
 CREATE TABLE registro_rapido (
     id             SERIAL PRIMARY KEY,
-    placa          CHAR(6) NOT NULL,
+    placa CHAR(6) NOT NULL REFERENCES vehiculo(placa),
     telefono       CHAR(10) CHECK (telefono ~ '^\d{10}$'),
     tarjeta_prop   BYTEA,           -- imagen de tarjeta de propiedad
     estado_rtm     estado_rtm_enum NOT NULL,
     procedencia    procedencia_enum NOT NULL,
     fecha_reporte  DATE,            -- solo si estado = 'Reportado'
-    estado_completitud estado_completitud_enum NOT NULL DEFAULT 'incompleto',
+    estado_completitud BOOLEAN          NOT NULL DEFAULT FALSE,
     creado_en      TIMESTAMP DEFAULT NOW()
 );
