@@ -2,6 +2,7 @@
 
 - Las fechas tendrán formato DD/MM/AAAA
 - Estados:
+
   | Estado          | Origen de la transición  | Descripción                                                                                                                                                   |
   |-----------------|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
   | **Inédito**     | Automático (por defecto) | Estado inicial de todo registro al momento de creación.                                                                                                       |
@@ -10,6 +11,7 @@
   | **Ingresado**   | Manual                   | Se registra la fecha exacta en el vehiculo fue al CDA. aun en duda por redundancia de informacion                                                             |
   | **Actualizado** | Manual                   | El registro fue revisado y aprobado, Registros con `Fin_Vigencia_RTM` en 2027; permanecen en este estado, al cambio de año regresa a Inédito automáticamente. |
   | **Declinado**   | Manual                   | El registro fue gestionado, pero la gestion no fue exitosa y se agrega un comentario                                                                          |
+---
 
 
 

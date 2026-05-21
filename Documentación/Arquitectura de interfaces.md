@@ -27,6 +27,8 @@ La pantalla se divide en dos secciones principales:
   Botón: degradado 39FF14-100% / 00DBE9-100%  
   Título: Space Grotesk, 36 puntos, FFFFFF-100%
 
+-En caso de que las credenciales sean incorrectas mostrar un mensaje que indica que estan equivocadas y que las rectifique
+
 ---
 
 ## VISTA 2 — Pantalla principal del sistema
@@ -87,21 +89,22 @@ Esta vista permitirá realizar búsquedas y consultar registros específicos exi
 La pantalla se divide en tres secciones principales:
 
 - **Botones de acción (esquina superior derecha):**
-  - "Nuevo Registro" → botón 10B981-100%, texto blanco, bordes redondeados 8 puntos
-  - "Vista Previa de Reporte" → botón 2563EB-100%, texto blanco, bordes redondeados 8 puntos
+  - "Menu" → Icono de menu color blanco ubicado en la esquina superior izquierda
+  - "Inicio" → botón sin relleno, texto blanco, borde blanco sólido, redondeado 8 puntos
   - "Cerrar sesión" → botón sin relleno, texto blanco, borde blanco sólido, redondeado 8 puntos
+  - Inicio y Cerrar sesion i¿ubicados esquina superior derecha
 
 - **Sección superior panel de criterios de búsqueda:**
 
-| Filtro               | Control          | Restricciones                          |
-|----------------------|-----------------|----------------------------------------|
-| **Fecha específica** | Calendario       | Selección de un día puntual.           |
-| **Mes y año**        | Menús desplegables | Selección independiente de mes y año. |
-| **Categoría de vehículo** | Menú desplegable | Una categoría por consulta.          |
-| **Número de documento** | Campo numérico | Solo acepta valores numéricos.        |
-| **Placa**            | Campo alfanumérico | Máximo 6 caracteres.                  |
-| **Tipo de documento** | Menú desplegable | Cédula de ciudadanía o NIT.           |
-| **Estado**           | Menú con checkboxes | Permite seleccionar múltiples estados.|
+| Filtro               | Control            | Restricciones                          | Placeholder        |
+|----------------------|-------------------|----------------------------------------|--------------------|
+| **Fecha específica** | Calendario         | Selección de un día puntual.           | mm/dd/aaa          |
+| **Mes y año**        | Menús desplegables | Selección independiente de mes y año.  | mes / año          |
+| **Categoría de vehículo** | Menú desplegable | Una categoría por consulta.          | Seleccione categoría |
+| **Número de documento** | Campo numérico   | Solo acepta valores numéricos.        | número de documento |
+| **Placa**            | Campo alfanumérico | Máximo 6 caracteres.                  | (ej: ABC123)       |
+| **Tipo de documento** | Menú desplegable   | Cédula de ciudadanía o NIT.           | Tipo de documento  |
+| **Estado**           | Menú con checkboxes| Permite seleccionar múltiples estados.| Seleccione estados |
 
 - **Sección inferior resultado de búsqueda:**
   - Tabla vacía sobre tarjeta blanca con encabezado negro.
@@ -111,7 +114,10 @@ La pantalla se divide en tres secciones principales:
     🔄 Gestionar → ícono azul  
     🗑️ Eliminar → ícono rojo (única excepción en la paleta)
   - En la esquina inferior derecha de la tabla debe estar el paginador para navegar entre los resultados.
+  - En paginador mostrar por defecto de a 1o registros por cada consulta, tendra boton de avanzar y retrocederque se activaran de acuerdo a la cantidad de registros.
 
+- En caso tal de que no ayan resultados de la consulta se muestre un mensaje tipo modal indicando que no hay resultado en esa consulta
+en texto mas pequeño sugerir hacer otra consulta
 ---
 ## VISTA 4 — Formulario de nuevo registro
 
@@ -146,25 +152,89 @@ La pantalla se divide en tres secciones principales:
   - Teléfono 2 → exactamente 10 dígitos numéricos.
 
 Pie de formulario:
-+ Botón verde sólido "Guardar" (alineado a la derecha), degradado 00DBE9 y 39FF14.
-+ Botón con borde negro "Cancelar".
++ Botón verde degradado "Guardar" (alineado a la derecha), degradado 00DBE9 y 39FF14.
++ Botón con borde blanco con intensidad de 8%, relleno blanco con intensidad 3% "Cancelar".
 + Botón provisional, borde 00DBE9 sin relleno.
 
 ---
 
-## VISTA 5 — Guardado rápido
+## VISTA 5 — Guardado Rápido
 
-La vista de **guardado rápido** permite almacenar registros incompletos de manera provisional para completarlos después.
+La vista de **guardado rápido** permite almacenar registros de forma provisional con los datos mínimos necesarios, para completarlos posteriormente desde la Vista 7.
 
 ### Funciones técnicas
-- **Registro mínimo:** Captura de datos esenciales para guardar temporalmente.
+- **Registro mínimo provisional:** Captura los datos esenciales para identificar el vehículo y su propietario sin requerir el formulario completo.
+- **Carga de imagen:** Permite adjuntar una fotografía de la tarjeta de propiedad como respaldo visual del registro.
+- **Validación básica:** Verifica que todos los campos obligatorios estén completos antes de permitir el guardado.
+- **Navegación post-acción:** Redirige automáticamente a Vista 2 tras guardar o cancelar.
 
 ### Interfaz estructurada
-Formulario con 4 campos obligatorios:
-- Fotografía de la tarjeta de propiedad.
-- Placa del vehículo.
-- Número de teléfono.
-- Estado.
+
+Formulario vertical sobre fondo azul oscuro (`#0B0E14`), sin tarjeta contenedora, presentado como panel lateral o vista móvil de ancho reducido.
+
+
+1. Encabezado
+
+- Título: *"Guardado rápido"*, tipografía blanca, tamaño grande, alineado a la izquierda.
+- Subtítulo: *"Complete los detalles para guardar"*, tipografía gris claro, tamaño menor, alineado a la izquierda.
+
+2. Campos del formulario
+
+Todos los campos son obligatorios y están marcados con asterisco (`*`).
+
+| Campo | Tipo de control | Restricciones                                                                                                |
+|---|---|--------------------------------------------------------------------------------------------------------------|
+| Fotografía de la tarjeta de propiedad `*` | Zona de carga de imagen (drag & drop) | Acepta archivos de imagen (JPG, PNG). Muestra previsualización tras la carga.                                |
+| Placa del vehículo `*` | Campo alfanumérico | Exactamente 6 caracteres. Se almacena en mayúsculas. Ícono de vehículo a la izquierda. Placeholder: `ABC-123`. |
+| Número de teléfono `*` | Campo numérico | Exactamente 10 dígitos. Prefijo `+57` visible y no editable a la izquierda. Placeholder: `300 000 0000`.     |
+| Estado `*` | Menú desplegable | Opciones definidas por el sistema. Ícono de filtro a la izquierda. Placeholder: `Seleccionar estado`.        |
+| Procedencia `*` | Menú desplegable | Opciones: De taller, Directo. Placeholder: `Seleccionar procedencia`.                                        |
+
+**Zona de carga de imagen:**
+- Fondo oscuro (`#191C22`), borde punteado gris, bordes redondeados.
+- Ícono de cámara verde (`#10B981`) centrado.
+- Texto principal: *"Upload Image"*, tipografía blanca, centrado.
+- Texto secundario: *"Arrastra y suelta o haz clic para buscar"*, tipografía gris claro, tamaño menor, centrado.
+- Al cargar una imagen: reemplaza el ícono y los textos por la previsualización de la fotografía, con opción de eliminar o reemplazar.
+
+**Estados visuales de los campos:**
+- **Normal:** fondo oscuro (`#191C22`), borde gris sutil, texto blanco, ícono gris a la izquierda.
+- **Con foco activo:** borde verde (`#10B981`).
+- **Con error de validación:** borde rojo (`#FFB4AB`) + mensaje *"* Campo obligatorio"* en rojo debajo del campo.
+
+3. Pie de formulario — Botones y acciones
+
+Fijo en la parte inferior del formulario, con ambos botones en la misma fila.
+
+| Botón | Estilo | Acción |
+|---|---|---|
+| **Cancelar** | Sin relleno, borde blanco sólido, texto blanco, bordes redondeados. | Muestra modal de confirmación antes de descartar (ver mensajes del sistema). |
+| **Guardar** | Relleno degradado `#39FF14` → `#00DBE9`, texto oscuro, ícono de disquete a la izquierda, bordes redondeados. | Valida el formulario. Si es correcto: muestra mensaje de éxito y redirige a Vista 2. Si hay errores: resalta los campos inválidos. |
+
+ Mensajes del sistema
+
+**Mensaje de éxito** (al guardar correctamente):
+- Tipo: Toast superior.
+- Color de fondo: verde (`#10B981`), texto blanco.
+- Texto: *"Registro provisional guardado exitosamente."*
+- Duración: 3 segundos. Tras cerrarse, redirige automáticamente a Vista 2.
+
+**Mensaje de error por campos inválidos** (al intentar guardar con errores):
+- Los campos incompletos se resaltan con borde rojo (`#FFB4AB`) y muestran el indicador *"* Campo obligatorio"* en rojo debajo de cada uno.
+- No se ejecuta redirección.
+
+**Mensaje de confirmación al cancelar:**
+- Igual al definido en Vista 4: modal con ícono amarillo, título *"¿Deseas salir sin guardar?"*, botones Guardar y Descartar.
+- Al presionar **Descartar**: redirige a Vista 2.
+- Al presionar **Guardar**: cierra el modal y ejecuta el flujo normal de guardado.
+
+ Flujos de navegación
+
+| Acción del usuario | Resultado |
+|---|---|
+| Clic en **Guardar** con formulario válido | Toast de éxito (3 s) → redirige automáticamente a **Vista 2**. |
+| Clic en **Guardar** con errores | Campos inválidos resaltados en rojo. Sin redirección. |
+| Clic en **Cancelar** | Modal de confirmación → si descarta, redirige a **Vista 2**. |
 
 ---
 
@@ -177,26 +247,58 @@ La vista de **actualización** permite editar registros existentes con campos mo
 - **Recalculo automático:** Fechas ajustadas automáticamente.
 
 ### Interfaz estructurada
-  Mismo diseño que la Vista 3.  
+  Mismo diseño que la Vista 4.  
 - **Campos editables:** Resaltados con borde verde.
 - **Campos de solo lectura:** Fondo gris claro (#F3F4F6).
 - **Pie de formulario:** Botón Guardar cambios (relleno degradado #00DBE9 y #39FF14.) y Cancelar (borde blanco).
+
+
 ---
 
 ## VISTA 7 — Formulario de actualización de registro incompleto
 
 ### Descripción General
-La vista de **actualización incompleta** permite completar información faltante en registros vehiculares.
+La vista de **actualización incompleta** permite al usuario **completar información faltante** en registros vehiculares previamente guardados de forma parcial.  
+Todos los campos son editables excepto la **placa del vehículo**, que se mantiene fija como identificador único.  
+La columna derecha muestra la **fotografía de la tarjeta de propiedad** como respaldo documental.
 
-### Funciones técnicas
-- **Validación de campos obligatorios.**
-- **Integración con persistencia de datos.**
+### Funcionalidades Técnicas
+- **Validación dinámica:** cada campo obligatorio se valida en tiempo real, mostrando mensajes claros en caso de error.
+- **Persistencia incremental:** los cambios se guardan sin perder la información previa, permitiendo actualizaciones parciales.
+- **Responsividad:** el diseño se adapta a pantallas de escritorio.
+- **Accesibilidad:** soporte para lectores de pantalla, etiquetas ARIA y contraste adecuado en botones.
+- **Mensajes informativos:** alertas contextuales que guían al usuario (ej. “Teléfono inválido”).
+- **Flujo de actualización:** el botón “Actualizar” confirma la acción y cambia el estado del registro a completo.
 
 ### Interfaz estructurada
-La pantalla se divide en dos columnas principales:
-- **Formulario de datos (izquierda):** Campos de vehículo y propietario.
-- **Sección gráfica (derecha):** Tarjeta de propiedad del vehículo.
-- **Botón principal:** “Actualizar” en degradado 00DBE9 y 39FF14.
+La pantalla se divide en dos columnas:
+- **Formulario de datos (izquierda):** campos de vehículo y propietario.
+- **Sección gráfica (derecha):** fotografía de la tarjeta de propiedad.
+- **Botón principal:** “Actualizar” con degradado **00DBE9 → 39FF14**, resaltado para acción principal.
+- **Botón inferior** "Cancelar" borde blanco con intensidad de 8%, relleno blanco con intensidad 3%.
+- **Navegación superior:** botones “Menu” y “Cerrar Sesión” para control rápido del sistema.
+
+### Tabla de Campos y Características
+
+
+| Campo                           | Tipo de entrada      | Validación / Restricción              | Implicaciones en flujo                                                                                | Placeholder                 |
+|---------------------------------|----------------------|---------------------------------------|-------------------------------------------------------------------------------------------------------|-----------------------------|
+| Fecha inicio vigencia           | Selector de fecha    | Rango válido según reglas del sistema | Define vigencia inicial del registro                                                                  | DD/MM/AAA                   |
+| Fecha fin vigencia              | Selector de fecha    | No puede ser menor a inicio           | Control de expiración del registro                                                                    | DD/MM/AAA                   |
+| Placa del vehículo              | Texto alfanumérico   | Campo bloqueado (no editable)         | Identificador único del registro                                                                      | ABC123                      |
+| Modelo                          | Numérico             | Año válido (ej. 2026)                 | Parte de detalles del vehículo                                                                        | (ej: 2026)                  |
+| Categoría                       | Dropdown             | Opciones predefinidas                 | Clasificación del vehículo                                                                            | Seleccionar ...             |
+| Marca                           | Texto                | Almacenado en mayúsculas              | Campo obligatorio                                                                                     | Ingrese marca               |
+| Línea                           | Texto                | Libre, validación de caracteres       | Complementa la marca                                                                                  | Ingrese línea               |
+| Estado                          | Dropdown             | Valores definidos en catálogo         | Determina en qué punto de la trazabilidad se encuentra el registro                                    | Seleccionar ...             |
+| Tipo de documento               | Dropdown             | Opciones predefinidas                 | Asociado a trazabilidad legal                                                                         | Seleccionar ...             |
+| Documento                       | Numérico             | Validación de longitud según tipo     | Identificación del propietario                                                                        | Ingrese número de documento |
+| Nombre del propietario          | Texto                | Almacenado en mayúsculas              | Campo obligatorio                                                                                     | Ingrese nombre completo     |
+| Teléfono 1                      | Numérico             | Solo números, longitud exacta         | Obligatorio para guardar                                                                              | Ingrese teléfono            |
+| Teléfono 2                      | Numérico             | Opcional                              | Contacto alternativo                                                                                  | Ingrese teléfono            |
+| Fotografía tarjeta de propiedad | Upload / Drag & Drop | Formato JPG/PNG, tamaño máximo        | Respaldo documental obligatorio si faltan otros campos                                                | Suba imagen de tarjeta      |
+| Botón Actualizar                | Acción principal     | Activo solo si validaciones pasan     | Cambia el estado de completitud del registro y guarda los nuevos datos en sus tablas correspondientes | —                           |
+| Botón Cnacelar                  | Acción segundaria    | Descarta todos los cambios hechos     | Los datos no cambian                                                                                  | —                           |
 
 ---
 
@@ -207,7 +309,7 @@ La vista de **gestión de placas** permite enviar recordatorios y administrar re
 - **Mensajes informativos:** Recordatorios estilo chat.
 - **Registro de información:** Datos completos del vehículo.
 - **Reportes:** Placa e ingreso con selector de fecha.
-- **Acciones de declinado:** Conservar, comentar o eliminar.  
+- **Acciones de declinado:** Comentar o eliminar.  
 
 ### Interfaz estructurada
 Tres secciones claramente separadas:
@@ -223,9 +325,8 @@ Tres secciones claramente separadas:
   - Reportar ingreso: selector de fecha.
   - Botón "Guardar reporte".
 
-- **Declinado** — Tarjeta de confirmación con 3 botones:
-  - "Conservar" → botón degradado #00DBE9  #39FF14 
-  - "Comentario" → boton amarillo FFCD29 88%
+- **Declinado** — Tarjeta de confirmación con 2 botones:
+  - "Comentario" → boton amarillo #FFCD29 88%
   - "Eliminar" → botón rojo #FFB4AB 89%
 ---
 
@@ -237,7 +338,7 @@ La vista de **reporte mensual** muestra resultados antes de la descarga.
 - **Selección de mes y año.**
 - **Visualización de tabla con datos del reporte.**  
 
-### Interfaz estructurad
+### Interfaz estructurada
 2 secciones claramente separadas:
 
 1. **Selector de mes y año**
@@ -257,8 +358,49 @@ La vista de **reporte mensual** muestra resultados antes de la descarga.
 | 10 | `Teléfono`      | Teléfono de contacto registrado.                     |
 | 11 | `Descuento`     | Descuento aplicado, si corresponde.                  |
 
+- En caso tal de que no ayan resultados de la consulta se muestre un mensaje en el espacio que se encontraria la tabla diciendo: aun no se ha generado reporte de este mes
+el texto debe ser grande el color blaco de manera se vea armoniosa
 
 ----
+
+### VISTA 10 — Panel de registros pendientes por completar
+
+La vista de **registros pendientes** muestra aquellos trámites de registro que aún no han sido completados y requieren acciones adicionales por parte del usuario.
+
+### Funciones técnicas
+- **Visualización de tabla con registros incompletos.**
+- **Indicadores de estado con colores diferenciados.**
+- **Acciones rápidas de edición y eliminación.**
+- **Paginación para navegar entre múltiples resultados.**
+- **Botones de navegación superior (Menu: lado izquierda, Inicio y Cerrar Sesión: lado derecho).**
+
+### Interfaz estructurada
+2 secciones claramente separadas:
+
+1. **Encabezado de navegación**
+  - Boton **Menu**
+  - Botón **Inicio**.
+  - Botón **Cerrar Sesión**.
+
+2. **Tabla de registros incompletos**
+  - Encabezado: “Registros Incompletos”.
+  - Paginación inferior con indicador de resultados: *“Mostrando 1 a 10 de 124 resultados”*.
+  - Columnas con datos específicos y acciones.
+
+
+| #  | Columna       | Contenido                                                                 |
+|----|---------------|---------------------------------------------------------------------------|
+| 1  | `Placa`       | Placa del vehículo (en mayúsculas).                                       |
+| 2  | `Teléfono`    | Número de contacto registrado.                                            |
+| 3  | `Estado`      | Estado del registro con indicador de color:<br> - **Reportado** (amarillo)<br> - **Rechazado** (rojo)<br> - **Inédito** (gris). |
+| 4  | `Procedencia` | Origen del registro: Taller o Cliente.                                    |
+| 5  | `Acciones`    | Iconos de acción:<br> - **Editar** (lápiz)<br> - **Eliminar** (papelera). |
+
+- En caso de que no existan registros pendientes, se mostrará un mensaje en el espacio de la tabla:  
+  **“Aún no se han generado registros pendientes”**  
+  El texto debe ser grande, en color blanco, para mantener armonía visual.
+
+---
 
 ## Requisitos generales de diseño:
 
@@ -266,11 +408,10 @@ La vista de **reporte mensual** muestra resultados antes de la descarga.
 - **Verde (#39FF14, #10B981):** usado en botones principales y acciones positivas.
 - **Azul (#2563EB, #00DBE9):** aplicado en botones secundarios y acciones de gestión.
 - **Rojo (#FFB4AB):** reservado para acciones críticas como eliminar.
-- **Amarillo (#FFCD29):** usado en botones de comentario o advertencia.
+- **Amarillo (#FFCD29):** usado en estados de advertencia o registros reportados.
 - **Negro y gris (#0B0E14, #191C22, #F3F4F6):** fondos, encabezados y estados de solo lectura.
 - **Blanco (#FFFFFF):** texto y fondos de tarjetas.
 
----
 
 ### Elementos comunes
 - **Botones:** con degradados, bordes redondeados y variantes sólidas o con borde.
@@ -281,8 +422,124 @@ La vista de **reporte mensual** muestra resultados antes de la descarga.
 - **Iconografía:** con colores asociados a la acción (verde, azul, rojo).
 - **Paginadores:** en tablas para navegación.
 
+
+- ### Mensajes del sistema
+
+**Mensaje de éxito** (al guardar correctamente):
+- Tipo: Toast o banner superior.
+- Color de fondo: verde (`#10B981`), texto blanco.
+- Texto: *"Registro guardado exitosamente."*
+- Duración: 3 segundos. Tras cerrarse, se ejecuta la redirección a Vista 2.
+
+**Mensaje de error por campos inválidos** (al intentar guardar con errores):
+- Tipo: Banner en la parte superior del formulario.
+- Color de fondo: rojo claro (`#FFB4AB`), texto rojo oscuro.
+- Texto: *"Por favor revisa los campos marcados en rojo antes de continuar."*
+- Permanece visible hasta que el usuario corrija los errores.
+
+**Mensaje de error por placa duplicada** (desde la sección de validación previa):
+- Tipo: Modal centrado en pantalla, fondo oscuro semitransparente como overlay.
+- Fondo del modal: azul oscuro (`#0B0E14`), bordes redondeados.
+- Ícono: triángulo de advertencia (`⚠`) sobre círculo rojo, centrado en la parte superior del modal.
+- Título: *"Registro Duplicado"*, tipografía blanca, tamaño prominente, centrado.
+- Texto: *"La placa ingresada ya se encuentra registrada en el sistema."*, tipografía blanca, tamaño menor, centrado.
+- Botón de confirmación: *"Entendido ✓"*, relleno degradado `#39FF14` → `#00DBE9`, texto oscuro, bordes redondeados, centrado en la parte inferior del modal.
+- Se cierra al presionar el botón "Entendido", devolviendo el foco al campo de placa para que el usuario pueda corregirlo.
+
+**Mensaje de confirmación al cancelar** (al presionar el botón Cancelar):
+- Tipo: Modal centrado en pantalla, fondo oscuro semitransparente como overlay.
+- Fondo del modal: azul oscuro (`#0B0E14`), bordes redondeados.
+- Ícono: signo de interrogación o advertencia sobre círculo amarillo (`#FFCD29`), centrado en la parte superior del modal.
+- Título: *"¿Deseas salir sin guardar?"*, tipografía blanca, tamaño prominente, centrado.
+- Texto: *"Los datos ingresados se perderán si sales ahora."*, tipografía blanca, tamaño menor, centrado.
+- Botones, centrados en la parte inferior del modal, uno al lado del otro:
+  - **Guardar**: relleno degradado `#39FF14` → `#00DBE9`, texto oscuro, bordes redondeados. Al presionar, cierra el modal y ejecuta el flujo normal de guardado.
+  - **Descartar**: sin relleno, borde blanco sólido, texto blanco, bordes redondeados. Al presionar, cierra el modal y redirige a Vista 2 sin guardar.
+- Al presionar fuera del modal o en ningún botón, el modal se cierra y el usuario regresa al formulario sin ninguna acción.
+
+**Mensaje de confirmación al eliminar**:
+- Tipo: Modal centrado en pantalla, fondo oscuro semitransparente como overlay.
+- Fondo del modal: azul oscuro (`#0B0E14`), bordes redondeados.
+- Ícono: triángulo de advertencia (`⚠`) sobre círculo rojo, centrado en la parte superior del modal.
+- Título: *"¿Estás seguro de eliminar este registro?"*, tipografía blanca, tamaño prominente, centrado.
+- Texto: *"Una vez borrado, el cambio se hará de manera permanente."*, tipografía blanca, tamaño menor, centrado.
+- Botones, centrados en la parte inferior del modal, uno al lado del otro:
+  - **Cancelar**: sin relleno, borde blanco sólido, texto blanco, bordes redondeados. Al presionar, cierra el modal sin ejecutar ninguna acción.
+  - **Borrar**: relleno rojo sólido (`#E53935`), texto blanco, bordes redondeados. Al presionar, ejecuta la eliminación del registro y cierra el modal.
+- Al presionar fuera del modal, se cierra y el usuario regresa a la vista anterior sin ninguna acción.
+
+**Modal de fecha requerida** (al presionar "Guardar reporte" sin haber ingresado la fecha de reporte de placa o la fecha de ingreso del vehículo):
+- Tipo: Modal centrado en pantalla, fondo oscuro semitransparente como overlay.
+- Fondo del modal: azul oscuro (`#0B0E14`), bordes redondeados.
+- Ícono: calendario sobre círculo verde (`#10B981`), centrado en la parte superior del modal.
+- Título: *"Acción Requerida"*, tipografía blanca, tamaño prominente, centrado.
+- Texto: *"Antes de guardar, es necesario ingresar la fecha de entrada para mantener la integridad del historial de inspecciones."*, tipografía blanca, tamaño menor, centrado.
+- Campo de fecha:
+  - Etiqueta: *"FECHA DE ENTRADA"*, tipografía blanca, tamaño pequeño, alineada a la izquierda.
+  - Control: selector de fecha (`dd/mm/yyyy`), fondo oscuro (`#191C22`), borde gris, ícono de calendario alineado a la derecha, texto blanco.
+  - Indicador de campo obligatorio: texto rojo pequeño debajo del campo con el mensaje *"* Campo obligatorio"*.
+- Botón de confirmación: *"Guardar"*, relleno degradado `#39FF14` → `#00DBE9`, texto oscuro, bordes redondeados, ancho completo dentro del modal.
+- Al presionar "Guardar" sin fecha seleccionada: el campo se resalta con borde rojo y el indicador de campo obligatorio permanece visible.
+- Al presionar "Guardar" con fecha válida: cierra el modal y ejecuta el guardado del reporte.
+- Al presionar fuera del modal, se cierra y el usuario regresa a la vista anterior sin ninguna acción.
+
+**Menu Lateral Desplegable**(parte superior izquierda de todas las paginas)
+Se activa al presionar el menú hamburguesa.
+- Se despliega desde el lado izquierdo ocupando ~250px de ancho.
+- Fondo: azul intermedio (#132B55).
+- Opciones en lista vertical:
+  - “INICIO”
+  - “BUSCAR”
+  - “NUEVO REGISTRO”
+  - “GUARDADO RÁPIDO”
+  - “VER REPORTE DE MES”
+  - “REGISTROS PENDIENTES”
+  - "RUNT"
+  - "SOAT PREVISORA"
+  - “CERRAR SESIÓN”
+- Texto blanco, hover en celeste claro (#4DA6FF).
+- Íconos alineados a la izquierda de cada opción.
+
+
+**Responsividad** 
+- El sistema esta diseñado para uso exclusivo en computadoras
+- Todas las vistas deben ser reponsivas y adaptables a cualquier tipo de pantalla
+
+
 ---
+### Estetica de estados
+**Etiqueta de estado (texto)**
+- Indicador visual (óvalo) todos los estados tendran el mismo color que el texto con una intesidad de 20%
+- Forma: ovalada, con bordes suaves.
+- Se utilizara este fomrato en todas la tablas que sea queretido el dato de estado.
+- Color: depende del estado asignado.
+-  Asignación de colores por estado:
+
+| Estado       | Color Texto Hex | Representación visual                                        |
+|--------------|-----------------|--------------------------------------------------------------|
+| **Inédito**  | `#808080`       | **Gris neutro** → indica registro nuevo, aún sin gestión.    |
+| **Vencido**  | `#FF0000`       | **Rojo intenso** → alerta crítica, requiere atención.        |
+| **Reportado**| `#FFCD29`       | **Amarillo** → estado de advertencia, pendiente de revisión. |
+| **Ingresado**| `#26EEDD`       | **Azul sólido** → acción completada, registro aceptado.      |
+| **Actualizado** | `#10B981`       | **Verde positivo** → indica que el registro fue actualizado. |
+| **Declinado**| `#B129FF`       | **Purpura** → rechazo formal, menos crítico que vencido.     |
+
+### Opcines plegables 
+- **Categoria** valores: Motocicleta, Automóvil, Campero, Motocarguero, Camioneta, Camión, Bus, Microbús, Tractocamión, Volqueta.
+- **Estado** valores:  Inedito, Vencido, Reportado, Ingresado, Actualizado, Declinado
+- **Modelo** valore: valores de los años desde el 2010 hasta el año actual + 1
+- **Tipo de documento** valores: CC, NIT 
 
 ### Idioma
 - Toda la interfaz está en **español**.  
+
+### Formatos de fecha
+- las fechas siempre en todas las vistas se mostrar con el formato DD/MM/AAA
+
+### Forma de placa
+- Las placas en todas las vistas se veran con el fomato ABC123 y se ara conversión automática a mayúsculas. 
+
+### Usuario
+- El sisitema tendra un unico usuario con total accesos a todas la funcionalidades del sistema 
+
 
