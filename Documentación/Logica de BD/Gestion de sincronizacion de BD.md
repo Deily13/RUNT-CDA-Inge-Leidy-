@@ -131,3 +131,5 @@
 - Al encender, CatchUp detecta ejecuciones perdidas
 - Las ejecuta en orden cronológico
 - Resultados se sincronizan al otro dispositivo 
+
+
