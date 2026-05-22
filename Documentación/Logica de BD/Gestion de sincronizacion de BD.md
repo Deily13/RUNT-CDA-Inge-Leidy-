@@ -20,6 +20,30 @@
 - **Problema:** Si el Dispositivo A sufre un corte eléctrico u otro imprevisto, el Dispositivo B debe seguir trabajando con normalidad.
 - **Solución:** Cada dispositivo tiene su propia instancia completa:  
 
+```mermaid
+sequenceDiagram
+    participant A as Dispositivo A
+    participant B as Dispositivo B
+    A->>A: Guarda cambio en PostgreSQL
+    A->>A: Registra en sync_log
+    A->>B: Scheduler envía cambios cada 10s
+    B->>B: Aplica cambios en PostgreSQL
+    B->>B: Angular actualiza en tiempo real
+    B->>A: Marca sync_log como sincronizado
+```
+
+Flujo de sincronización
+──────────────────────────────
+[Usuario A]
+│
+▼
+[Spring Boot A] → [PostgreSQL A]
+│
+▼
+[sync_log A] ── Scheduler cada 10s ──► [sync_log B]
+│
+▼
+[PostgreSQL B] → [Angular B]
 
 
 - **Costo:** Ninguno adicional
