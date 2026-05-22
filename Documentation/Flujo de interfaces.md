@@ -1,3 +1,6 @@
+# Flujo de interfaces desde acceso directo
+
+
 ```mermaid
 flowchart TD
     V1["VISTA 1 — Inicio de sesión"] --> V2["VISTA 2 — Pantalla principal"]
