@@ -39,7 +39,7 @@ Su objetivo principal es ofrecer un acceso rápido y organizado a las operacione
 ### Funciones técnicas
 
 - **Navegación principal:** Proporciona botones destacados para acceder a las funciones críticas: búsqueda, creación de registros, visualización de reportes mensuales y gestión de registros pendientes.
-- **Menú desplegable:** Ofrece un listado completo de opciones adicionales como inicio, guardado rápido y cierre de sesión, asegurando redundancia en la navegación.
+- **Menú desplegable:** Ofrece un listado completo de opciones adicionales como inicio, guardado rápido, ver reporte de mes, registros pendientes, RUNT, SOAT previsora y cierre de sesión, asegurando redundancia en la navegación.
 - **Gestión de sesión:** Incluye un botón de cierre de sesión en la esquina superior derecha, reforzando el control de acceso y la seguridad.
 - **Jerarquía visual:** Los elementos están organizados en un esquema que prioriza las acciones más utilizadas mediante botones centrales grandes y accesibles.
 
@@ -536,7 +536,7 @@ Se activa al presionar el menú hamburguesa.
 ### Formatos de fecha
 - las fechas siempre en todas las vistas se mostrar con el formato DD/MM/AAA
 
-### Forma de placa
+### Formato de placa
 - Las placas en todas las vistas se veran con el fomato ABC123 y se ara conversión automática a mayúsculas. 
 
 ### Usuario
