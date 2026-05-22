@@ -32,19 +32,6 @@ sequenceDiagram
     B->>A: Marca sync_log como sincronizado
 ```
 
-Flujo de sincronización
-──────────────────────────────
-[Usuario A]
-│
-▼
-[Spring Boot A] → [PostgreSQL A]
-│
-▼
-[sync_log A] ── Scheduler cada 10s ──► [sync_log B]
-│
-▼
-[PostgreSQL B] → [Angular B]
-
 
 - **Costo:** Ninguno adicional
 - **Complejidad:** 🟡 Media
