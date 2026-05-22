@@ -543,3 +543,14 @@ Se activa al presionar el menú hamburguesa.
 - El sisitema tendra un unico usuario con total accesos a todas la funcionalidades del sistema 
 
 
+
+VISTA 1 — Pantalla de inicio de sesión, 
+VISTA 2 — Pantalla principal del sistema, 
+VISTA 3 — Panel principal (Búsqueda y Filtros),
+VISTA 4 — Formulario de nuevo registro, 
+VISTA 5 — Guardado Rápido, 
+VISTA 6 — Formulario de actualización, 
+VISTA 7 — Formulario de actualización de registro incompleto, 
+VISTA 8 — Panel de gestionar placas, 
+VISTA 9 — Panel de vista previa de reporte mensual antes de descarga,  
+VISTA 10 — Panel de registros pendientes por completar
