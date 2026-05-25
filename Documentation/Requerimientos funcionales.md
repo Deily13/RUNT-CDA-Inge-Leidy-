@@ -39,6 +39,8 @@ Los requerimientos funcionales describen las capacidades y comportamientos espec
 | RF-01.2 | La autenticación debe realizarse mediante **JWT (JSON Web Token)**. |
 | RF-01.3 | El token JWT debe presentarse en **cada solicitud** realizada al sistema. |
 | RF-01.4 | El sistema **no debe** exponer un rol de acceso público ni de solo lectura. |
+| RF-01.5 | La vista de inicio de sesión debe mostrar mensajes claros cuando las credenciales sean inválidas. |
+| RF-01.6 | Todo intento de acceso debe ser registrado en un log de auditoría. |
 
 ---
 
@@ -50,6 +52,7 @@ Los requerimientos funcionales describen las capacidades y comportamientos espec
 | RF-02.2 | El sistema debe permitir **actualizar** los campos permitidos de un registro existente, previa validación. |
 | RF-02.3 | El sistema debe permitir **eliminar** un registro, solicitando confirmación previa obligatoria antes de ejecutar la acción. |
 | RF-02.4 | El sistema debe permitir **generar reportes** de vehículos con periodicidad mensual. |
+| RF-02.5 | El sistema debe permitir un **guardado rápido provisional** (Vista 5), con validación mínima y respaldo fotográfico. |
 
 ---
 
@@ -132,6 +135,8 @@ Todos los campos son obligatorios. El sistema debe validar en tiempo real que ca
 | RF-08.12 | **Nombre del propietario** | Solo caracteres alfabéticos. Se guarda en mayúsculas. |
 | RF-08.13 | **Teléfono 1** | Numérico. Exactamente 10 dígitos. |
 | RF-08.14 | **Teléfono 2** | Numérico. Exactamente 10 dígitos. |
+| RF-08.15 | Validación previa obligatoria de placa antes de ingreso. |
+| RF-08.16 | Botón adicional “Rectificar en RUNT” para verificación externa. |
 
 ---
 
@@ -148,6 +153,8 @@ La vista de actualización muestra todos los campos del registro, pero únicamen
 | RF-09.5 | **Teléfono 1 y Teléfono 2** | Máximo 10 caracteres numéricos cada uno. |
 | RF-09.6 | **Estado** | Seleccionable mediante menú desplegable, respetando las reglas de transición definidas en RF-04. |
 | RF-09.7 | **Validación previa al envío** | El sistema debe validar que todos los campos editables estén correctamente diligenciados antes de permitir el envío. |
+| RF-09.8 | En Vista 7, la placa debe ser campo bloqueado. |
+| RF-09.9 | Validación dinámica en tiempo real con mensajes informativos. |
 
 ---
 
@@ -161,6 +168,7 @@ La vista de actualización muestra todos los campos del registro, pero únicamen
 | RF-10.4 | Al finalizar exitosamente la inserción de un nuevo registro, el sistema debe mostrar un mensaje de confirmación de creación. |
 | RF-10.5 | Tras la confirmación, el sistema debe preguntar al ingeniero si desea reportar el registro en ese momento. |
 | RF-10.6 | Si el ingeniero acepta reportar, el sistema debe presentar el formulario de reporte con el campo **Fecha de reporte** (calendario, sin superar la fecha actual). |
+| RF-10.7 | La fotografía debe mostrarse en la interfaz como respaldo documental (Vista 7). |
 
 ---
 
@@ -172,6 +180,8 @@ La vista de actualización muestra todos los campos del registro, pero únicamen
 | RF-11.2 | El ingeniero debe poder previsualizar el contenido del reporte antes de descargarlo. |
 | RF-11.3 | Un registro en estado `Ingresado` con estado de completitud `Incompleto` **no debe aparecer** en el reporte mensual. |
 | RF-11.4 | El reporte debe contener las siguientes columnas en el orden definido: `Fecha_Reporte`, `Fecha_Ingreso`, `Placa`, `Categoría`, `Marca`, `Tipo_Cliente`, `Nombre`, `Proveniencia`, `Documento`, `Teléfono`, `Descuento`. |
+| RF-11.5 | Mostrar vista previa del reporte mensual (Vista 9). |
+| RF-11.6 | Si no existe reporte, mostrar modal informativo. |
 
 ---
 
