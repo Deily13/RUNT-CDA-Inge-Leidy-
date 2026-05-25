@@ -39,7 +39,7 @@ Su objetivo principal es ofrecer un acceso rápido y organizado a las operacione
 ### Funciones técnicas
 
 - **Navegación principal:** Proporciona botones destacados para acceder a las funciones críticas: búsqueda, creación de registros, visualización de reportes mensuales y gestión de registros pendientes.
-- **Menú desplegable:** Ofrece un listado completo de opciones adicionales como inicio, guardado rápido, ver reporte de mes, registros pendientes, RUNT, SOAT previsora y cierre de sesión, asegurando redundancia en la navegación.
+- **Menú desplegable lateral izquirdo:** Ofrece un listado completo de opciones adicionales como inicio, buscar, nuevo registro, guardado rápido, gestionar placa, actualizar placa,  ver reporte de mes, registros pendientes, RUNT, SOAT previsora y cierrar de sesión, asegurando redundancia en la navegación.
 - **Gestión de sesión:** Incluye un botón de cierre de sesión en la esquina superior derecha, reforzando el control de acceso y la seguridad.
 - **Jerarquía visual:** Los elementos están organizados en un esquema que prioriza las acciones más utilizadas mediante botones centrales grandes y accesibles.
 
@@ -48,7 +48,7 @@ Su objetivo principal es ofrecer un acceso rápido y organizado a las operacione
 La pantalla se organiza en tres secciones principales:
 
 - **Barra superior:**
-  - Menú desplegable (ícono de tres líneas) con opciones: Inicio, Buscar, Nuevo Registro, Guardado Rápido, Ver Reporte de Mes, Registros Pendientes y Cerrar Sesión.
+  - Menú desplegable (ícono de tres líneas - Menu hamburguesa) con opciones: inicio, buscar, nuevo registro, guardado rápido, gestionar placa, actualizar placa,  ver reporte de mes, registros pendientes, RUNT, SOAT previsora y cierrar de sesión.
   - Botón de **Cerrar Sesión** con ícono de flecha en la esquina superior derecha.  
     Fondo: degradado azul oscuro (#0B0E14 → #191C22).  
     Texto: tipografía clara, FFFFFF-100%.
@@ -65,7 +65,7 @@ La pantalla se organiza en tres secciones principales:
 
 - **Fondo general:**  
   Degradado azul oscuro con transición suave, aportando contraste y jerarquía visual.  
-  Paleta: 0B0E14-100% / 191C22-80%.
+  Paleta: #0B0E14-100% / #191C22-80%.
 ---
 
 
@@ -88,13 +88,16 @@ Esta vista permitirá realizar búsquedas y consultar registros específicos exi
 
 La pantalla se divide en tres secciones principales:
 
-- **Botones de acción (esquina superior derecha):**
+- **Botones de acción:**
   - "Menu" → Icono de menu color blanco ubicado en la esquina superior izquierda
   - "Inicio" → botón sin relleno, texto blanco, borde blanco sólido, redondeado 8 puntos
   - "Cerrar sesión" → botón sin relleno, texto blanco, borde blanco sólido, redondeado 8 puntos
-  - Inicio y Cerrar sesion i¿ubicados esquina superior derecha
+  - Inicio y Cerrar sesion ubicados esquina superior derecha
 
 - **Sección superior panel de criterios de búsqueda:**
+- Esta seccion esta contenida en una targeta de bordes redondeados, color 0F172A intensidad 65%, contotno blanco intensidad 12.5%.
+- La parte superior de esta seccion se enuncia con un icono de filtrado y un titulo con el siguiente texto Filtros de Búsqueda, en color #39FF14 en negrita, alineados a la izquierda, solo iniciales mayusculas
+
 
 | Filtro               | Control            | Restricciones                          | Placeholder        |
 |----------------------|-------------------|----------------------------------------|--------------------|
@@ -106,18 +109,25 @@ La pantalla se divide en tres secciones principales:
 | **Tipo de documento** | Menú desplegable   | Cédula de ciudadanía o NIT.           | Tipo de documento  |
 | **Estado**           | Menú con checkboxes| Permite seleccionar múltiples estados.| Seleccione estados |
 
+
 - **Sección inferior resultado de búsqueda:**
-  - Tabla vacía sobre tarjeta blanca con encabezado negro.
+- Esta seccion esta contenida en una targeta de bordes redondeados, color 0F172A intensidad 65%, contotno blanco intensidad 12.5%.
+- Tabla vacía sobre tarjeta blanca con encabezado negro.
   - Columnas: Fecha inicio vigencia, Fecha fin vigencia, Placa, Estado, Documento, Tipo de documento, Categoría, Línea, Nombre del propietario, Teléfono 1, Acciones.
   - Columna de acciones con íconos:  
     ✏️ Actualizar → ícono verde  
     🔄 Gestionar → ícono azul  
-    🗑️ Eliminar → ícono rojo (única excepción en la paleta)
+    🗑️ Eliminar → ícono rojo 
   - En la esquina inferior derecha de la tabla debe estar el paginador para navegar entre los resultados.
-  - En paginador mostrar por defecto de a 1o registros por cada consulta, tendra boton de avanzar y retrocederque se activaran de acuerdo a la cantidad de registros.
+  - En paginador mostrar por defecto de a 10 registros por cada consulta, tendra boton de avanzar y retrocederque se activaran de acuerdo a la cantidad de registros.
 
 - En caso tal de que no ayan resultados de la consulta se muestre un mensaje tipo modal indicando que no hay resultado en esa consulta
-en texto mas pequeño sugerir hacer otra consulta
+en texto más pequeño sugerir hacer otra consulta
+- En caso tal de que se quiera eliminar un registro se motrara un mensaje tipo modal consultado si esta seguro de eliminar el registro en cuestion,
+el fondo debe ser de color #0F172A intensidad 72%, borde blanco intensidad 8%, debe tener un icono de advertencia color rojo, 
+debajo un texto que haga la pregunta y en letra mas pequeña un mensaje que indique que los cambios seran permanentes
+dejádo de esos mensajes deben de estar dos botones alineado horizontalmenteun debe decir cancelar, de color blanco con bordes redondeados, texto negro en negrita,
+el otro boton debe ser color rojo degradado lineal vertical, #4B0606 - #FA0000, bordes redondeados, texto color blanco en negrita
 ---
 ## VISTA 4 — Formulario de nuevo registro
 
@@ -130,14 +140,18 @@ La vista de **nuevo registro** permite ingresar datos completos de un vehículo 
 ### Interfaz estructurada
 La pantalla se divide en tres secciones principales:
 
-- **Botones de acción (esquina superior derecha):**  
-  Igual que en la Vista 2.
+- **Botones de acción (esquina superior derecha e izquierda):**  
+  Igual que en la Vista 2. 
 
 - **Sección superior panel de criterios de búsqueda:**  
   Antes de ingresar cualquier nuevo registro se validará mediante la placa si este ya existe, para evitar duplicados.
+- - Rectagulo con bordes obalados casi de extremo a  extremo de la pantalla horizontalmente dejando un margin razonable a los extremos derecho he izquierdo para mantener la armonia visual
+- - En el interior izquierdo del rectangulo texto en negrita color #39FF14 que diga: Verifica si la placa ya existe
+- - Seguido del texto un Input con relleno #000000 e intensidad 30%, borde #FFFFFF - intesidad 54%
+- - Extremos derechos iconos de limpiar filtro (Una X blanca) y buscar (Una lupa color #34D399)
 
 - **Sección inferior formulario para nuevo registro:**  
-  Página blanca con formulario centrado en una tarjeta con barra de título negra e indicadores de campo obligatorio (*).  
+  Targeta #0F172A intensidad 72%, borde blanco intensidad de 12% con formulario centrado con indicadores de campo obligatorio (*).  
   Todos los campos son obligatorios:
   - Fecha inicio vigencia → selector de fecha (no puede superar la fecha actual).
   - Fecha fin vigencia → calculada automáticamente (inicio + 365 días).
@@ -146,15 +160,17 @@ La pantalla se divide en tres secciones principales:
   - Documento → solo numérico.
   - Tipo de documento → desplegable: "Cédula de ciudadanía" / "NIT".
   - Categoría → menú desplegable.
+  - Marca → El texto independientemente de como se escriba se mostrar en mayuscula
   - Línea → alfanumérico en mayúsculas, formato [Marca]línea.
   - Nombre del propietario → solo caracteres alfabéticos, en mayúsculas.
   - Teléfono 1 → exactamente 10 dígitos numéricos.
   - Teléfono 2 → exactamente 10 dígitos numéricos.
 
 Pie de formulario:
-+ Botón verde degradado "Guardar" (alineado a la derecha), degradado 00DBE9 y 39FF14.
++ Botón verde degradado "Guardar" (alineado a la derecha), degradado 00DBE9 y 39FF14, Campos inválidos resaltados en rojo. Sin redirección.
 + Botón con borde blanco con intensidad de 8%, relleno blanco con intensidad 3% "Cancelar".
 + Botón provisional, borde 00DBE9 sin relleno.
++ Botón Rectificar en RUNT, borde blanco, esquinas redondeadas, relleno degradado linear vertical 02098D y 010227, texto blanco 
 
 ---
 
@@ -248,9 +264,15 @@ La vista de **actualización** permite editar registros existentes con campos mo
 
 ### Interfaz estructurada
   Mismo diseño que la Vista 4.  
-- **Campos editables:** Resaltados con borde verde.
-- **Campos de solo lectura:** Fondo gris claro (#F3F4F6).
-- **Pie de formulario:** Botón Guardar cambios (relleno degradado #00DBE9 y #39FF14.) y Cancelar (borde blanco).
+- **Campos editables:** Estetica normal.
+- - Fecha Inicio Vencimiento, Fecha Fin vencimiento, Estado, Tipo Documento, Telefono 1, Telefono 2, Nombre de propietario
+- **Campos de solo lectura:** Fondo gris claro (#F3F4F6) sin permitir edicion.
+- - Placa, Marca, Modelo, Linéa, Categoria 
+- **Pie de formulario:**
+- - Botón Guardar cambios (relleno degradado #00DBE9 y #39FF14.) 
+- - Cancelar (borde blanco) sin relleno.
+- - Botón Rectificar en RUNT, borde blanco, esquinas redondeadas, relleno degradado linear vertical 02098D y 010227, texto blanco
+
 
 
 ---
@@ -275,7 +297,8 @@ La pantalla se divide en dos columnas:
 - **Formulario de datos (izquierda):** campos de vehículo y propietario.
 - **Sección gráfica (derecha):** fotografía de la tarjeta de propiedad.
 - **Botón principal:** “Actualizar” con degradado **00DBE9 → 39FF14**, resaltado para acción principal.
-- **Botón inferior** "Cancelar" borde blanco con intensidad de 8%, relleno blanco con intensidad 3%.
+- **Botón Cancelar**  borde blanco con intensidad de 8%, relleno blanco con intensidad 3%.
+- **Botón Rectificar en RUNT**, borde blanco, esquinas redondeadas, relleno degradado linear vertical 02098D y 010227, texto blanco
 - **Navegación superior:** botones “Menu” y “Cerrar Sesión” para control rápido del sistema.
 
 ### Tabla de Campos y Características
@@ -298,7 +321,8 @@ La pantalla se divide en dos columnas:
 | Teléfono 2                      | Numérico             | Opcional                              | Contacto alternativo                                                                                  | Ingrese teléfono            |
 | Fotografía tarjeta de propiedad | Upload / Drag & Drop | Formato JPG/PNG, tamaño máximo        | Respaldo documental obligatorio si faltan otros campos                                                | Suba imagen de tarjeta      |
 | Botón Actualizar                | Acción principal     | Activo solo si validaciones pasan     | Cambia el estado de completitud del registro y guarda los nuevos datos en sus tablas correspondientes | —                           |
-| Botón Cnacelar                  | Acción segundaria    | Descarta todos los cambios hechos     | Los datos no cambian                                                                                  | —                           |
+| Botón Cancelar                  | Acción segundaria    | Descarta todos los cambios hechos     | Los datos no cambian                                                                                  | —                           |
+| Botón Rectificar en RUNT        | Acción segundaria    | Abre otra pestaña con el RUNT         | Los datos no cambian                                                                                  | —                           |
 
 ---
 
@@ -306,29 +330,85 @@ La pantalla se divide en dos columnas:
 La vista de **gestión de placas** permite enviar recordatorios y administrar reportes asociados a vehículos.
 
 ### Funciones técnicas
-- **Mensajes informativos:** Recordatorios estilo chat.
+- **Mensajes informativos:** Recordatorios estílo chat.
 - **Registro de información:** Datos completos del vehículo.
 - **Reportes:** Placa e ingreso con selector de fecha.
 - **Acciones de declinado:** Comentar o eliminar.  
 
 ### Interfaz estructurada
-Tres secciones claramente separadas:
+Cuatro secciones claramente separadas:
 
-1. **Mensaje** — Burbuja estilo WhatsApp (fondo oscuro #0F172A 60%, texto blanco, esquinas redondeadas).  
+1. **Sección superior panel de criterios de búsqueda:**  
+  Antes de ingresar cualquier nuevo registro se validará mediante la placa para agilizar el proceso.
+- - Rectagulo con bordes obalados casi de extremo a extremo de la pantalla dejando un margin razonable a los extremos derecho he izquierdo para mantener la armonia visual
+- - En el interior izquierdo del rectangulo texto en negrita color #39FF14 que diga:Escribe la placa que deseas gestionar
+- - Seguido del texto un Input con relleno #000000 e intensidad 30%, borde #FFFFFF - intesidad 54%
+- - Extremos derechos iconos de limpiar filtro (Una X blanca) y buscar (Una lupa color #34D399)
+
+2. **Mensaje** — Burbuja estilo WhatsApp (fondo oscuro #0F172A 60%, texto blanco, esquinas redondeadas).  
    Contenido dinámico según el registro.  
-   Botón "Copiar mensaje" → borde verde, fondo blanco.
+- Contenido base, el contenido que se encuentre en [] séra el dinamico:
+Hola, soy la Ingeniera Leidy Pisco de CDA Llano Verde Tecno-Mecanica.
+Queremos recordarte que la Revisión Técnico-Mécanica de tú vehicúlo de placa [Placa]
+vence el [Fecha Fin].
 
-2. **Información de registro** — Tarjeta compacta con listado de datos del vehículo.
+🚗 Tarifas CDA LLANO VERDE
 
-3. **Acciones de reportar registro e ingreso** — Tarjeta compacta:
+- ✅ Vehículo particular: **$320.000**
+- ✅ Vehículo público: **$317.500**
+- ✅ Moto: **$220.000**
+ 
+📅 Horarios
+- Lunes a viernes: **7 am – 7 pm**
+- Sábados: **8 am – 5 pm**
+- Domingos y festivos: **8 am – 1 pm**
+
+📍 Dirección
+Carrera 33 # 23 – 57  
+Barrio San Benito, Villavicencio, Meta 500004
+
+ ⚠️ ¡No lo dejes para última hora!
+Ven a **CDA LLANO VERDE** y realiza tu revisión con nosotros.
+-   Botón "Copiar mensaje" → borde verde, fondo blanco.
+
+- Debajo de este mensaje hay oto mensaje burbuja estilo WhatsApp (fondo oscuro #0F172A 60%, texto blanco, esquinas redondeadas).
+Contenido del mensaje:
+
+ ⚠️ Importante
+📞 Llama antes de ingresar al CDA y obtén tu **descuento especial**
+✅ Descuentos
+- 🚗 *Carro:* **$295.000**
+- 🏍️ *Moto:* **$190.000**
+-   Botón "Copiar mensaje" → borde verde, fondo blanco.
+
+3. **Información de registro** — Tarjeta compacta con listado de datos del vehículo (lado derecho de la pantalla). Fondo #10131A intensidad 60%, borde blanco intensidad 36%, texto blanco.
+- Estado
+- Placa (en negrita y su tamaño más grande que el resto del texto),
+- Propietio
+- Tipo documento
+- Documento (doble salto de linéa aquí)
+- Vencimiento
+- Categoria
+- Linea
+- Modelo(doble salto de linéa aquí)
+- Telefonos
+- Comentario
+
+4. **Acciones de reportar registro e ingreso** — Tarjeta compacta Fondo #10131A intensidad 60%, borde blanco intensidad 8% debajo de información de registro:
   - Reportar placa: selector de fecha, menú desplegable (Tipo de cliente).
+  - - Título: Reportar placa, color #39FF14 en mayuscula y negrita
+  - - Campos: Fecha reporte, Procedencia (Selección)
+  - - Botón "Guardar reporte" con degradado **00DBE9 → 39FF14**, texto negro.
   - Reportar ingreso: selector de fecha.
-  - Botón "Guardar reporte".
+  - - Titulo: Reportar ingreso,  color #14A5FF en mayuscula y negrita
+  - - Campos: Fecha ingreso (Selección), Precio (Selección)
+  - - Botón "Guardar reporte" con degradado **00DBE9 → 39FF14**, texto negro.
 
 - **Declinado** — Tarjeta de confirmación con 2 botones:
   - "Comentario" → boton amarillo #FFCD29 88%
   - "Eliminar" → botón rojo #FFB4AB 89%
 ---
+
 
 
 ### VISTA 9 — Panel de vista previa de reporte mensual antes de descarga
@@ -384,7 +464,7 @@ La vista de **registros pendientes** muestra aquellos trámites de registro que 
 
 2. **Tabla de registros incompletos**
   - Encabezado: “Registros Incompletos”.
-  - Paginación inferior con indicador de resultados: *“Mostrando 1 a 10 de 124 resultados”*.
+  - Paginación inferior con indicador de resultados: *“Mostrando 1 a 10 de la cantidad total de resultados”*.
   - Columnas con datos específicos y acciones.
 
 
@@ -392,7 +472,7 @@ La vista de **registros pendientes** muestra aquellos trámites de registro que 
 |----|---------------|---------------------------------------------------------------------------|
 | 1  | `Placa`       | Placa del vehículo (en mayúsculas).                                       |
 | 2  | `Teléfono`    | Número de contacto registrado.                                            |
-| 3  | `Estado`      | Estado del registro con indicador de color:<br> - **Reportado** (amarillo)<br> - **Rechazado** (rojo)<br> - **Inédito** (gris). |
+| 3  | `Estado`      | Estado del registro con indicador de color                                |
 | 4  | `Procedencia` | Origen del registro: Taller o Cliente.                                    |
 | 5  | `Acciones`    | Iconos de acción:<br> - **Editar** (lápiz)<br> - **Eliminar** (papelera). |
 
@@ -524,7 +604,7 @@ Se activa al presionar el menú hamburguesa.
 | **Actualizado** | `#10B981`       | **Verde positivo** → indica que el registro fue actualizado. |
 | **Declinado**| `#B129FF`       | **Purpura** → rechazo formal, menos crítico que vencido.     |
 
-### Opcines plegables 
+### Opcines desplegables 
 - **Categoria** valores: Motocicleta, Automóvil, Campero, Motocarguero, Camioneta, Camión, Bus, Microbús, Tractocamión, Volqueta.
 - **Estado** valores:  Inedito, Vencido, Reportado, Ingresado, Actualizado, Declinado
 - **Modelo** valore: valores de los años desde el 2010 hasta el año actual + 1
