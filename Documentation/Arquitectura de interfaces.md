@@ -404,12 +404,12 @@ Contenido del mensaje:
   - - Campos: Fecha ingreso (Selección), Precio (Selección)
   - - Botón "Guardar reporte" con degradado **00DBE9 → 39FF14**, texto negro.
 
-- **Declinado** — Tarjeta de confirmación con 2 botones:
-  - "Comentario" → boton amarillo #FFCD29 88%
-  - "Eliminar" → botón rojo #FFB4AB 89%
+- **Declinado** — con 2 botones debajo de la seccion de reportar ingreso:
+  - Titúlo de seccion: Gestionar declinado, en mayuscula y negrita, color #F82208  
+  - "Comentario" → boton  borde amarillo #FFCD29 88% sin relleno
+  - "Eliminar" → botón borde rojo #FFB4AB 89% sin relleno
+  
 ---
-
-
 
 ### VISTA 9 — Panel de vista previa de reporte mensual antes de descarga
 
@@ -438,7 +438,7 @@ La vista de **reporte mensual** muestra resultados antes de la descarga.
 | 10 | `Teléfono`      | Teléfono de contacto registrado.                     |
 | 11 | `Descuento`     | Descuento aplicado, si corresponde.                  |
 
-- En caso tal de que no ayan resultados de la consulta se muestre un mensaje en el espacio que se encontraria la tabla diciendo: aun no se ha generado reporte de este mes
+- En caso tal de que no ayan resultados de la consulta se muestre un mensaje tipo modal en el espacio que se encontraria la tabla diciendo: aun no se ha generado reporte de este mes
 el texto debe ser grande el color blaco de manera se vea armoniosa
 
 ----
