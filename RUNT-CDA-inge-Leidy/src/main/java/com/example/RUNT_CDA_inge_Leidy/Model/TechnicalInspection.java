@@ -3,6 +3,7 @@ package com.example.RUNT_CDA_inge_Leidy.Model;
 
 import com.example.RUNT_CDA_inge_Leidy.Model.Enum.Origin;
 import com.example.RUNT_CDA_inge_Leidy.Model.Enum.RtmStatus;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;

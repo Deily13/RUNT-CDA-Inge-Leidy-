@@ -2,10 +2,12 @@ package com.example.RUNT_CDA_inge_Leidy.Model;
 
 import com.example.RUNT_CDA_inge_Leidy.Model.Enum.Origin;
 import com.example.RUNT_CDA_inge_Leidy.Model.Enum.RtmStatus;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

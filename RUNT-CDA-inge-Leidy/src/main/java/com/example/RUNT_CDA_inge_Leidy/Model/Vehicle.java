@@ -1,6 +1,7 @@
 package com.example.RUNT_CDA_inge_Leidy.Model;
 
 import com.example.RUNT_CDA_inge_Leidy.Model.Enum.VehicleCategory;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
