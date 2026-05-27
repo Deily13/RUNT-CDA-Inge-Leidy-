@@ -12,7 +12,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "Quick_Record")
 @Table(name = "quick_record")
 @Getter
 @Setter
@@ -27,7 +27,7 @@ public class QuickRecord {
   @JoinColumn(name = "plate", nullable = false)
   private Vehicle vehicle;
 
-  @Column(name = "phone", length = 10)
+  @Column(name = "phone", columnDefinition = "bpchar")
   @Pattern(regexp = "^\\d{10}$", message = "El teléfono debe tener exactamente 10 dígitos")
   private String phone;
 

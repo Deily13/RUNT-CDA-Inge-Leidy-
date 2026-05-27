@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
-@Entity
+@Entity(name = "Owner")
 @Table(name = "owner")
 @Getter
 @Setter
@@ -32,11 +32,11 @@ public class Owner {
     message = "El nombre sólo puede contener letras y espacios")
   private String fullName;
 
-  @Column(name = "phone1", nullable = false, length = 10)
+  @Column(name = "phone1", columnDefinition = "bpchar", nullable = false)
   @Pattern(regexp = "^\\d{10}$", message = "phone1 debe tener exactamente 10 dígitos")
   private String phone1;
 
-  @Column(name = "phone2", length = 10)
-  @Pattern(regexp = "^\\d{10}$", message = "phone2 debe tener exactamente 10 dígitos")
+  @Column(name = "phone2", columnDefinition = "bpchar")  @Pattern(regexp = "^\\d{10}$", message = "phone2 debe tener exactamente 10 dígitos")
   private String phone2;
+
 }

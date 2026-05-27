@@ -7,14 +7,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
+@Entity(name = "Vehicle")
 @Table(name = "vehicle")
 @Getter
 @Setter
 @NoArgsConstructor
 public class Vehicle {
   @Id
-  @Column(name = "plate", length = 6, nullable = false)
+  @Column(name = "plate", columnDefinition = "bpchar", nullable = false)
   private String plate;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -29,7 +29,7 @@ public class Vehicle {
   @Column(name = "brand", length = 15)
   private String brand;
 
-  @Column(name = "model_year", length = 4)
+  @Column(name = "model_year", columnDefinition = "bpchar")
   @Pattern(regexp = "^\\d{4}$", message = "El año debe tener exactamente 4 dígitos")
   private String modelYear;
 

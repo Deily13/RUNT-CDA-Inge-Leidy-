@@ -15,7 +15,7 @@ import java.time.LocalDate;
 
 
 
-@Entity
+@Entity(name = "Technical_Inspection")
 @Table(
   name = "technical_inspection",
   indexes = {
