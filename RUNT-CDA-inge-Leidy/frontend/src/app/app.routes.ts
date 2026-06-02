@@ -17,6 +17,13 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./components/tabla-registro/tabla-registro.component')
                         .then(m => m.TablaRegistroComponent)
+            },
+            {
+                path: 'panel-busqueda',
+                loadComponent: () =>
+                    import('./components/panel-busqueda/panel-busqueda.component')
+                        .then(m => m.PanelBusquedaComponent)
+
             }
         ]
     },
