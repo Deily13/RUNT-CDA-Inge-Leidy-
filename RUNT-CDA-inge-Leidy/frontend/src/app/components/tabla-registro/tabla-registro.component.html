@@ -1,0 +1,141 @@
+<div class="card" *ngIf="allRecords.length > 0">
+
+    <div class="card-header">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <path d="M3 9h18M3 15h18M9 3v18" />
+        </svg>
+        <h2>Registros Consultados</h2>
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Placa</th>
+                    <th>Estado</th>
+                    <th>Documento</th>
+                    <th>Tipo Doc.</th>
+                    <th>Categoría</th>
+                    <th>Línea</th>
+                    <th>Propietario</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let r of pagedRecords">
+                    <td>{{ r.fechaInicio }}</td>
+                    <td>{{ r.fechaFin }}</td>
+
+                    <td>
+                        <span class="plate">
+                            {{ r.placa.split(' ')[0] }}<br>{{ r.placa.split(' ')[1] }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="badge" [ngStyle]="getStatusStyle(r.estado)">
+                            <span class="badge-dot" [ngStyle]="{ backgroundColor: getStatusDotColor(r.estado),
+                                 boxShadow: '0 0 5px ' + getStatusDotColor(r.estado) }">
+                            </span>
+                            {{ getStatusLabel(r.estado) }}
+                        </span>
+                    </td>
+
+                    <td>{{ r.documento }}</td>
+                    <td>{{ r.tipoDoc }}</td>
+                    <td>{{ r.categoria }}</td>
+                    <td>{{ r.linea }}</td>
+                    <td><span class="owner-name">{{ r.propietario }}</span></td>
+
+
+                    <td>
+                        <div class="actions">
+                            <button class="btn-action btn-edit" title="Editar" (click)="handleEdit(r.id)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                </svg>
+                            </button>
+                            <button class="btn-action btn-manage" title="Gestionar" (click)="handleManage(r.id)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                                </svg>
+                            </button>
+                            <button class="btn-action btn-delete" title="Eliminar" (click)="openDeleteModal(r.id)">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6" />
+                                    <path d="M19 6l-1 14H6L5 6" />
+                                    <path d="M10 11v6" />
+                                    <path d="M14 11v6" />
+                                    <path d="M9 6V4h6v2" />
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination-bar">
+        <span class="pagination-info">{{ paginationInfo }}</span>
+        <div class="pagination-controls">
+            <button class="page-btn" [disabled]="currentPage === 1" (click)="goPage(currentPage - 1)">&#8249;</button>
+            <button class="page-btn" *ngFor="let p of visiblePages" [class.active]="p === currentPage"
+                (click)="goPage(p)">{{ p }}</button>
+            <button class="page-btn" [disabled]="currentPage === totalPages"
+                (click)="goPage(currentPage + 1)">&#8250;</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal-overlay" [class.show]="showModalEmpty" (click)="showModalEmpty = false">
+    <div class="modal modal-empty" (click)="$event.stopPropagation()">
+        <div class="modal-icon-empty">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+                <line x1="11" y1="8" x2="11" y2="12" />
+                <line x1="11" y1="16" x2="11.01" y2="16" />
+            </svg>
+        </div>
+        <p class="modal-title">Sin resultados</p>
+        <p class="modal-subtitle">
+            No se encontraron registros para la consulta realizada.<br>
+            Intente con otros criterios de búsqueda.
+        </p>
+        <button class="modal-close-btn" (click)="showModalEmpty = false">Cerrar</button>
+    </div>
+</div>
+
+
+<div class="modal-overlay" [class.show]="showModalDelete" (click)="cancelDelete()">
+    <div class="modal modal-delete" (click)="$event.stopPropagation()">
+        <div class="modal-icon-danger">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+        </div>
+        <p class="modal-delete-title">¿Eliminar este registro?</p>
+        <p class="modal-delete-sub">
+            Esta acción no se puede deshacer.<br>
+            Los cambios serán permanentes.
+        </p>
+        <div class="modal-actions">
+            <button class="btn-cancel" (click)="cancelDelete()">Cancelar</button>
+            <button class="btn-confirm-delete" (click)="confirmDelete()">Eliminar</button>
+        </div>
+    </div>
+</div>
