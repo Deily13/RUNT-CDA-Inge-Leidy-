@@ -24,6 +24,21 @@ export const routes: Routes = [
                     import('./components/panel-busqueda/panel-busqueda.component')
                         .then(m => m.PanelBusquedaComponent)
 
+
+            },
+            {
+                path: 'formulario-data/nuevo',
+                loadComponent: () =>
+                    import('./components/formulario-data/formulario-data.component')
+                        .then(m => m.FormularioDataComponent),
+                data: { mode: 'create' }
+            },
+            {
+                path: 'formulario-data/actualizar',
+                loadComponent: () =>
+                    import('./components/formulario-data/formulario-data.component')
+                        .then(m => m.FormularioDataComponent),
+                data: { mode: 'update' }
             }
         ]
     },
