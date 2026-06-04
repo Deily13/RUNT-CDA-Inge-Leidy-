@@ -39,7 +39,13 @@ export const routes: Routes = [
                     import('./components/formulario-data/formulario-data.component')
                         .then(m => m.FormularioDataComponent),
                 data: { mode: 'update' }
-            }
+            },
+            {
+                path: 'vista-principal',
+                loadComponent: () =>
+                    import('./components/vista-principal/vista-principal.component')
+                        .then(m => m.VistaPrincipal)
+            },
         ]
     },
     { path: '', redirectTo: 'login', pathMatch: 'full' }

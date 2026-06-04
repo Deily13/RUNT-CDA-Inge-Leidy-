@@ -17,8 +17,28 @@ export class Base {
   toggleDrawer() { this.isDrawerOpen = !this.isDrawerOpen; }
   closeDrawer() { this.isDrawerOpen = false; }
 
+  goHome() {
+    this.closeDrawer();
+    this.router.navigate(['/base/vista-principal']);
+  }
+
   logout() {
     this.closeDrawer();
     this.router.navigate(['/login']);
   }
+
+  onSearch() {
+    this.closeDrawer();
+    this.router.navigate(['/base/panel-busqueda']);
+  }
+
+  onNew() {
+    this.closeDrawer();
+    this.router.navigate(['/base/formulario-data/nuevo']);
+  }
+  onUpdate() {
+    this.closeDrawer();
+    this.router.navigate(['/base/formulario-data/actualizar']);
+  }
+
 }
