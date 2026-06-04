@@ -1,0 +1,87 @@
+ /* ─── Reset ─────────────────────────────────────────────── */
+ *,
+ *::before,
+ *::after {
+     box-sizing: border-box;
+     margin: 0;
+     padding: 0;
+ }
+
+ body {
+     font-family: 'Exo 2', sans-serif;
+     background: var(--bg-deep);
+     color: var(--text-primary);
+     min-height: 100vh;
+     overflow-x: hidden;
+ }
+
+ .bg-canvas {
+     position: fixed;
+     inset: 0;
+     z-index: 0;
+     overflow: hidden;
+ }
+
+ .bg-canvas::before {
+     content: '';
+     position: absolute;
+     inset: 0;
+     background:
+         radial-gradient(ellipse 90% 70% at 80% 110%, #00b4c8 0%, transparent 55%),
+         radial-gradient(ellipse 60% 60% at 10% 20%, #0a1a6e 0%, transparent 60%),
+         radial-gradient(ellipse 80% 50% at 50% 50%, #020d2e 0%, transparent 70%),
+         radial-gradient(ellipse 40% 40% at 70% 5%, #1a3aff 0%, transparent 50%);
+     animation: meshShift 18s ease-in-out infinite alternate;
+ }
+
+ .bg-canvas::after {
+     content: '';
+     position: absolute;
+     inset: 0;
+     background:
+         radial-gradient(ellipse 55% 45% at 85% 90%, rgba(0, 212, 255, 0.22) 0%, transparent 60%),
+         radial-gradient(ellipse 35% 55% at 5% 80%, rgba(10, 20, 100, 0.5) 0%, transparent 50%);
+     animation: meshShift2 22s ease-in-out infinite alternate;
+ }
+
+ .bg-vignette {
+     position: fixed;
+     inset: 0;
+     z-index: 1;
+     background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(2, 8, 24, 0.65) 100%);
+     pointer-events: none;
+ }
+
+ .bg-grain {
+     position: fixed;
+     inset: 0;
+     z-index: 2;
+     opacity: 0.04;
+     pointer-events: none;
+     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+     background-size: 180px 180px;
+ }
+
+ @keyframes meshShift {
+     0% {
+         transform: scale(1) rotate(0deg);
+     }
+
+     50% {
+         transform: scale(1.06) rotate(1.5deg);
+     }
+
+     100% {
+         transform: scale(1.03) rotate(-1deg);
+     }
+ }
+
+ @keyframes meshShift2 {
+     0% {
+         transform: scale(1.04) translateX(0);
+     }
+
+     100% {
+         transform: scale(1) translateX(-3%);
+     }
+ }
