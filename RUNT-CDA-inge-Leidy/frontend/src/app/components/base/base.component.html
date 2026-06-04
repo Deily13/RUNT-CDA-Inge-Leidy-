@@ -19,16 +19,15 @@
 
         <!-- Right actions -->
         <div class="nav-actions">
-            <a href="#" class="btn-nav" aria-label="Inicio">
-                <!-- Home icon -->
+            <button class="btn-nav" aria-label="Inicio" (click)="goHome()">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
                     <polyline points="9 22 9 12 15 12 15 22" />
                 </svg>
                 Inicio
-            </a>
-            <button class="btn-nav danger" id="logoutBtn" aria-label="Cerrar sesión">
+            </button>
+            <button class="btn-nav danger" id="logoutBtn" aria-label="Cerrar sesión" (click)="logout()">
                 <!-- Logout icon -->
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
@@ -55,7 +54,7 @@
 
             <!-- BÚSQUEDA -->
             <p class="menu-section">Consultas</p>
-            <a href="#buscar" class="menu-item" data-action="buscar">
+            <a class="menu-item" (click)=" onSearch()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="11" cy="11" r="8" />
@@ -68,7 +67,7 @@
 
             <!-- REGISTROS -->
             <p class="menu-section">Registros</p>
-            <a href="#nuevo-registro" class="menu-item" data-action="nuevo-registro">
+            <a class="menu-item" (click)="onNew()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
@@ -78,14 +77,14 @@
                 </svg>
                 Nuevo Registro
             </a>
-            <a href="#guardado-rapido" class="menu-item" data-action="guardado-rapido">
+            <a class="menu-item" (click)="onUpdate()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" />
                     <polyline points="17 21 17 13 7 13 7 21" />
                     <polyline points="7 3 7 8 15 8" />
                 </svg>
-                Guardado Rápido
+                Actualizar Registro
             </a>
             <a href="#registros-pendientes" class="menu-item" data-action="registros-pendientes">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -114,7 +113,7 @@
                     <polyline points="23 4 23 10 17 10" />
                     <path d="M20.49 15a9 9 0 11-2.12-9.36L23 10" />
                 </svg>
-                Actualizar Placa
+                Guardado Rapido
             </a>
 
             <div class="menu-divider"></div>
