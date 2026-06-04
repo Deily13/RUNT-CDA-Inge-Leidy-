@@ -19,6 +19,9 @@
             "browser": "src/main.ts",
             "outputPath": "../src/main/resources/static",
             "tsConfig": "tsconfig.app.json",
+            "polyfills": [
+              "zone.js"
+            ],
             "assets": [
               {
                 "glob": "**/*",
