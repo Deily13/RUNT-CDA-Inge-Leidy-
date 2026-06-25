@@ -23,6 +23,11 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleService.findAll());
     }
 
+  @GetMapping("/exists/{plate}")
+  public ResponseEntity<Boolean> existsByPlate(@PathVariable String plate) {
+    return ResponseEntity.ok(vehicleService.existsByPlate(plate));
+  }
+
     // GET /api/vehicles/{plate}
     @GetMapping("/{plate}")
     public ResponseEntity<VehicleDTO> getByPlate(@PathVariable String plate) {

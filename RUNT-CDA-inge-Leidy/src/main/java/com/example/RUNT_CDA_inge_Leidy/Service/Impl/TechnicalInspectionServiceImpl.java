@@ -1,9 +1,14 @@
 package com.example.RUNT_CDA_inge_Leidy.Service.Impl;
 
 import com.example.RUNT_CDA_inge_Leidy.DTO.TechnicalInspectionDTO;
+import com.example.RUNT_CDA_inge_Leidy.Model.Enum.DocumentType;
+import com.example.RUNT_CDA_inge_Leidy.Model.Enum.RtmStatus;
+import com.example.RUNT_CDA_inge_Leidy.Model.Enum.VehicleCategory;
 import com.example.RUNT_CDA_inge_Leidy.Model.TechnicalInspection;
 import com.example.RUNT_CDA_inge_Leidy.Model.Vehicle;
+import com.example.RUNT_CDA_inge_Leidy.Repository.OwnerRepository;
 import com.example.RUNT_CDA_inge_Leidy.Repository.TechnicalInspectionRepository;
+import com.example.RUNT_CDA_inge_Leidy.Repository.TechnicalInspectionSpecification;
 import com.example.RUNT_CDA_inge_Leidy.Repository.VehicleRepository;
 import com.example.RUNT_CDA_inge_Leidy.Service.TechnicalInspectionService;
 import jakarta.persistence.EntityNotFoundException;
@@ -11,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,8 +27,10 @@ public class TechnicalInspectionServiceImpl implements TechnicalInspectionServic
 
     private final TechnicalInspectionRepository inspectionRepository;
     private final VehicleRepository vehicleRepository;
+    private final OwnerRepository ownerRepository;
 
-    @Transactional(readOnly = true)
+
+  @Transactional(readOnly = true)
     public List<TechnicalInspectionDTO> findAll() {
         return inspectionRepository.findAll()
                 .stream()
@@ -83,13 +92,29 @@ public class TechnicalInspectionServiceImpl implements TechnicalInspectionServic
         return toDTO(inspectionRepository.save(inspection));
     }
 
-    @Transactional
-    public void delete(Integer id) {
-        if (!inspectionRepository.existsById(id)) {
-            throw new EntityNotFoundException("Inspección no encontrada con id: " + id);
-        }
-        inspectionRepository.deleteById(id);
+  @Transactional
+  public void delete(Integer id) {
+    TechnicalInspection inspection = inspectionRepository.findById(id)
+      .orElseThrow(() -> new EntityNotFoundException(
+        "Inspección no encontrada con id: " + id));
+
+    Vehicle vehicle = inspection.getVehicle();
+    String plate    = vehicle.getPlate();
+    Integer ownerId = vehicle.getOwner().getId();
+
+    inspectionRepository.delete(inspection);
+    inspectionRepository.flush();
+
+    if (inspectionRepository.countByVehiclePlate(plate) == 0) {
+
+      vehicleRepository.delete(vehicle);
+      vehicleRepository.flush();
+
+      if (vehicleRepository.countByOwnerId(ownerId) == 0) {
+        ownerRepository.deleteById(ownerId);
+      }
     }
+  }
 
     // ── Mappers ───────────────────────────────────────────────────────────────
     private TechnicalInspectionDTO toDTO(TechnicalInspection i) {
@@ -118,4 +143,30 @@ public class TechnicalInspectionServiceImpl implements TechnicalInspectionServic
         inspection.setDiscount(dto.getDiscount());
         return inspection;
     }
+
+  @Transactional(readOnly = true)
+  public List<TechnicalInspectionDTO> search(
+    String          placa,
+    VehicleCategory categoria,
+    String          estado,
+    DocumentType    tipoDocumento,
+    String          numeroDocumento,
+    LocalDate       fecha,
+    Integer         mes,
+    Integer         anio
+  ) {
+    List<RtmStatus> estados = (estado == null || estado.isBlank()) ? null
+      : Arrays.stream(estado.split(","))
+        .map(String::trim)
+        .map(RtmStatus::valueOf)
+        .toList();
+
+    return inspectionRepository
+      .findAll(TechnicalInspectionSpecification.conFiltros(
+        placa, categoria, estados, tipoDocumento,
+        numeroDocumento, fecha, mes, anio))
+      .stream()
+      .map(this::toDTO)
+      .toList();
+  }
 }

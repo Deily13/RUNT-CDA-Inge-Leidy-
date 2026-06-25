@@ -16,11 +16,9 @@ public class VehicleDTO {
     @NotBlank(message = "La placa es obligatoria")
     private String plate;
 
-    // Solo se envía el ID del propietario para evitar referencias circulares
     @NotNull(message = "El propietario es obligatorio")
     private Integer ownerId;
 
-    // Dato de lectura: nombre del propietario
     private String ownerFullName;
 
     @NotNull(message = "La categoría es obligatoria")

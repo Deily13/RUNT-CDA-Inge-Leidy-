@@ -43,15 +43,15 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
 
-    @Transactional
-    public OwnerDTO create(OwnerDTO dto) {
-        if (ownerRepository.existsByDocumentNumber(dto.getDocumentNumber())) {
-            throw new IllegalArgumentException(
-                    "Ya existe un propietario con el documento: " + dto.getDocumentNumber());
-        }
+  @Transactional
+  public OwnerDTO create(OwnerDTO dto) {
+    return ownerRepository.findByDocumentNumber(dto.getDocumentNumber())
+      .map(this::toDTO)
+      .orElseGet(() -> {
         Owner owner = toEntity(dto);
         return toDTO(ownerRepository.save(owner));
-    }
+      });
+  }
 
 
     @Transactional
