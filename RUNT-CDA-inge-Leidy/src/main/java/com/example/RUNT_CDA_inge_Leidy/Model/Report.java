@@ -8,8 +8,6 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-import java.time.LocalDate;
-
 @Entity(name = "Report")
 @Table(name = "report")
 @Getter
