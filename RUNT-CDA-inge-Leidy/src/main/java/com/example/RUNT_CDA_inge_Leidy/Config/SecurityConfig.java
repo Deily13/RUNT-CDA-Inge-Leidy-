@@ -23,14 +23,28 @@ public class SecurityConfig {
       .csrf(AbstractHttpConfigurer::disable)
       .cors(cors -> cors.configurationSource(corsConfigurationSource()))
       .authorizeHttpRequests(auth -> auth
-        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()  // ← nuevo
+        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+        // Recursos estáticos de Angular
+        .requestMatchers(
+          "/",
+          "/index.html",
+          "/*.js",
+          "/*.css",
+          "/*.ico",
+          "/*.png",
+          "/*.woff2",
+          "/assets/**",
+          "/favicon.ico"
+        ).permitAll()
+        // API y documentación
         .requestMatchers(
           "/api/**",
           "/swagger-ui/**",
           "/swagger-ui.html",
           "/api-docs/**"
         ).permitAll()
-        .anyRequest().authenticated()
+        // Todo lo demás (rutas de Angular como /inspecciones, /panel, etc.)
+        .anyRequest().permitAll()
       );
     return http.build();
   }
@@ -38,13 +52,17 @@ public class SecurityConfig {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration config = new CorsConfiguration();
-    config.setAllowedOrigins(List.of("http://localhost:4200"));
+    // Permite tanto desarrollo (4200) como producción (8080 mismo origen)
+    config.setAllowedOrigins(List.of(
+      "http://localhost:4200",
+      "http://localhost:8080"
+    ));
     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     config.setAllowedHeaders(List.of("*"));
     config.setAllowCredentials(true);
 
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", config);  // ← cambiado
+    source.registerCorsConfiguration("/**", config);
     return source;
   }
 }
