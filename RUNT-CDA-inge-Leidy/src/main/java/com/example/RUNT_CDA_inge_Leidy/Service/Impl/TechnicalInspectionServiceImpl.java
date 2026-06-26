@@ -105,7 +105,7 @@ public class TechnicalInspectionServiceImpl implements TechnicalInspectionServic
           .map(String::trim)
           .filter(s -> !s.isEmpty())
           .map(s -> {
-            try { return RtmStatus.valueOf(s.toUpperCase()); }
+            try { return RtmStatus.valueOf(s); }
             catch (IllegalArgumentException e) { return null; }
           })
           .filter(s -> s != null)
