@@ -17,4 +17,6 @@ public interface VehicleService {
   VehicleDTO update(String plate, VehicleDTO dto);
 
   void delete(String plate);
+
+    boolean existsByPlate(String plate);
 }

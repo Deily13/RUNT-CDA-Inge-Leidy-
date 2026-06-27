@@ -29,6 +29,11 @@ public class VehicleServiceImpl implements VehicleService {
                 .collect(Collectors.toList());
     }
 
+  @Transactional(readOnly = true)
+  public boolean existsByPlate(String plate) {
+    return vehicleRepository.existsByPlate(plate);
+  }
+
     @Transactional(readOnly = true)
     public VehicleDTO findByPlate(String plate) {
         Vehicle vehicle = vehicleRepository.findById(plate)
@@ -58,6 +63,7 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Transactional
     public VehicleDTO update(String plate, VehicleDTO dto) {
+
         Vehicle vehicle = vehicleRepository.findById(plate)
                 .orElseThrow(() -> new EntityNotFoundException("Vehículo no encontrado con placa: " + plate));
 
@@ -69,6 +75,8 @@ public class VehicleServiceImpl implements VehicleService {
         vehicle.setBrand(dto.getBrand());
         vehicle.setModelYear(dto.getModelYear());
         vehicle.setLine(dto.getLine());
+
+      VehicleDTO result = toDTO(vehicleRepository.save(vehicle));
 
         return toDTO(vehicleRepository.save(vehicle));
     }

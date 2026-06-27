@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <excludedPredefinedLibrary name="CDA-Gestor de placas/RUNT-CDA-inge-Leidy/frontend/node/tmp/node-v24.16.0-win-x64/node_modules" />
+  </component>
+</project>
