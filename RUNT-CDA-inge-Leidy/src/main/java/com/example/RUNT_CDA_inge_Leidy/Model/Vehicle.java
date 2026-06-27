@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity(name = "Vehicle")
 @Table(name = "vehicle")
@@ -22,6 +24,7 @@ public class Vehicle {
   private Owner owner;
 
   @Enumerated(EnumType.STRING)
+  @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   @Column(name = "category", nullable = false,
     columnDefinition = "vehicle_category_enum")
   private VehicleCategory category;

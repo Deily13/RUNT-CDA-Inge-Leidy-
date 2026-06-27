@@ -12,12 +12,7 @@ export const routes: Routes = [
         loadComponent: () =>
             import('./components/base/base.component').then(m => m.Base),
         children: [
-            {
-                path: 'tabla-registro',
-                loadComponent: () =>
-                    import('./components/tabla-registro/tabla-registro.component')
-                        .then(m => m.TablaRegistroComponent)
-            },
+
             {
                 path: 'panel-busqueda',
                 loadComponent: () =>
