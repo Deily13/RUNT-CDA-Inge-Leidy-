@@ -10,6 +10,9 @@ import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -41,11 +44,14 @@ public class TechnicalInspection {
   private LocalDate validUntil;
 
   @Enumerated(EnumType.STRING)
+  @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   @Column(name = "status", nullable = false,
     columnDefinition = "rtm_status_enum")
   private RtmStatus status;
 
+
   @Enumerated(EnumType.STRING)
+  @JdbcTypeCode(SqlTypes.NAMED_ENUM)
   @Column(name = "origin", nullable = false,
     columnDefinition = "origin_enum")
   private Origin origin;

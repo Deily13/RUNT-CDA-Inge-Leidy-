@@ -1,4 +1,4 @@
-<div class="card" *ngIf="allRecords.length > 0">
+<div class="card" *ngIf="registros().length > 0">
 
     <div class="card-header">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -26,7 +26,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let r of pagedRecords">
+                <tr *ngFor="let r of pagedRecords()">
                     <td>{{ r.fechaInicio }}</td>
                     <td>{{ r.fechaFin }}</td>
 
@@ -50,7 +50,6 @@
                     <td>{{ r.categoria }}</td>
                     <td>{{ r.linea }}</td>
                     <td><span class="owner-name">{{ r.propietario }}</span></td>
-
 
                     <td>
                         <div class="actions">
@@ -85,12 +84,12 @@
     </div>
 
     <div class="pagination-bar">
-        <span class="pagination-info">{{ paginationInfo }}</span>
+        <span class="pagination-info">{{ paginationInfo() }}</span>
         <div class="pagination-controls">
             <button class="page-btn" [disabled]="currentPage === 1" (click)="goPage(currentPage - 1)">&#8249;</button>
-            <button class="page-btn" *ngFor="let p of visiblePages" [class.active]="p === currentPage"
+            <button class="page-btn" *ngFor="let p of visiblePages()" [class.active]="p === currentPage"
                 (click)="goPage(p)">{{ p }}</button>
-            <button class="page-btn" [disabled]="currentPage === totalPages"
+            <button class="page-btn" [disabled]="currentPage === totalPages()"
                 (click)="goPage(currentPage + 1)">&#8250;</button>
         </div>
     </div>

@@ -26,7 +26,7 @@
     </div>
 
     <!-- ── Formulario ─────────────────────────────────────────── -->
-    <div class="vf-card">
+    <div class="vf-card" *ngIf="formVisible">
         <h2 class="vf-card-title">
             {{ mode === 'update' ? 'Actualizar Registro Vehicular' : 'Nuevo Registro Vehicular' }}
         </h2>
@@ -37,8 +37,7 @@
                 <!-- ── Fecha inicio vigencia ── -->
                 <div class="vf-field vf-col-1" [class.invalid]="isInvalid('fechaInicio')">
                     <label class="vf-label">Fecha inicio vigencia <span class="req">*</span></label>
-                    <input class="vf-input" type="date" formControlName="fechaInicio" [max]="todayStr"
-                        [disabled]="mode === 'update'" />
+                    <input class="vf-input" type="date" formControlName="fechaInicio" [max]="todayStr"/>
                     <span class="vf-error-msg">{{ getError('fechaInicio') }}</span>
                 </div>
 
@@ -180,9 +179,9 @@
                     Cancelar
                 </button>
 
-                <button class="btn-save" type="submit">
-                    {{ mode === 'update' ? 'Guardar Cambios' : 'Guardar' }}
-                </button>
+              <button class="btn-save" type="submit" [disabled]="submitting">
+                {{ submitting ? 'Guardando...' : (mode === 'update' ? 'Guardar Cambios' : 'Guardar') }}
+              </button>
             </div>
 
         </form>

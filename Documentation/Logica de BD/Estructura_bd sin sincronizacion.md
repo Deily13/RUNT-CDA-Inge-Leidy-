@@ -42,7 +42,7 @@ CREATE TYPE document_type_enum AS ENUM ('CC', 'NIT');
 
 CREATE TYPE vehicle_category_enum AS ENUM (
     'Motocicleta',
-    'Automóvil',
+    'Automovil',
     'Campero',
     'Motocarguero',
     'Camioneta',

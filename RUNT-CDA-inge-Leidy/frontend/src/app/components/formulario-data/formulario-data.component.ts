@@ -16,6 +16,9 @@ import {
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import { VehicleRegistrationService } from '../../core/services/business/vehicle-registration.service';
+import {VehicleDTO} from '../../core/dto/vehicle.dto';
 
 interface SelectOption { value: string; label: string; }
 
@@ -75,28 +78,34 @@ export class FormularioDataComponent {
   searchPlate: string = '';
   showNotFoundModal: boolean = false;
   todayStr: string = '';
+  submitting: boolean = false;
+  submitError: string | null = null;
+  formVisible: boolean = false;
 
 
   estados: SelectOption[] = [
-    { value: 'inedito', label: 'Inédito' },
-    { value: 'actualizado', label: 'Actualizado' },
-    { value: 'vencido', label: 'Vencido' },
-    { value: 'reportado', label: 'Reportado' },
-    { value: 'ingresado', label: 'Ingresado' },
-    { value: 'declinado', label: 'Declinado' },
+    { value: 'Inedito', label: 'Inédito' },
+    { value: 'Actualizado', label: 'Actualizado' },
+    { value: 'Vencido', label: 'Vencido' },
+    { value: 'Reportado', label: 'Reportado' },
+    { value: 'Ingresado', label: 'Ingresado' },
+    { value: 'Declinado', label: 'Declinado' },
   ];
 
   categorias: SelectOption[] = [
-    { value: 'motocicleta', label: 'Motocicleta' },
-    { value: 'automovil', label: 'Automovil' },
-    { value: 'camioneta', label: 'Camioneta' },
-    { value: 'campero', label: 'Campero' },
-    { value: 'motocarguero', label: 'Motocarguero' },
+    { value: 'MOTOCICLETA', label: 'Motocicleta' },
+    { value: 'AUTOMOVIL', label: 'Automovil' },
+    { value: 'CAMPERO', label: 'Campero' },
+    { value: 'MOTOCARGUERO', label: 'Motocarguero' },
+    { value: 'CAMIONETA', label: 'Camioneta' },
   ];
 
   years: number[] = [];
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute) {
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private vehicleRegistrationService: VehicleRegistrationService,) {
     const currentYear = new Date().getFullYear();
     const startYear = currentYear + 1;
     const endYear = startYear - 16;
@@ -110,6 +119,7 @@ export class FormularioDataComponent {
     this.mode = this.route.snapshot.data['mode'] ?? 'create';
     this.todayStr = this.formatDate(new Date());
     this.buildForm();
+    this.formVisible = false;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -163,8 +173,8 @@ export class FormularioDataComponent {
     const currentYear = new Date().getFullYear();
     const finYear = new Date(fechaFin + 'T00:00:00').getFullYear();
 
-    if (finYear > currentYear) return 'actualizado';
-    if (finYear === currentYear) return 'inedito';
+    if (finYear > currentYear) return 'Actualizado';
+    if (finYear === currentYear) return 'Inedito';
     return '';
   }
 
@@ -209,24 +219,39 @@ export class FormularioDataComponent {
     const plate = this.searchPlate.trim().toUpperCase();
     if (!plate) return;
 
+
     if (this.mode === 'update') {
-      const found = this.mockLookup(plate);
-      if (found) {
-        this.populateForm(found);
-        this.showNotFoundModal = false;
-      } else {
-        this.showNotFoundModal = true;
-      }
-    } else {
-      const exists = !!this.mockLookup(plate);
-      if (exists) {
-        alert(`La placa ${plate} ya está registrada. No se pueden crear duplicados.`);
-      }
+      this.vehicleRegistrationService.getFullVehicleData(plate).subscribe({
+        next: (found: FormularioData) => {
+          this.populateForm(found);
+          this.formVisible = true;
+          this.showNotFoundModal = false;
+        },
+        error: () => {
+          alert('No se pudo buscar el vehículo. Intenta nuevamente.');
+        }
+      });
+      return;
     }
+
+
+    this.vehicleRegistrationService.checkPlateExists(plate).subscribe({
+      next: (exists) => {
+        if (exists) {
+          this.formVisible = false;
+          alert(`La placa ${plate} ya está registrada. No se pueden crear duplicados.`);
+        } else {
+          this.vehicleForm.get('placa')!.setValue(plate);
+          this.formVisible = true;
+        }
+      },
+      error: () => alert('No se pudo verificar la placa. Intenta nuevamente.'),
+    });
   }
 
   clearSearch(): void {
     this.searchPlate = '';
+    this.formVisible = false;
     if (this.mode === 'create') {
       this.vehicleForm.reset();
     }
@@ -279,9 +304,10 @@ export class FormularioDataComponent {
 
   onSubmit(): void {
     this.vehicleForm.markAllAsTouched();
-    if (this.vehicleForm.invalid) return;
 
+    if (this.vehicleForm.invalid) return;
     const raw = this.vehicleForm.getRawValue();
+
     const record: FormularioData = {
       fechaInicio: raw.fechaInicio,
       fechaFin: raw.fechaFin,
@@ -298,7 +324,39 @@ export class FormularioDataComponent {
       nombrePropietario: raw.nombrePropietario.toUpperCase(),
     };
 
-    this.saved.emit(record);
+    this.submitting = true;
+    this.submitError = null;
+
+    if (this.mode === 'update') {
+
+      this.vehicleRegistrationService.updateFullRecord(record).subscribe({
+        next: () => {
+          this.submitting = false;
+          this.saved.emit(record);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.submitting = false;
+          this.handleSubmitError(err);
+        },
+      });
+      return;
+    }
+
+    this.vehicleRegistrationService.registerNewVehicle(record).subscribe({
+      next: () => {
+        this.submitting = false;
+        this.saved.emit(record);
+      },
+      error: (err: HttpErrorResponse) => {
+        this.submitting = false;
+        this.handleSubmitError(err);
+      },
+    });
+  }
+
+  private handleSubmitError(err: HttpErrorResponse): void {
+    const backendMessage = (err.error && (err.error.message || err.error.error)) as string | undefined;
+    this.submitError = backendMessage || 'Ocurrió un error al guardar el registro. Intenta nuevamente.';
   }
 
   // ── Botones adicionales ────────────────────────────────────
@@ -326,28 +384,4 @@ export class FormularioDataComponent {
     return `${y}-${m}-${day}`;
   }
 
-  /**
-   * Mock — reemplazar por llamada real al servicio.
-   * Retorna null si no existe.
-   */
-  private mockLookup(plate: string): FormularioData | null {
-    const db: Record<string, FormularioData> = {
-      'ABC123': {
-        fechaInicio: '2024-03-15',
-        fechaFin: '2025-03-15',
-        placa: 'ABC123',
-        marca: 'TOYOTA',
-        modelo: '2022',
-        linea: 'TOYOTACOROLLA',
-        categoria: 'particular',
-        estado: 'vencido',
-        tipoDocumento: 'CC',
-        documento: '1234567890',
-        telefono1: '3001234567',
-        telefono2: '3109876543',
-        nombrePropietario: 'JUAN CARLOS PÉREZ GÓMEZ',
-      },
-    };
-    return db[plate] ?? null;
-  }
 }

@@ -2,16 +2,18 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  Output,
-  EventEmitter,
   HostListener,
   ChangeDetectionStrategy,
   signal,
   computed,
+  inject,
 } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { BusquedaService } from '../../services/busqueda.service';
+import { TablaRegistroComponent } from '../tabla-registro/tabla-registro.component';
+import {VehicleCategory} from '../../core/dto/enums';
+
 
 export interface PanelBusqueda {
   fecha: string;
@@ -30,8 +32,12 @@ export interface OpcionEstado {
   checked: boolean;
 }
 
-// ── Constantes ───────────────────────────────────────────────────────────────
+export interface OpcionCategoria {
+  value: VehicleCategory;
+  label: string;
+}
 
+// ── Constantes ────────────────────────────────────────────────────────────────
 const MESES: string[] = [
   'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
   'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
@@ -39,13 +45,15 @@ const MESES: string[] = [
 
 const ANIOS: string[] = ['2020', '2021', '2022', '2023', '2024', '2025', '2026'];
 
-const CATEGORIAS_VEHICULO: string[] = [
-  'Motocicleta', 'Automóvil', 'Campero', 'Motocarguero', 'Camioneta',
-  'Camión', 'Bus', 'Microbús', 'Tractocamión', 'Volqueta',
+const CATEGORIAS_VEHICULO: OpcionCategoria[] = [
+  { value: 'MOTOCICLETA', label: 'Motocicleta' },
+  { value: 'AUTOMOVIL',   label: 'Automóvil'  },
+  { value: 'CAMPERO',     label: 'Campero'     },
+  { value: 'MOTOCARGUERO',label: 'Motocarguero'},
+  { value: 'CAMIONETA',   label: 'Camioneta'   },
 ];
 
-const TIPOS_DOCUMENTO: string[] = ['Cédula de ciudadanía', 'NIT'];
-
+const TIPOS_DOCUMENTO: string[] = ['CC', 'NIT'];
 const ESTADOS_INICIALES: OpcionEstado[] = [
   { value: 'Inedito', label: 'Inédito', checked: false },
   { value: 'Vencido', label: 'Vencido', checked: false },
@@ -55,31 +63,26 @@ const ESTADOS_INICIALES: OpcionEstado[] = [
   { value: 'Declinado', label: 'Declinado', checked: false },
 ];
 
-// ── Componente ───────────────────────────────────────────────────────────────
-
 @Component({
   selector: 'panel-busqueda',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TablaRegistroComponent],
   templateUrl: './panel-busqueda.component.html',
   styleUrl: './panel-busqueda.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PanelBusquedaComponent implements OnInit, OnDestroy {
 
-  /** Emite los filtros cuando el usuario pulsa Buscar */
-  @Output() buscar = new EventEmitter<PanelBusqueda>();
+  // ── Dependencia: solo el servicio de lógica ───────────────────────────────
+  private readonly busquedaService = inject(BusquedaService);
 
-  /** Emite cuando el usuario pulsa Limpiar */
-  @Output() limpiar = new EventEmitter<void>();
-
-  // ── Listas de opciones (readonly) ────────────────────────────────────────
+  // ── Listas de opciones ────────────────────────────────────────────────────
   readonly meses = MESES;
   readonly anios = ANIOS;
-  readonly categoriasVehiculo = CATEGORIAS_VEHICULO;
+  readonly categoriasVehiculo: OpcionCategoria[] = CATEGORIAS_VEHICULO;
   readonly tiposDocumento = TIPOS_DOCUMENTO;
 
-  // ── Modelo de formulario ─────────────────────────────────────────────────
+  // ── Modelo de formulario ──────────────────────────────────────────────────
   fecha = '';
   mes = '';
   anio = '';
@@ -88,31 +91,22 @@ export class PanelBusquedaComponent implements OnInit, OnDestroy {
   placa = '';
   tipoDocumento = '';
 
-  // ── Estado del multi-select (signals) ────────────────────────────────────
-  estadoOpciones = signal<OpcionEstado[]>(
-    ESTADOS_INICIALES.map(e => ({ ...e }))
-  );
-
+  // ── Estado del multi-select (signals) ─────────────────────────────────────
+  estadoOpciones = signal<OpcionEstado[]>(ESTADOS_INICIALES.map(e => ({ ...e })));
   estadoDropdownAbierto = signal(false);
 
-  /** Texto resumen de los estados seleccionados */
   readonly estadoTexto = computed(() => {
-    const seleccionados = this.estadoOpciones()
-      .filter(e => e.checked)
-      .map(e => e.label);
+    const seleccionados = this.estadoOpciones().filter(e => e.checked).map(e => e.label);
     return seleccionados.length ? seleccionados.join(', ') : 'Seleccione estados';
   });
 
-  readonly tieneEstados = computed(() =>
-    this.estadoOpciones().some(e => e.checked)
-  );
+  readonly tieneEstados = computed(() => this.estadoOpciones().some(e => e.checked));
 
-  // ── Lifecycle ────────────────────────────────────────────────────────────
+  // ── Lifecycle ─────────────────────────────────────────────────────────────
   ngOnInit(): void { }
   ngOnDestroy(): void { }
 
-  // ── Handlers del multi-select ────────────────────────────────────────────
-
+  // ── Multi-select ──────────────────────────────────────────────────────────
   toggleDropdownEstado(): void {
     this.estadoDropdownAbierto.update(v => !v);
   }
@@ -122,36 +116,28 @@ export class PanelBusquedaComponent implements OnInit, OnDestroy {
       event.preventDefault();
       this.toggleDropdownEstado();
     }
-    if (event.key === 'Escape') {
-      this.estadoDropdownAbierto.set(false);
-    }
+    if (event.key === 'Escape') this.estadoDropdownAbierto.set(false);
   }
 
   toggleEstado(index: number): void {
     this.estadoOpciones.update(opciones =>
-      opciones.map((op, i) =>
-        i === index ? { ...op, checked: !op.checked } : op
-      )
+      opciones.map((op, i) => i === index ? { ...op, checked: !op.checked } : op)
     );
   }
 
-  /** Cierra el dropdown al hacer clic fuera del componente */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-    if (!target.closest('.multi-select-wrap')) {
-      this.estadoDropdownAbierto.set(false);
-    }
+    if (!target.closest('.multi-select-wrap')) this.estadoDropdownAbierto.set(false);
   }
 
-  // ── Handlers de la placa (mayúsculas) ────────────────────────────────────
-
+  // ── Placa en mayúsculas ───────────────────────────────────────────────────
   onPlacaInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.placa = input.value.toUpperCase();
   }
 
-  // ── Acciones principales ─────────────────────────────────────────────────
+  // ── Acciones: delegan completamente al servicio ───────────────────────────
 
   onBuscar(): void {
     const filtros: PanelBusqueda = {
@@ -162,11 +148,9 @@ export class PanelBusquedaComponent implements OnInit, OnDestroy {
       numeroDocumento: this.numeroDocumento,
       placa: this.placa,
       tipoDocumento: this.tipoDocumento,
-      estados: this.estadoOpciones()
-        .filter(e => e.checked)
-        .map(e => e.value),
+      estados: this.estadoOpciones().filter(e => e.checked).map(e => e.value),
     };
-    this.buscar.emit(filtros);
+    this.busquedaService.buscar(filtros);
   }
 
   onLimpiar(): void {
@@ -179,6 +163,6 @@ export class PanelBusquedaComponent implements OnInit, OnDestroy {
     this.tipoDocumento = '';
     this.estadoOpciones.set(ESTADOS_INICIALES.map(e => ({ ...e })));
     this.estadoDropdownAbierto.set(false);
-    this.limpiar.emit();
+    this.busquedaService.limpiar();
   }
 }

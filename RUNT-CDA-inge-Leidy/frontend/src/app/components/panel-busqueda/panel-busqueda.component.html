@@ -48,16 +48,15 @@
             <div class="select-wrap">
                 <select id="categoria" class="filter-select" [(ngModel)]="categoria">
                     <option value="" disabled>Seleccione categoría</option>
-                    <option *ngFor="let cat of categoriasVehiculo" [value]="cat">{{ cat }}</option>
-                </select>
+                  <option *ngFor="let cat of categoriasVehiculo" [value]="cat.value">{{ cat.label }}</option>                </select>
             </div>
         </div>
 
         <!-- Número de Documento -->
         <div class="filter-field">
             <label class="field-label" for="numeroDocumento">Número de Documento</label>
-            <input id="numeroDocumento" type="number" class="filter-input" [(ngModel)]="numeroDocumento"
-                placeholder="número de documento" min="0" />
+            <input id="numeroDocumento" type="text" class="filter-input" [(ngModel)]="numeroDocumento"
+                placeholder="número de documento" min="5"  maxlength="13" inputmode="numeric" pattern="\d*"  />
         </div>
 
         <!-- Placa -->
@@ -124,3 +123,5 @@
 
     </div><!-- /filters-grid -->
 </div><!-- /card -->
+
+<tabla-registro></tabla-registro>
