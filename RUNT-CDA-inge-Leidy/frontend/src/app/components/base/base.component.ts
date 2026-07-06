@@ -40,5 +40,9 @@ export class Base {
     this.closeDrawer();
     this.router.navigate(['/base/formulario-data/actualizar']);
   }
+  onManage() {
+    this.closeDrawer();
+    this.router.navigate(['/base/reportar']);
+  }
 
 }

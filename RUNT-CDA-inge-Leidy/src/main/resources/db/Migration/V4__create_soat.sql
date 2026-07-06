@@ -1,15 +1,12 @@
 -- Enum aseguradoras SOAT
 CREATE TYPE insurance_company_enum AS ENUM (
-  'Sura',
-  'Bolívar',
-  'Mapfre',
-  'Allianz',
-  'Axa',
-  'Liberty',
-  'Equidad',
   'Previsora',
-  'Mundial',
-  'Cardif'
+  'Seguros del estados',
+  'Seguros mundial'
+  'Sura',
+  'Mapfre'
+
+
   );
 
 -- Tabla SOAT (sin relaciones con ninguna otra tabla)
@@ -22,7 +19,7 @@ CREATE TABLE soat (
                     representative_name VARCHAR(100)            NOT NULL,
                     document_number     VARCHAR(13)             NOT NULL,
                     phone               CHAR(10)                NOT NULL,
-                    email               VARCHAR(100),
+                    email               VARCHAR(100),           NOT NULL,
                     insurance_company   insurance_company_enum  NOT NULL,
                     price               NUMERIC(6,0)            NOT NULL,
 

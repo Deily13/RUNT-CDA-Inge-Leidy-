@@ -86,27 +86,30 @@
                 </svg>
                 Actualizar Registro
             </a>
-            <a href="#registros-pendientes" class="menu-item" data-action="registros-pendientes">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <polyline points="12 6 12 12 16 14" />
-                </svg>
-                Registros Pendientes
-            </a>
+
+          <!-- PLACA -->
+
+          <a class="menu-item" (click)="onManage()" >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2" />
+              <path d="M16 3v4M8 3v4" />
+            </svg>
+            Gestionar Placa
+          </a>
+
 
             <div class="menu-divider"></div>
 
-            <!-- PLACA -->
-            <p class="menu-section">Gestión de Placa</p>
-            <a href="#gestionar-placa" class="menu-item" data-action="gestionar-placa">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="7" width="20" height="14" rx="2" />
-                    <path d="M16 3v4M8 3v4" />
-                </svg>
-                Gestionar Placa
-            </a>
+          <a href="#registros-pendientes" class="menu-item" data-action="registros-pendientes">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            Registros Pendientes
+          </a>
+
             <a href="#actualizar-placa" class="menu-item" data-action="actualizar-placa">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">

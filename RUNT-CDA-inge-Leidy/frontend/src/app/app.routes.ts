@@ -41,6 +41,18 @@ export const routes: Routes = [
                     import('./components/vista-principal/vista-principal.component')
                         .then(m => m.VistaPrincipal)
             },
+            {
+                path: 'reportar',
+                loadComponent: () =>
+                    import('./components/reportar/reportar.component')
+                        .then(m => m.ReportarComponent)
+            },
+            {
+                path: 'soat',
+                loadComponent: () =>
+                    import('./components/soat/soat.component')
+                        .then(m => m.SoatComponent)
+            }
         ]
     },
     { path: '', redirectTo: 'login', pathMatch: 'full' }

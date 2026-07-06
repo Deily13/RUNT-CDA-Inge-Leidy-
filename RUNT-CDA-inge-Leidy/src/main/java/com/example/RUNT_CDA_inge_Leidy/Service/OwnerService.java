@@ -17,4 +17,7 @@ public interface OwnerService {
   OwnerDTO update(Integer id, OwnerDTO dto);
 
   void delete(Integer id);
+
+    interface SOATService {
+    }
 }
