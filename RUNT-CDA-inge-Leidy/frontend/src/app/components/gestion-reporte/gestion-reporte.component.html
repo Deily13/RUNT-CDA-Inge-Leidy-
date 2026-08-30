@@ -1,0 +1,181 @@
+<div class="gestionar-placa">
+
+  <!-- Card de estado del vehículo -->
+  <section class="card estado-card">
+    <span class="estado-badge">[ESTADO]</span>
+    <h3 class="placa">[PLACA]</h3>
+
+    <dl class="estado-datos">
+  <div class="dato-grupo">
+    <div class="dato">
+      <dt>Propietario:</dt>
+      <dd>[PROPIETARIO]</dd>
+    </div>
+    <div class="dato">
+      <dt>Documento:</dt>
+      <dd>[DOCUMENTO]</dd>
+    </div>
+    <div class="dato">
+      <dt>Tipo Documento:</dt>
+      <dd>[TIPO_DOCUMENTO]</dd>
+    </div>
+  </div>
+
+  <div class="dato-grupo">
+    <div class="dato">
+      <dt>Vencimiento:</dt>
+      <dd>[VENCIMIENTO]</dd>
+    </div>
+    <div class="dato">
+      <dt>Categoría:</dt>
+      <dd>[CATEGORIA]</dd>
+    </div>
+    <div class="dato">
+      <dt>Línea:</dt>
+      <dd>[LINEA]</dd>
+    </div>
+    <div class="dato">
+      <dt>Modelo:</dt>
+      <dd>[MODELO]</dd>
+    </div>
+  </div>
+
+  <div class="dato-grupo">
+    <div class="dato">
+      <dt>Teléfono 1:</dt>
+      <dd>[TELEFONO_1]</dd>
+    </div>
+    <div class="dato">
+      <dt>Teléfono 2:</dt>
+      <dd>[TELEFONO_2]</dd>
+    </div>
+  </div>
+
+  <div class="dato-grupo">
+    <div class="dato">
+      <dt>Comentario:</dt>
+      <dd>[COMENTARIO]</dd>
+    </div>
+  </div>
+</dl>
+  </section>
+
+  <!-- Card de acciones -->
+  <section class="card acciones-card">
+
+    <!-- Reportar placa -->
+    <!-- [FORM: reportePlacaForm] [SUBMIT: onReportarPlaca()] -->
+    <form class="accion-bloque">
+      <h3 class="accion-titulo accion-titulo--success">
+        <svg fill="#39FF14" width="25px" height="25px" viewBox="-20 -20 240.00 240.00" 
+        data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" stroke="#39FF14">
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+        <g id="SVGRepo_iconCarrier"><path d="M177.6,80.43a10,10,0,1,0-19.5,4.5,60.76,60.76,0,0,1-6,44.5c-16.5,28.5-53.5,38.5-82,22-28.5-16-38.5-53-22-81.5s53.5-38.5,82-22a9.86,9.86,0,1,0,10-17c-38.5-22.5-87-9.5-109.5,29a80.19,80.19,0,1,0,147,20.5Zm-109.5,11a10.12,10.12,0,0,0-11,17l40,25a10.08,10.08,0,0,0,5.5,1.5,10.44,10.44,0,0,0,8-4l52.5-67.5c3.5-4.5,2.5-10.5-2-14s-10.5-2.5-14,2l-47,60Z">
+        </path></g></svg>
+        Reportar placa
+      </h3>
+
+      <div class="accion-campos">
+        <div class="campo">
+          <label for="fechaReporte">Fecha de reporte</label>
+          <!-- [CONTROL: fechaReporte] -->
+          <input id="fechaReporte" type="date" placeholder="dd/mm/yyyy" />
+        </div>
+
+        <div class="campo">
+          <label for="procedencia">Procedencia</label>
+          <!-- [CONTROL: procedencia] [OPCIONES: procedenciaOpciones -> BACKEND] -->
+          <select id="procedencia">
+            <option value="" disabled selected>Seleccionar...</option>
+            <!-- [OPCION] -->
+          </select>
+        </div>
+      </div>
+
+      <!-- [DISABLED: reportePlacaForm.invalid] -->
+      <button type="submit" class="btn btn--success">
+        <svg class="icono" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M17 21v-8H7v8M7 3v5h8" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linejoin="round"/>
+        </svg>
+       Guardar reporte
+      </button>
+    </form>
+
+    <!-- Reportar ingreso -->
+    <!-- [FORM: reporteIngresoForm] [SUBMIT: onReportarIngreso()] -->
+    <form class="accion-bloque">
+      <h3 class="accion-titulo accion-titulo--info">
+         <svg width="18px" height="18px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>arrow-up-circle</title>
+             <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> 
+              <g id="Icon-Set" sketch:type="MSLayerGroup" transform="translate(-360.000000, -1087.000000)" fill="#0D99FF"> 
+                <path d="M376,1117 C368.268,1117 362,1110.73 362,1103 C362,1095.27 368.268,1089 376,1089 C383.732,1089 390,1095.27 390,1103 C390,1110.73 383.732,1117 376,1117 L376,1117 Z M376,1087 C367.163,1087 360,1094.16 360,1103 C360,1111.84 367.163,1119 376,1119 C384.837,1119 392,1111.84 392,1103 C392,1094.16 384.837,1087 376,1087 L376,1087 Z M376.879,1096.46 C376.639,1096.22 376.311,1096.15 376,1096.21 C375.689,1096.15 375.361,1096.22 375.121,1096.46 L369.465,1102.12 C369.074,1102.51 369.074,1103.14 369.465,1103.54 C369.854,1103.93 370.488,1103.93 370.879,1103.54 L375,1099.41 L375,1110 C375,1110.55 375.447,1111 376,1111 C376.553,1111 377,1110.55 377,1110 L377,1099.41 L381.121,1103.54 C381.512,1103.93 382.145,1103.93 382.535,1103.54 C382.926,1103.14 382.926,1102.51 382.535,1102.12 L376.879,1096.46 L376.879,1096.46 Z" id="arrow-up-circle" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
+        Reportar ingreso
+      </h3>
+    
+      <div class="accion-campos">
+        <div class="campo">
+          <label for="fechaIngreso">Fecha de ingreso</label>
+          <!-- [CONTROL: fechaIngreso] -->
+          <input id="fechaIngreso" type="date" placeholder="dd/mm/yyyy" />
+        </div>
+
+        <div class="campo">
+          <label for="precio">Precio</label>
+          <!-- [CONTROL: precio] [OPCIONES: precioOpciones -> BACKEND] -->
+          <select id="precio">
+            <option value="" disabled selected>Seleccionar...</option>
+            <!-- [OPCION] -->
+          </select>
+        </div>
+      </div>
+
+      <!-- [DISABLED: reporteIngresoForm.invalid] -->
+      <button type="submit" class="btn btn--success">
+        <svg class="icono" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M17 21v-8H7v8M7 3v5h8" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linejoin="round"/>
+        </svg>
+        Guardar reporte
+      </button>
+    </form>
+
+    <!-- Gestionar declinado -->
+    <div class="accion-bloque">
+      <h3 class="accion-titulo accion-titulo--danger">
+      <svg fill="#f24545" width="20px" height="20px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> 
+          <title>cancel1</title> <path d="M16 29c-7.18 0-13-5.82-13-13s5.82-13 13-13 13 5.82 13 13-5.82 13-13 13zM16 6c-5.522 0-10 4.478-10 10s4.478 10 10 10c5.523 0 10-4.478 10-10s-4.477-10-10-10zM20.537 19.535l-1.014 1.014c-0.186 0.186-0.488 0.186-0.675 0l-2.87-2.87-2.87 2.87c-0.187 0.186-0.488 0.186-0.675 0l-1.014-1.014c-0.186-0.186-0.186-0.488 0-0.675l2.871-2.869-2.871-2.87c-0.186-0.187-0.186-0.489 0-0.676l1.014-1.013c0.187-0.187 0.488-0.187 0.675 0l2.87 2.87 2.87-2.87c0.187-0.187 0.489-0.187 0.675 0l1.014 1.013c0.186 0.187 0.186 0.489 0 0.676l-2.871 2.87 2.871 2.869c0.186 0.187 0.186 0.49 0 0.675z"></path> </g></svg>
+      Gestionar declinado
+      </h3>
+
+      <div class="accion-botones">
+        <!-- [CLICK: onComentario()] -->
+        <button type="button" class="btn btn--outline btn--warning">
+          <svg class="icono" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+          Comentario
+        </button>
+
+        <!-- [CLICK: onEliminar()] -->
+        <button type="button" class="btn btn--outline btn--danger">
+          <svg class="icono" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Eliminar
+        </button>
+      </div>
+    </div>
+
+  </section>
+
+</div>
