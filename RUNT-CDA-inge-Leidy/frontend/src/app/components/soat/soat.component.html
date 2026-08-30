@@ -1,0 +1,184 @@
+<!--
+<div class="vf-wrapper">
+
+    // ── Panel búsqueda ─────────────────────────────────────── 
+     <div class="vf-search-panel">
+        <span class="vf-search-label">
+            {{ mode === 'update' ? 'Escribe la placa para actualizar SOAT' : 'Verifica si la placa ya tiene SOAT' }}
+        </span>
+
+        <input class="vf-search-input" type="text" [placeholder]="mode === 'update' ? 'ABC-1234' : 'ABC123'"
+            [(ngModel)]="searchPlate" (ngModelChange)="onSearchChange($event)" maxlength="6" autocomplete="off" />
+
+        
+        <button class="vf-search-btn" type="button" (click)="clearSearch()" title="Limpiar">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M4 4l10 10M14 4L4 14" stroke="#fff" stroke-width="2" stroke-linecap="round" />
+            </svg>
+        </button>
+
+    
+        <button class="vf-search-btn" type="button" (click)="searchVehicle()" title="Buscar">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <circle cx="8.5" cy="8.5" r="5.5" stroke="#34D399" stroke-width="2" />
+                <path d="M12.5 12.5L17 17" stroke="#34D399" stroke-width="2" stroke-linecap="round" />
+            </svg>
+        </button>
+    </div>
+
+    // Formulario ─────────────────────────────────────────── 
+    <div class="vf-card" *ngIf="formVisible">
+        <h2 class="vf-card-title">
+            {{ mode === 'update' ? 'Actualizar SOAT' : 'Nuevo Registro SOAT' }}
+        </h2>
+
+        <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()" novalidate>
+            <div class="vf-grid">
+
+                //── Fecha inicio vigencia ── 
+                <div class="vf-field vf-col-1" [class.invalid]="isInvalid('fechaInicio')">
+                    <label class="vf-label">Fecha inicio vigencia <span class="req">*</span></label>
+                    <input class="vf-input" type="date" formControlName="fechaInicio" [max]="todayStr" />
+                    <span class="vf-error-msg">{{ getError('fechaInicio') }}</span>
+                </div>
+
+                // ── Fecha fin vigencia ── 
+                <div class="vf-field vf-col-1">
+                    <label class="vf-label">Fecha fin vigencia <span class="req">*</span></label>
+                    <input class="vf-input" type="date" formControlName="fechaFin" [disabled]="true" readonly />
+                    <span class="vf-error-msg"></span>
+                </div>
+
+                // ── Placa ── 
+                <div class="vf-field vf-col-1" [class.invalid]="isInvalid('placa')">
+                    <label class="vf-label">Placa <span class="req">*</span></label>
+                    <input class="vf-input" type="text" formControlName="placa" placeholder="ABC123" maxlength="6"
+                        [disabled]="mode === 'update'" (input)="toUpperCase('placa', $event)" />
+                    <span class="vf-error-msg">{{ getError('placa') }}</span>
+                </div>
+
+                // ── Categoría ── 
+                <div class="vf-field vf-col-1" [class.invalid]="isInvalid('categoria')">
+                    <label class="vf-label">Categoría <span class="req">*</span></label>
+                    <div class="vf-select-wrap">
+                        <select class="vf-select" formControlName="categoria" [disabled]="mode === 'update'">
+                            <option value="">Seleccionar...</option>
+                            <option *ngFor="let c of categorias" [value]="c.value">{{ c.label }}</option>
+                        </select>
+                        <span class="vf-select-arrow">▾</span>
+                    </div>
+                    <span class="vf-error-msg">{{ getError('categoria') }}</span>
+                </div>
+
+                / ── Nombre propietario ── 
+                <div class="vf-field vf-col-4" [class.invalid]="isInvalid('nombrePropietario')">
+                    <label class="vf-label">Nombre del apoderado <span class="req">*</span></label>
+                    <input class="vf-input" type="text" formControlName="nombreApoderado"
+                        placeholder="JUAN CARLOS PÉREZ GÓMEZ" (input)="onlyAlpha('nombreApoderado', $event)" />
+                    <span class="vf-error-msg">{{ getError('nombreApoderado') }}</span>
+                </div>
+
+
+                //── Tipo documento ── 
+                <div class="vf-field vf-col-1" [class.invalid]="isInvalid('tipoDocumento')">
+                    <label class="vf-label">Tipo de documento <span class="req">*</span></label>
+                    <div class="vf-select-wrap">
+                        <select class="vf-select" formControlName="tipoDocumento">
+                            <option value="">Seleccionar...</option>
+                            <option value="CC">Cédula de ciudadanía</option>
+                            <option value="NIT">NIT</option>
+                        </select>
+                        <span class="vf-select-arrow">▾</span>
+                    </div>
+                    <span class="vf-error-msg">{{ getError('tipoDocumento') }}</span>
+                </div>
+
+
+                //── Documento ── 
+                <div class="vf-field vf-col-1" [class.invalid]="isInvalid('documento')">
+                    <label class="vf-label">Documento <span class="req">*</span></label>
+                    <input class="vf-input" type="text" formControlName="documento" placeholder="123456789"
+                        maxlength="12" (input)="onlyNumeric('documento', $event)" />
+                    <span class="vf-error-msg">{{ getError('documento') }}</span>
+                </div>
+
+
+                //── Teléfono  ── 
+                <div class="vf-field vf-col-1" [class.invalid]="isInvalid('telefono1')">
+                    <label class="vf-label">Teléfono 1 <span class="req">*</span></label>
+                    <input class="vf-input" type="text" formControlName="telefono1" placeholder="3001234567"
+                        maxlength="10" (input)="onlyNumeric('telefono1', $event)" />
+                    <span class="vf-error-msg">{{ getError('telefono1') }}</span>
+                </div>
+
+                //── Correo ── 
+                <div class="vf-field vf-col-1" [class.invalid]="isInvalid('correo')">
+                    <label class="vf-label">Correo <span class="req">*</span></label>
+                    <input class="vf-input" type="text" formControlName="correo" placeholder="apoderado@gmail.com"
+                        [disabled]="mode === 'update'" (input)="onlyAlpha('correo', $event)" />
+                    <span class="vf-error-msg">{{ getError('correo') }}</span>
+                </div>
+
+
+                //── Aseguradora ── 
+                <div class="vf-field vf-col-1" [class.invalid]="isInvalid('aseguradora')">
+                    <label class="vf-label">Aseguradora <span class="req">*</span></label>
+                    <div class="vf-select-wrap">
+                        <select class="vf-select" formControlName="aseguradora">
+                            <option value="">Seleccionar...</option>
+                            <option *ngFor="let e of aseguradoras" [value]="e.value">{{ e.label }}</option>
+                        </select>
+                        <span class="vf-select-arrow">▾</span>
+                    </div>
+                    <span class="vf-error-msg">{{ getError('aseguradora') }}</span>
+                </div>
+
+
+                //── Precio ──
+                <div class="vf-field vf-col-1" [class.invalid]="isInvalid('precio')">
+                    <label class="vf-label">Precio <span class="req">*</span></label>
+                    <input class="vf-input" type="text" formControlName="precio" placeholder="3001234567" maxlength="10"
+                        (input)="onlyNumeric('precio', $event)" />
+                    <span class="vf-error-msg">{{ getError('precio') }}</span>
+                </div>
+
+                <div class="vf-divider"></div>
+            </div>
+
+            //── Footer ── 
+            <div class="vf-footer">
+                <div class="vf-footer-left">
+                    <a class="btn-runt"
+                        href="https://portalpublico.runt.gov.co/#/consulta-vehiculo/consulta/consulta-ciudadana"
+                        target="_blank">
+                        Rectificar en RUNT
+                    </a>
+                </div>
+
+                <button class="btn-cancel" type="button" (click)="onCancel()">
+                    Cancelar
+                </button>
+
+                <button class="btn-save" type="submit" [disabled]="submitting">
+                    {{ submitting ? 'Guardando...' : (mode === 'update' ? 'Guardar Cambios' : 'Guardar') }}
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+//── Modal: placa no encontrada ─────────────────────────── 
+<div class="vf-modal-overlay" *ngIf="showNotFoundModal" (click)="closeModal()">
+    <div class="vf-modal" (click)="$event.stopPropagation()">
+        <div class="vf-modal-icon">🚫</div>
+        <h3 class="vf-modal-title">Placa no encontrada</h3>
+        <p class="vf-modal-body">
+            La placa <strong>{{ searchPlate }}</strong> no existe en el sistema.<br>
+            Verifica el número e intenta nuevamente.
+        </p>
+        <button class="vf-modal-close" type="button" (click)="closeModal()">Entendido</button>
+    </div>
+</div>
+
+-->

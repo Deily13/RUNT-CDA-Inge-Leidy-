@@ -95,7 +95,7 @@ La pantalla se divide en tres secciones principales:
   - Inicio y Cerrar sesion ubicados esquina superior derecha
 
 - **Sección superior panel de criterios de búsqueda:**
-- Esta seccion esta contenida en una targeta de bordes redondeados, color 0F172A intensidad 65%, contotno blanco intensidad 12.5%.
+- Esta seccion esta contenida en una targeta de bordes redondeados, color 0F172A intensidad 65%, con tono blanco intensidad 12.5%.
 - La parte superior de esta seccion se enuncia con un icono de filtrado y un titulo con el siguiente texto Filtros de Búsqueda, en color #39FF14 en negrita, alineados a la izquierda, solo iniciales mayusculas
 
 

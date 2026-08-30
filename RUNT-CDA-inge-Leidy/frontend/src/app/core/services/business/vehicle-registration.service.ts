@@ -4,7 +4,7 @@ import {Observable, of, tap, throwError} from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { OwnerHttpService } from '../owner-http.service';
-import { VehicleHttpService } from '../vehicle-http.service';
+import { VehicleService } from '../../../services/vehicle.service';
 import { TechnicalInspectionHttpService } from '../technical-inspection-http.service';
 
 import { OwnerDTO } from '../../dto/owner.dto';
@@ -19,7 +19,7 @@ export class VehicleRegistrationService {
 
   constructor(
     private ownerHttp: OwnerHttpService,
-    private vehicleHttp: VehicleHttpService,
+    private vehicleService: VehicleService,
     private inspectionHttp: TechnicalInspectionHttpService,
   ) { }
 
@@ -32,8 +32,6 @@ export class VehicleRegistrationService {
       phone2: formData.telefono2,
     };
 
-
-
     return this.ownerHttp.create(ownerDto).pipe(
       switchMap(owner => {
         const vehicleDto: VehicleDTO = {
@@ -44,7 +42,7 @@ export class VehicleRegistrationService {
           modelYear: formData.modelo,
           line: formData.linea,
         };
-        return this.vehicleHttp.create(vehicleDto);
+        return this.vehicleService.create(vehicleDto);
       }),
       switchMap(vehicle => {
         const inspectionDto: TechnicalInspectionDTO = {
@@ -61,7 +59,7 @@ export class VehicleRegistrationService {
   }
 
   getFullVehicleData(plate: string): Observable<FormularioData> {
-    return this.vehicleHttp.getByPlate(plate).pipe(
+    return this.vehicleService.getByPlate(plate).pipe(
       tap(vehicle => console.log('VehicleDTO recibido:', vehicle)),
       switchMap((vehicle: VehicleDTO) =>
         this.ownerHttp.getById(vehicle.ownerId).pipe(
@@ -92,7 +90,7 @@ export class VehicleRegistrationService {
 
   updateFullRecord(data: FormularioData): Observable<TechnicalInspectionDTO> {
 
-    return this.vehicleHttp.getByPlate(data.placa).pipe(
+    return this.vehicleService.getByPlate(data.placa).pipe(
 
       switchMap(vehicle =>
         this.inspectionHttp.getByPlate(data.placa).pipe(
@@ -125,12 +123,11 @@ export class VehicleRegistrationService {
   }
 
   checkPlateExists(plate: string): Observable<boolean> {
-    return this.vehicleHttp.existsByPlate(plate);
+    return this.vehicleService.existsByPlate(plate);
   }
 
   getByPlate(plate: string): Observable<VehicleDTO> {
-    return this.vehicleHttp.getByPlate(plate);
+    return this.vehicleService.getByPlate(plate);
   }
-
 
 }

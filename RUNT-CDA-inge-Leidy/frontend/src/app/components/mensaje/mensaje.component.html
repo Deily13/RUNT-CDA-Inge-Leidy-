@@ -1,0 +1,94 @@
+
+
+    <!-- ===== Tarjeta principal: Mensaje ===== -->
+    <article class="card card--mensaje">
+
+        <header class="card__header">
+            <span class="card__icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier"> <path d="M4 1C2.34315 1 1 2.34315 1 4V15C1 16.6569 2.34315 18 4 18H6V22C6 22.388 6.22446 22.741 6.57584 22.9056C6.92723 23.0702 7.3421 23.0166 7.64018 22.7682L13.362 18H20C21.6569 18 23 16.6569 23 15V4C23 2.34315 21.6569 1 20 1H4Z" fill="#39FF14"></path> </g></svg></span>
+            <h2 class="card__title">MENSAJE</h2>
+        </header>
+
+        <div class="card__media">
+            <img src="assets/img.png" alt="Fachada CDA Llano Verde" class="card__image" />
+        </div>
+
+        <div class="card__body">
+            <p class="msg-line">
+                Hola 👋, soy la Ing. Leidy del <strong>CDA Llano Verde</strong> – Tecno-mecánica.
+            </p>
+
+            <p class="msg-line">
+                Queremos recordarte que la Revisión Técnico-Mecánica de tu vehículo de placa
+                <span class="highlight">[{{ data.placa }}]</span> venció el
+                <span class="highlight">[{{ data.fecha }}]</span>.
+            </p>
+
+            <p class="msg-line msg-line--price">
+                <span class="check-icon">✅</span>
+                <span>[{{ data.categoria }}]</span>&nbsp;: ${{ data.precio }}
+            </p>
+
+            <p class="msg-line msg-line--meta">
+                <span class="meta-icon">🕐</span>
+                Lunes a viernes: {{ data.horario.semana }} | Sábados: {{ data.horario.sabado }} |
+                Domingos y festivos: {{ data.horario.domingoFestivo }}
+            </p>
+
+            <p class="msg-line msg-line--meta">
+                <span class="meta-icon">📍</span>
+                {{ data.direccion }}
+            </p>
+
+            <p class="msg-line msg-line--cta">
+                <strong>¡No lo dejes para última hora!</strong>
+            </p>
+        </div>
+
+        <footer class="card__footer">
+            <button type="button" class="btn-copiar" [class.btn-copiar--done]="mensajeCopiado"
+                (click)="copiarMensaje()">
+                <svg class="btn-copiar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="11" height="11" rx="2" />
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
+                <span>{{ mensajeCopiado ? '¡Copiado!' : 'COPIAR MENSAJE' }}</span>
+            </button>
+        </footer>
+    </article>
+
+    <!-- ===== Tarjeta secundaria: Descuento ===== -->
+    <article class="card card--descuento">
+        <div class="card__body card__body--descuento">
+            <p class="msg-line msg-line--warning">
+                <span class="warning-icon">⚠️</span>
+                <strong>Importante:</strong>
+            </p>
+
+            <p class="msg-line">
+                <span class="meta-icon">📞</span>
+                Llama antes de ingresar al CDA y obtén tu descuento especial
+            </p>
+
+            <p class="msg-line">
+                <span class="check-icon">✅</span>
+                <strong>*Descuentos:*</strong>
+            </p>
+
+            <p class="msg-line msg-line--discount">
+                <span class="highlight">[{{ data.categoria }}]</span>: [{{ data.descuento }}]
+            </p>
+        </div>
+
+        <footer class="card__footer">
+            <button type="button" class="btn-copiar" [class.btn-copiar--done]="descuentoCopiado"
+                (click)="copiarDescuento()">
+                <svg class="btn-copiar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="11" height="11" rx="2" />
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
+                <span>{{ descuentoCopiado ? '¡Copiado!' : 'COPIAR MENSAJE' }}</span>
+            </button>
+        </footer>
+    </article>

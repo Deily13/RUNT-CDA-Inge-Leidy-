@@ -4,10 +4,11 @@ import { catchError, switchMap } from 'rxjs/operators';
 
 import { PanelBusqueda } from '../components/panel-busqueda/panel-busqueda.component';
 import { InspectionService, InspectionResponse } from './inspection.service';
-import { VehicleService, VehicleResponse } from './vehicle.service';
 import { OwnerService, OwnerResponse } from './owner.service';
 import { BusquedaStateService } from './busqueda-state.service';
 import { Registro } from '../models/registro.model';
+import { VehicleService} from './vehicle.service';
+import { VehicleDTO} from '../core/dto/vehicle.dto';
 
 @Injectable({ providedIn: 'root' })
 export class BusquedaService {
@@ -98,7 +99,7 @@ export class BusquedaService {
   // ── Mapper: Inspection + Vehicle + Owner (backend) → Registro (frontend) ──
   private _mapear(
     inspeccion: InspectionResponse,
-    vehicle: VehicleResponse | null,
+    vehicle: VehicleDTO | null,
     owner: OwnerResponse | null
   ): Registro {
     return {
