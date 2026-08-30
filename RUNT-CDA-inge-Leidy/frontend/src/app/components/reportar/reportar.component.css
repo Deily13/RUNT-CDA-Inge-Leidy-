@@ -21,14 +21,29 @@
       font-family: var(--font-body);
   }
 
+  .mensaje-wrapper {
+    display: flex;
+    gap: 1.25rem;
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 1.5rem;
+    background: var(--bg-deep);
+}
+
+.mensaje-wrapper > * {
+  flex: 1 1 0;
+  min-width: 0; /* evita que el texto largo (ej. [PROPIETARIO]) empuje el layout */
+}
+
   /* ── Layout wrapper ──────────────────────────────────────── */
   .vf-wrapper {
-      min-height: 100vh;
-      padding: 32px 20px 60px;
+      min-height: 1vh;
+      padding: 32px 20px 20px;
       display: flex;
       flex-direction: column;
       gap: 20px;
       box-sizing: border-box;
+      
   }
 
   /* ── Search panel ────────────────────────────────────────── */

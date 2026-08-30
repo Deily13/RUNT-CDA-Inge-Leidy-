@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MensajeCardComponent } from '../mensaje/mensaje.component';
+import { GestionReporte } from '../gestion-reporte/gestion-reporte.component';
+
 
 @Component({
   selector: 'app-reportar',
   templateUrl: './reportar.component.html',
   styleUrls: ['./reportar.component.css'],
-  imports: [FormsModule, MensajeCardComponent],
+  imports: [FormsModule, MensajeCardComponent, GestionReporte],
 })
 export class ReportarComponent {
   // Propiedad enlazada al input
